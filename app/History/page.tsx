@@ -1,5 +1,5 @@
 "use client";
-
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
@@ -14,7 +14,7 @@ type Analysis = {
 export default function HistoryPage() {
   const [history, setHistory] = useState<Analysis[]>([]);
   const [loading, setLoading] = useState(true);
-
+const router = useRouter();
   useEffect(() => {
     loadHistory();
   }, []);
@@ -77,9 +77,14 @@ export default function HistoryPage() {
                 {new Date(item.created_at).toLocaleString()}
               </p>
 
-              <button className="mt-4 bg-cyan-500 px-4 py-2 rounded-lg">
-                View Report
-              </button>
+              <button
+  onClick={() => router.push(`/history/${item.id}`)}
+  className="mt-4 bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-lg"
+>
+  View Report
+</button>
+        
+              
             </div>
           ))
         )}

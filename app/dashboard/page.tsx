@@ -23,6 +23,8 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<AnalysisResult | null>(null);
 
+
+
   async function handleLogout() {
     await supabase.auth.signOut();
     router.push("/login");

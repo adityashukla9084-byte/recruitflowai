@@ -217,7 +217,7 @@ ${resumeText}
   "recruiterFeedback":"",
   "rewrittenSummary":"",
   "interviewQuestions":[],
-  "suggestions":[]
+  "suggestions":[],
   "jobMatchScore":0,
 "hiringProbability":0,
 "salaryRange":"",
