@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import type { AnalysisResult } from "./types";
 
 import ProgressCard from "./components/ProgressCard";
+import Sidebar from "./components/sidebar";
 import FeedbackCard from "./components/FeedbackCard";
 import KeywordCard from "./components/KeywordCard";
 import InterviewCard from "./components/InterviewCard";
@@ -15,6 +16,10 @@ import SalaryCard from "./components/SalaryCard";
 import CoverLetterCard from "./components/CoverLetterCard";
 import HistoryCard from "./components/HistoryCard";
 import DownloadReportButton from "./components/DownloadReportButton";
+import StatsCards from "./components/statscards";
+import Header from "./components/header";
+import Hero from "./components/hero";
+
 export default function Dashboard() {
   const router = useRouter();
 
@@ -73,8 +78,11 @@ const response = await fetch("/api/analyze", {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white">
+  <div className="flex bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white">
+    <Sidebar />
 
+    <main className="flex-1 min-h-screen">
+<Header />
       <nav className="flex items-center justify-between border-b border-slate-800 px-10 py-5">
 
         <h1 className="text-3xl font-extrabold text-cyan-400">
@@ -91,6 +99,13 @@ const response = await fetch("/api/analyze", {
       </nav>
 
       <section className="mx-auto max-w-7xl p-10">
+ <Hero />   
+<StatsCards
+  atsScore={result?.atsScore}
+  jobMatch={result?.jobMatchScore}
+  reports={1}
+  salary={result?.salaryRange}
+/>
 
         <h2 className="text-5xl font-extrabold">
           🚀 AI Resume Analyzer
@@ -100,13 +115,13 @@ const response = await fetch("/api/analyze", {
           Built for Corporate Hiring & ATS Optimization
         </p>
 
-        <div className="mt-10 rounded-2xl border border-slate-800 bg-slate-900 p-8">
+        <div className="mt-10 rounded-3xl border border-slate-800 bg-slate-900/70 backdrop-blur-xl p-8 shadow-2xl">
 
           <input
             type="file"
           
             accept=".pdf,.docx"
-            className="mb-6 w-full rounded-xl border border-slate-700 bg-slate-800 p-4"
+            className="mb-6 w-full rounded-2xl border border-slate-700 bg-slate-800/60 p-4"
             onChange={(e) => {
               if (e.target.files?.[0]) {
                 setFile(e.target.files[0]);
@@ -124,7 +139,7 @@ const response = await fetch("/api/analyze", {
           <button
             onClick={handleAnalyze}
             disabled={loading}
-            className="w-full rounded-xl bg-cyan-500 py-4 text-lg font-bold hover:bg-cyan-600"
+          className="mt-6 w-full rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 py-4 text-lg font-bold transition hover:scale-[1.02]"
           >
             {loading ? "Analyzing Resume..." : "Analyze Resume"}
           </button>
@@ -300,5 +315,6 @@ const response = await fetch("/api/analyze", {
       </footer>
 
     </main>
+  </div>
   );
 }
