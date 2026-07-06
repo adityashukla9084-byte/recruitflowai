@@ -1,6 +1,7 @@
 "use client";
-import { useRouter } from "next/navigation";
+
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 
 type Analysis = {
@@ -12,9 +13,11 @@ type Analysis = {
 };
 
 export default function HistoryPage() {
+  const router = useRouter();
+
   const [history, setHistory] = useState<Analysis[]>([]);
   const [loading, setLoading] = useState(true);
-const router = useRouter();
+
   useEffect(() => {
     loadHistory();
   }, []);
@@ -42,6 +45,19 @@ const router = useRouter();
     setLoading(false);
   }
 
+  async function deleteAnalysis(id: string) {
+    const ok = confirm("Delete this analysis?");
+
+    if (!ok) return;
+
+    await supabase
+      .from("analysis_history")
+      .delete()
+      .eq("id", id);
+
+    loadHistory();
+  }
+
   if (loading) {
     return (
       <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
@@ -52,7 +68,9 @@ const router = useRouter();
 
   return (
     <main className="min-h-screen bg-slate-950 text-white p-8">
-      <h1 className="text-4xl font-bold mb-8">📊 Analysis History</h1>
+      <h1 className="text-4xl font-bold mb-8">
+        📊 Analysis History
+      </h1>
 
       <div className="space-y-6">
         {history.length === 0 ? (
@@ -77,14 +95,23 @@ const router = useRouter();
                 {new Date(item.created_at).toLocaleString()}
               </p>
 
-              <button
-  onClick={() => router.push(`/history/${item.id}`)}
-  className="mt-4 bg-cyan-500 hover:bg-cyan-600 px-4 py-2 rounded-lg"
->
-  View Report
-</button>
-        
-              
+              <div className="mt-4 flex gap-3">
+                <button
+                  onClick={() =>
+                    router.push(`/history/${item.id}`)
+                  }
+                  className="rounded-lg bg-cyan-500 px-4 py-2"
+                >
+                  View Report
+                </button>
+
+                <button
+                  onClick={() => deleteAnalysis(item.id)}
+                  className="rounded-lg bg-red-500 px-4 py-2"
+                >
+                  Delete
+                </button>
+              </div>
             </div>
           ))
         )}
