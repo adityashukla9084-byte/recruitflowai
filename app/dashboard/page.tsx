@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import type { AnalysisResult } from "./types";
@@ -21,6 +21,7 @@ import Header from "./components/header";
 import Hero from "./components/hero";
 import ScoreGauge from "./components/ScoreGauge";
 import QuickActions from "./components/QuickActions";
+import AnalyticsChart from "./components/AnalyticsChart";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -28,8 +29,42 @@ export default function Dashboard() {
   const [file, setFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
   const [loading, setLoading] = useState(false);
+  const [reportsCount, setReportsCount] = useState(0);
   const [result, setResult] = useState<AnalysisResult | null>(null);
+const [chartData, setChartData] = useState<
+  { name: string; score: number }[]
+>([]);
 
+useEffect(() => {
+  loadDashboardStats();
+}, []);
+
+async function loadDashboardStats() {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return;
+
+  const { data, count } = await supabase
+    .from("analysis_history")
+    .select("ats_score, created_at", {
+      count: "exact",
+    })
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: true });
+
+  setReportsCount(count ?? 0);
+
+  if (data) {
+    setChartData(
+      data.map((item, index) => ({
+        name: `#${index + 1}`,
+        score: item.ats_score,
+      }))
+    );
+  }
+}
 
 
   async function handleLogout() {
@@ -109,15 +144,49 @@ const response = await fetch("/api/analyze", {
 
   <div className="lg:col-span-2">
     <StatsCards
-      atsScore={result?.atsScore}
-      jobMatch={result?.jobMatchScore}
-      reports={1}
-      salary={result?.salaryRange}
-    />
+  atsScore={result?.atsScore}
+  jobMatch={result?.jobMatchScore}
+  reports={reportsCount}
+  salary={result?.salaryRange}
+  loading={loading}
+/>
+
   </div>
 </div>
 
 <QuickActions />
+<AnalyticsChart data={chartData} />
+<div className="mt-8 grid gap-6 md:grid-cols-3">
+  <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6">
+    <p className="text-slate-400">Highest ATS</p>
+    <h2 className="mt-2 text-4xl font-bold">
+      {chartData.length
+        ? Math.max(...chartData.map((x) => x.score))
+        : 0}
+      %
+    </h2>
+  </div>
+
+  <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6">
+    <p className="text-slate-400">Average ATS</p>
+    <h2 className="mt-2 text-4xl font-bold">
+      {chartData.length
+        ? Math.round(
+            chartData.reduce((a, b) => a + b.score, 0) /
+              chartData.length
+          )
+        : 0}
+      %
+    </h2>
+  </div>
+
+  <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6">
+    <p className="text-slate-400">Total Reports</p>
+    <h2 className="mt-2 text-4xl font-bold">
+      {reportsCount}
+    </h2>
+  </div>
+</div>
         <h2 className="text-5xl font-extrabold">
           🚀 AI Resume Analyzer
         </h2>

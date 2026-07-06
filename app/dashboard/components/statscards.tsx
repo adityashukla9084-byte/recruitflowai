@@ -12,6 +12,7 @@ type Props = {
   jobMatch?: number;
   reports?: number;
   salary?: string;
+  loading?: boolean;
 };
 
 export default function StatsCards({
@@ -19,7 +20,9 @@ export default function StatsCards({
   jobMatch = 0,
   reports = 0,
   salary = "—",
+  loading = false,
 }: Props) {
+
   const cards = [
     {
       title: "ATS Score",
@@ -56,7 +59,11 @@ export default function StatsCards({
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-slate-400">{card.title}</p>
-                <h2 className="mt-2 text-3xl font-bold">{card.value}</h2>
+                {loading ? (
+  <div className="mt-2 h-8 w-24 animate-pulse rounded bg-slate-700" />
+) : (
+  <h2 className="mt-2 text-3xl font-bold">{card.value}</h2>
+)}
               </div>
 
               <Icon size={34} className="text-cyan-400" />
