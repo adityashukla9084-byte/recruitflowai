@@ -19,6 +19,8 @@ import DownloadReportButton from "./components/DownloadReportButton";
 import StatsCards from "./components/statscards";
 import Header from "./components/header";
 import Hero from "./components/hero";
+import ScoreGauge from "./components/ScoreGauge";
+import QuickActions from "./components/QuickActions";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -100,13 +102,22 @@ const response = await fetch("/api/analyze", {
 
       <section className="mx-auto max-w-7xl p-10">
  <Hero />   
-<StatsCards
-  atsScore={result?.atsScore}
-  jobMatch={result?.jobMatchScore}
-  reports={1}
-  salary={result?.salaryRange}
-/>
+ <div className="grid gap-6 lg:grid-cols-3 mb-8">
+  <div className="lg:col-span-1">
+    <ScoreGauge score={result?.atsScore ?? 0} />
+  </div>
 
+  <div className="lg:col-span-2">
+    <StatsCards
+      atsScore={result?.atsScore}
+      jobMatch={result?.jobMatchScore}
+      reports={1}
+      salary={result?.salaryRange}
+    />
+  </div>
+</div>
+
+<QuickActions />
         <h2 className="text-5xl font-extrabold">
           🚀 AI Resume Analyzer
         </h2>
