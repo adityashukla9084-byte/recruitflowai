@@ -6,7 +6,7 @@ export default function StrengthCard({
   strengths,
 }: StrengthCardProps) {
   return (
-    <div className="rounded-2xl border border-green-800 bg-slate-900 p-6">
+    <div className="rounded-2xl border border-green-800 bg-theme-bg-secondary p-6 shadow-[var(--shadow-card)]">
 
       <h2 className="mb-5 text-xl font-bold text-green-400">
         Strengths
@@ -16,7 +16,7 @@ export default function StrengthCard({
         {strengths.map((item, index) => (
           <li
             key={index}
-            className="rounded-lg bg-slate-800 p-3"
+            className="rounded-lg bg-theme-card-hover p-3"
           >
             ✅ {item}
           </li>

@@ -8,11 +8,11 @@ export default function ProgressCard({
   value,
 }: ProgressCardProps) {
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-5 shadow-lg">
+    <div className="rounded-2xl border border-theme-border-card bg-theme-bg-secondary p-5 shadow-lg shadow-[var(--shadow-card)]">
 
       <div className="mb-3 flex justify-between">
         <h2 className="font-semibold">{title}</h2>
-        <span className="text-cyan-400 font-bold">
+        <span className="text-theme-accent font-bold">
           {value}%
         </span>
       </div>

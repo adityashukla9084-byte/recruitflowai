@@ -60,14 +60,14 @@ export default function HistoryPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+      <main className="min-h-screen bg-theme-bg text-theme-text flex items-center justify-center">
         Loading...
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white p-8">
+    <main className="min-h-screen bg-theme-bg text-theme-text p-8">
       <h1 className="text-4xl font-bold mb-8">
         📊 Analysis History
       </h1>
@@ -81,7 +81,7 @@ export default function HistoryPage() {
           history.map((item) => (
             <div
               key={item.id}
-              className="bg-slate-800 rounded-xl p-6 border border-slate-700"
+              className="bg-theme-card-hover rounded-xl p-6 border border-theme-border-input"
             >
               <p className="text-xl font-bold">
                 ATS Score: {item.ats_score}

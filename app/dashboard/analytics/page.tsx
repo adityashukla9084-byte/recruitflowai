@@ -13,13 +13,13 @@ export default function AnalyticsPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white p-10">
+    <main className="min-h-screen bg-theme-bg text-theme-text p-10">
       <div className="mb-10">
         <h1 className="text-4xl font-bold">
           📊 Analytics Dashboard
         </h1>
 
-        <p className="mt-3 text-slate-400">
+        <p className="mt-3 text-theme-text-secondary">
           View ATS trends, Job Match insights and resume performance.
         </p>
       </div>

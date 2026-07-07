@@ -1,12 +1,31 @@
 import Link from "next/link";
 import {
-  FileText,
   History,
   Download,
+  FileText,
   Briefcase,
+  Mic,
+  User,
+  BarChart3,
+  Settings,
 } from "lucide-react";
 
 const actions = [
+  {
+    title: "AI Mock Interview",
+    href: "/dashboard/interview",
+    icon: Mic,
+  },
+  {
+    title: "Analytics",
+    href: "/dashboard/analytics",
+    icon: BarChart3,
+  },
+  {
+    title: "Profile",
+    href: "/dashboard/profile",
+    icon: User,
+  },
   {
     title: "History",
     href: "/history",
@@ -27,6 +46,11 @@ const actions = [
     href: "#",
     icon: Briefcase,
   },
+  {
+    title: "Settings",
+    href: "/dashboard/settings",
+    icon: Settings,
+  },
 ];
 
 export default function QuickActions() {
@@ -39,9 +63,10 @@ export default function QuickActions() {
           <Link
             key={item.title}
             href={item.href}
-            className="rounded-2xl border border-slate-800 bg-slate-900/70 backdrop-blur-xl p-6 hover:border-cyan-500 hover:scale-[1.02] transition"
+            className="rounded-2xl border border-theme-border-card bg-theme-card backdrop-blur-xl p-6 hover:border-cyan-500 hover:scale-[1.02] transition shadow-[var(--shadow-card)]"
           >
-            <Icon className="text-cyan-400 mb-4" size={32} />
+            <Icon className="text-theme-accent mb-4" size={32} />
+
             <h3 className="font-bold text-lg">
               {item.title}
             </h3>

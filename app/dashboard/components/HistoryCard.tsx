@@ -8,19 +8,19 @@ export default function HistoryCard({
   score,
 }: HistoryCardProps) {
   return (
-    <div className="flex items-center justify-between rounded-xl bg-slate-900 p-4 shadow-lg border border-slate-800">
+    <div className="flex items-center justify-between rounded-xl bg-theme-bg-secondary p-4 shadow-lg shadow-[var(--shadow-card)] border border-theme-border-card">
 
       <div>
-        <p className="font-semibold text-white">
+        <p className="font-semibold text-theme-text">
           Resume Analysis
         </p>
 
-        <p className="text-sm text-slate-400">
+        <p className="text-sm text-theme-text-secondary">
           {date}
         </p>
       </div>
 
-      <div className="text-2xl font-bold text-cyan-400">
+      <div className="text-2xl font-bold text-theme-accent">
         {score}/100
       </div>
 

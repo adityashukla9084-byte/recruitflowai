@@ -13,9 +13,9 @@ export default function ATSScoreCard({
       : "text-red-400";
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-lg">
+    <div className="rounded-2xl border border-theme-border-card bg-theme-bg-secondary p-6 shadow-lg shadow-[var(--shadow-card)]">
 
-      <h2 className="text-lg font-semibold text-slate-400">
+      <h2 className="text-lg font-semibold text-theme-text-secondary">
         ATS Score
       </h2>
 
@@ -23,7 +23,7 @@ export default function ATSScoreCard({
         {score}
       </div>
 
-      <div className="mt-2 text-slate-400">
+      <div className="mt-2 text-theme-text-secondary">
         out of 100
       </div>
 
@@ -38,7 +38,7 @@ export default function ATSScoreCard({
 
       </div>
 
-      <div className="mt-3 text-right text-sm text-slate-400">
+      <div className="mt-3 text-right text-sm text-theme-text-secondary">
         {score}% ATS Compatible
       </div>
 

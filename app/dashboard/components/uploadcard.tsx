@@ -12,20 +12,20 @@ export default function UploadCard({
   onFileChange,
 }: Props) {
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-8 shadow-xl">
+    <div className="rounded-2xl border border-theme-border-card bg-theme-bg-secondary p-8 shadow-xl shadow-[var(--shadow-card)]">
 
-      <h2 className="text-2xl font-bold text-white">
+      <h2 className="text-2xl font-bold text-theme-text">
         Upload Resume
       </h2>
 
-      <p className="mt-2 text-slate-400">
+      <p className="mt-2 text-theme-text-secondary">
         PDF or DOCX • Max 10MB
       </p>
 
       <input
         type="file"
         accept=".pdf,.docx"
-        className="mt-6 block w-full rounded-lg border border-slate-700 bg-slate-800 p-3 text-white"
+        className="mt-6 block w-full rounded-lg border border-theme-border-input bg-theme-card-hover p-3 text-theme-text"
         onChange={(e) =>
           onFileChange(e.target.files?.[0] ?? null)
         }

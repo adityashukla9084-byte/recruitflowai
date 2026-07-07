@@ -114,20 +114,20 @@ const response = await fetch("/api/analyze", {
   }
 
   return (
-  <div className="flex bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white">
+  <div className="flex bg-gradient-to-br from-[var(--bg-gradient-from)] via-[var(--bg-gradient-via)] to-[var(--bg-gradient-to)] text-theme-text">
     
 
     <main className="flex-1 min-h-screen">
 <Header />
-      <nav className="flex items-center justify-between border-b border-slate-800 px-10 py-5">
+      <nav className="flex items-center justify-between border-b border-theme-border px-10 py-5">
 
-        <h1 className="text-3xl font-extrabold text-cyan-400">
+        <h1 className="text-3xl font-extrabold text-theme-accent">
           RecruitFlow AI
         </h1>
 
         <button
           onClick={handleLogout}
-          className="rounded-xl bg-red-500 px-5 py-2 font-bold hover:bg-red-600"
+          className="rounded-xl bg-red-500 px-5 py-2 font-bold text-white hover:bg-red-600"
         >
           Logout
         </button>
@@ -156,8 +156,8 @@ const response = await fetch("/api/analyze", {
 <QuickActions />
 <AnalyticsChart data={chartData} />
 <div className="mt-8 grid gap-6 md:grid-cols-3">
-  <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6">
-    <p className="text-slate-400">Highest ATS</p>
+  <div className="rounded-3xl border border-theme-border-card bg-theme-card p-6 shadow-[var(--shadow-card)]">
+    <p className="text-theme-text-secondary">Highest ATS</p>
     <h2 className="mt-2 text-4xl font-bold">
       {chartData.length
         ? Math.max(...chartData.map((x) => x.score))
@@ -166,8 +166,8 @@ const response = await fetch("/api/analyze", {
     </h2>
   </div>
 
-  <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6">
-    <p className="text-slate-400">Average ATS</p>
+  <div className="rounded-3xl border border-theme-border-card bg-theme-card p-6 shadow-[var(--shadow-card)]">
+    <p className="text-theme-text-secondary">Average ATS</p>
     <h2 className="mt-2 text-4xl font-bold">
       {chartData.length
         ? Math.round(
@@ -179,8 +179,8 @@ const response = await fetch("/api/analyze", {
     </h2>
   </div>
 
-  <div className="rounded-3xl border border-slate-800 bg-slate-900/70 p-6">
-    <p className="text-slate-400">Total Reports</p>
+  <div className="rounded-3xl border border-theme-border-card bg-theme-card p-6 shadow-[var(--shadow-card)]">
+    <p className="text-theme-text-secondary">Total Reports</p>
     <h2 className="mt-2 text-4xl font-bold">
       {reportsCount}
     </h2>
@@ -190,17 +190,17 @@ const response = await fetch("/api/analyze", {
           🚀 AI Resume Analyzer
         </h2>
 
-        <p className="mt-3 text-lg text-slate-400">
+        <p className="mt-3 text-lg text-theme-text-secondary">
           Built for Corporate Hiring & ATS Optimization
         </p>
 
-        <div className="mt-10 rounded-3xl border border-slate-800 bg-slate-900/70 backdrop-blur-xl p-8 shadow-2xl">
+        <div className="mt-10 rounded-3xl border border-theme-border-card bg-theme-card backdrop-blur-xl p-8 shadow-2xl">
 
           <input
             type="file"
           
             accept=".pdf,.docx"
-            className="mb-6 w-full rounded-2xl border border-slate-700 bg-slate-800/60 p-4"
+            className="mb-6 w-full rounded-2xl border border-theme-border-input bg-theme-input p-4 text-theme-text"
             onChange={(e) => {
               if (e.target.files?.[0]) {
                 setFile(e.target.files[0]);
@@ -212,13 +212,13 @@ const response = await fetch("/api/analyze", {
   placeholder="Paste Job Description here..."
   value={jobDescription}
   onChange={(e) => setJobDescription(e.target.value)}
-  className="mt-4 w-full rounded-xl border border-slate-700 bg-slate-900 p-4 text-white"
+  className="mt-4 w-full rounded-xl border border-theme-border-input bg-theme-bg-secondary p-4 text-theme-text"
   rows={8}
 />
           <button
             onClick={handleAnalyze}
             disabled={loading}
-          className="mt-6 w-full rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 py-4 text-lg font-bold transition hover:scale-[1.02]"
+          className="mt-6 w-full rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 py-4 text-lg font-bold text-white transition hover:scale-[1.02]"
           >
             {loading ? "Analyzing Resume..." : "Analyze Resume"}
           </button>
@@ -256,7 +256,7 @@ const response = await fetch("/api/analyze", {
 
               <div className="grid gap-6 md:grid-cols-2">
 
-                <div className="rounded-2xl border border-green-700 bg-slate-900 p-6">
+                <div className="rounded-2xl border border-green-700 bg-theme-card p-6">
 
                   <h2 className="mb-4 text-2xl font-bold text-green-400">
                     ✅ Strengths
@@ -274,7 +274,7 @@ const response = await fetch("/api/analyze", {
 
                 </div>
 
-                <div className="rounded-2xl border border-red-700 bg-slate-900 p-6">
+                <div className="rounded-2xl border border-red-700 bg-theme-card p-6">
 
                   <h2 className="mb-4 text-2xl font-bold text-red-400">
                     ❌ Weaknesses
@@ -339,7 +339,7 @@ const response = await fetch("/api/analyze", {
                 score={result.atsScore}
               />
 
-              <div className="rounded-2xl border border-yellow-700 bg-slate-900 p-6">
+              <div className="rounded-2xl border border-yellow-700 bg-theme-card p-6">
 
                 <h2 className="mb-4 text-2xl font-bold text-yellow-400">
                   💡 AI Suggestions
@@ -361,17 +361,17 @@ const response = await fetch("/api/analyze", {
 
 </section>
 
-      <footer className="border-t border-slate-800 py-6 mt-16">
+      <footer className="border-t border-theme-border py-6 mt-16">
 
         <div className="mx-auto max-w-7xl flex items-center justify-between px-10">
 
           <div>
 
-            <h2 className="font-bold text-cyan-400">
+            <h2 className="font-bold text-theme-accent">
               RecruitFlow AI
             </h2>
 
-            <p className="text-sm text-slate-400">
+            <p className="text-sm text-theme-text-secondary">
               AI Powered Resume Analyzer
             </p>
 
@@ -379,11 +379,11 @@ const response = await fetch("/api/analyze", {
 
           <div className="text-right">
 
-            <p className="text-slate-400">
+            <p className="text-theme-text-secondary">
               Version 2.0
             </p>
 
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-theme-text-muted">
               Built with Next.js • Supabase • Gemini AI
             </p>
 

@@ -12,7 +12,7 @@ export default function ScoreGauge({ score }: Props) {
   const offset = circumference - (score / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-3xl border border-slate-800 bg-slate-900/70 backdrop-blur-xl p-8">
+    <div className="flex flex-col items-center justify-center rounded-3xl border border-theme-border-card bg-theme-card backdrop-blur-xl p-8">
       <div className="relative h-44 w-44">
         <svg className="rotate-[-90deg]" width="176" height="176">
           <circle
@@ -42,7 +42,7 @@ export default function ScoreGauge({ score }: Props) {
         <div className="absolute inset-0 flex items-center justify-center">
           <div>
             <p className="text-4xl font-bold text-center">{score}%</p>
-            <p className="text-sm text-slate-400">ATS Score</p>
+            <p className="text-sm text-theme-text-secondary">ATS Score</p>
           </div>
         </div>
       </div>

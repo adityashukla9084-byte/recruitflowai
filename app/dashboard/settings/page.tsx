@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { supabase } from "@/lib/supabase";
+import { useTheme } from "@/app/context/ThemeContext";
 import {
   Moon,
+  Sun,
   Bell,
   Lock,
   LogOut,
@@ -13,6 +15,7 @@ import {
 export default function SettingsPage() {
   const [notifications, setNotifications] = useState(true);
   const [loading, setLoading] = useState(false);
+  const { theme, toggleTheme } = useTheme();
 
   async function logout() {
     setLoading(true);
@@ -25,7 +28,7 @@ export default function SettingsPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white p-10">
+    <main className="min-h-screen bg-theme-bg text-theme-text p-10">
       <div className="max-w-4xl mx-auto">
 
         <h1 className="text-4xl font-bold mb-8">
@@ -34,63 +37,116 @@ export default function SettingsPage() {
 
         <div className="space-y-6">
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 flex items-center justify-between">
+          {/* ── Appearance Toggle ── */}
+          <div className="rounded-2xl border border-theme-border-card bg-theme-card p-6 flex items-center justify-between shadow-[var(--shadow-card)]">
             <div className="flex items-center gap-4">
-              <Moon className="text-cyan-400" />
+              {theme === "dark" ? (
+                <Moon className="text-theme-accent" />
+              ) : (
+                <Sun className="text-amber-500" />
+              )}
               <div>
                 <h2 className="text-xl font-bold">
                   Appearance
                 </h2>
 
-                <p className="text-slate-400">
-                  Dark Mode (Coming Soon)
+                <p className="text-theme-text-secondary">
+                  {theme === "dark" ? "Dark Mode" : "Light Mode"}
                 </p>
               </div>
             </div>
+
+            {/* Premium animated toggle switch */}
+            <button
+              id="theme-toggle"
+              onClick={toggleTheme}
+              className={`
+                relative inline-flex h-8 w-16 items-center rounded-full
+                transition-colors duration-300 ease-in-out
+                focus:outline-none focus:ring-2 focus:ring-offset-2
+                ${theme === "dark"
+                  ? "bg-cyan-500 focus:ring-cyan-400"
+                  : "bg-amber-400 focus:ring-amber-300"
+                }
+              `}
+              aria-label="Toggle theme"
+            >
+              <span
+                className={`
+                  inline-flex h-6 w-6 items-center justify-center
+                  rounded-full bg-white shadow-md
+                  transform transition-transform duration-300 ease-in-out
+                  ${theme === "dark" ? "translate-x-9" : "translate-x-1"}
+                `}
+              >
+                {theme === "dark" ? (
+                  <Moon size={14} className="text-cyan-600" />
+                ) : (
+                  <Sun size={14} className="text-amber-500" />
+                )}
+              </span>
+            </button>
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 flex items-center justify-between">
+          {/* ── Email Notifications ── */}
+          <div className="rounded-2xl border border-theme-border-card bg-theme-card p-6 flex items-center justify-between shadow-[var(--shadow-card)]">
             <div className="flex items-center gap-4">
-              <Bell className="text-cyan-400" />
+              <Bell className="text-theme-accent" />
 
               <div>
                 <h2 className="text-xl font-bold">
                   Email Notifications
                 </h2>
 
-                <p className="text-slate-400">
+                <p className="text-theme-text-secondary">
                   Receive AI reports via email.
                 </p>
               </div>
             </div>
 
-            <input
-              type="checkbox"
-              checked={notifications}
-              onChange={() =>
-                setNotifications(!notifications)
-              }
-              className="h-5 w-5"
-            />
+            <button
+              onClick={() => setNotifications(!notifications)}
+              className={`
+                relative inline-flex h-8 w-16 items-center rounded-full
+                transition-colors duration-300 ease-in-out
+                focus:outline-none focus:ring-2 focus:ring-offset-2
+                ${notifications
+                  ? "bg-cyan-500 focus:ring-cyan-400"
+                  : "bg-slate-600 focus:ring-slate-400"
+                }
+              `}
+              aria-label="Toggle notifications"
+            >
+              <span
+                className={`
+                  inline-flex h-6 w-6 items-center justify-center
+                  rounded-full bg-white shadow-md
+                  transform transition-transform duration-300 ease-in-out
+                  ${notifications ? "translate-x-9" : "translate-x-1"}
+                `}
+              />
+            </button>
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 flex items-center justify-between">
+          {/* ── Password ── */}
+          <div className="rounded-2xl border border-theme-border-card bg-theme-card p-6 flex items-center justify-between shadow-[var(--shadow-card)]">
             <div className="flex items-center gap-4">
-              <Lock className="text-cyan-400" />
+              <Lock className="text-theme-accent" />
 
               <div>
                 <h2 className="text-xl font-bold">
                   Password
                 </h2>
 
-                <p className="text-slate-400">
+                <p className="text-theme-text-secondary">
                   Change Password (Coming Soon)
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 flex items-center justify-between">
+          {/* ── Logout ── */}
+          <div className="rounded-2xl border border-theme-border-card bg-theme-card p-6 flex items-center justify-between shadow-[var(--shadow-card)]">
             <div className="flex items-center gap-4">
               <LogOut className="text-red-400" />
 
@@ -99,7 +155,7 @@ export default function SettingsPage() {
                   Logout
                 </h2>
 
-                <p className="text-slate-400">
+                <p className="text-theme-text-secondary">
                   Sign out from RecruitFlow AI
                 </p>
               </div>
@@ -108,13 +164,14 @@ export default function SettingsPage() {
             <button
               onClick={logout}
               disabled={loading}
-              className="rounded-lg bg-red-500 px-6 py-2 font-semibold hover:bg-red-600"
+              className="rounded-lg bg-red-500 px-6 py-2 font-semibold text-white hover:bg-red-600"
             >
               {loading ? "Logging out..." : "Logout"}
             </button>
           </div>
 
-          <div className="rounded-2xl border border-red-900 bg-slate-900 p-6 flex items-center justify-between">
+          {/* ── Delete Account ── */}
+          <div className="rounded-2xl border border-red-900 bg-theme-card p-6 flex items-center justify-between shadow-[var(--shadow-card)]">
             <div className="flex items-center gap-4">
               <Trash2 className="text-red-500" />
 
@@ -123,7 +180,7 @@ export default function SettingsPage() {
                   Delete Account
                 </h2>
 
-                <p className="text-slate-400">
+                <p className="text-theme-text-secondary">
                   Coming Soon
                 </p>
               </div>
@@ -131,7 +188,7 @@ export default function SettingsPage() {
 
             <button
               disabled
-              className="rounded-lg bg-red-700 px-6 py-2 font-semibold opacity-60"
+              className="rounded-lg bg-red-700 px-6 py-2 font-semibold text-white opacity-60"
             >
               Delete
             </button>
@@ -143,3 +200,4 @@ export default function SettingsPage() {
     </main>
   );
 }
+

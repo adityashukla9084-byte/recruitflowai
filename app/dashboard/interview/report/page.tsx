@@ -46,7 +46,7 @@ export default function InterviewReportPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+      <main className="min-h-screen bg-theme-bg text-theme-text flex items-center justify-center">
         Loading Report...
       </main>
     );
@@ -54,24 +54,24 @@ export default function InterviewReportPage() {
 
   if (!report) {
     return (
-      <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+      <main className="min-h-screen bg-theme-bg text-theme-text flex items-center justify-center">
         No Interview Report Found.
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white p-10">
-      <div className="max-w-5xl mx-auto rounded-3xl border border-slate-800 bg-slate-900 p-10">
+    <main className="min-h-screen bg-theme-bg text-theme-text p-10">
+      <div className="max-w-5xl mx-auto rounded-3xl border border-theme-border-card bg-theme-card p-10 shadow-[var(--shadow-card)]">
 
-        <h1 className="text-5xl font-bold text-cyan-400 mb-10">
+        <h1 className="text-5xl font-bold text-theme-accent mb-10">
           AI Interview Report
         </h1>
 
         <div className="grid md:grid-cols-2 gap-8">
 
-          <div className="rounded-2xl bg-slate-800 p-6">
-            <p className="text-slate-400">
+          <div className="rounded-2xl bg-theme-card-hover p-6 border border-theme-border-card">
+            <p className="text-theme-text-secondary">
               Overall Score
             </p>
 
@@ -80,8 +80,8 @@ export default function InterviewReportPage() {
             </h2>
           </div>
 
-          <div className="rounded-2xl bg-slate-800 p-6">
-            <p className="text-slate-400">
+          <div className="rounded-2xl bg-theme-card-hover p-6 border border-theme-border-card">
+            <p className="text-theme-text-secondary">
               Job Role
             </p>
 
@@ -92,25 +92,25 @@ export default function InterviewReportPage() {
 
         </div>
 
-        <div className="mt-10 rounded-2xl bg-slate-800 p-6">
+        <div className="mt-10 rounded-2xl bg-theme-card-hover p-6 border border-theme-border-card">
 
           <h3 className="text-2xl font-bold mb-4">
             AI Feedback
           </h3>
 
-          <p className="text-slate-300">
+          <p className="text-theme-text-secondary leading-relaxed">
             {report.feedback}
           </p>
 
         </div>
 
-        <div className="mt-8 rounded-2xl bg-slate-800 p-6">
+        <div className="mt-8 rounded-2xl bg-theme-card-hover p-6 border border-theme-border-card">
 
           <h3 className="text-2xl font-bold mb-4">
             Improvement Plan
           </h3>
 
-          <p className="text-slate-300">
+          <p className="text-theme-text-secondary leading-relaxed">
             {report.improvement}
           </p>
 

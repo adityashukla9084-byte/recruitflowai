@@ -19,8 +19,8 @@ const items = [
 
 export default function Sidebar() {
   return (
-    <aside className="w-72 h-screen bg-slate-950 border-r border-slate-800 p-6 sticky top-0">
-      <h1 className="text-3xl font-bold text-cyan-400 mb-10">
+    <aside className="w-72 h-screen bg-theme-sidebar border-r border-theme-border p-6 sticky top-0">
+      <h1 className="text-3xl font-bold text-theme-accent mb-10">
         RecruitFlow AI
       </h1>
 
@@ -32,7 +32,7 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className="flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-slate-800 transition"
+              className="flex items-center gap-4 rounded-xl px-4 py-3 hover:bg-theme-card-hover transition text-theme-text"
             >
               <Icon size={22} />
               <span>{item.name}</span>

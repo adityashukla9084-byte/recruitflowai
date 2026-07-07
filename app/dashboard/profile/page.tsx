@@ -95,15 +95,15 @@ console.log(data);
 }
   if (loading) {
     return (
-      <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+      <main className="min-h-screen bg-theme-bg text-theme-text flex items-center justify-center">
         Loading...
       </main>
     );
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white p-10">
-      <div className="max-w-3xl mx-auto rounded-2xl bg-slate-900 p-8 border border-slate-800">
+    <main className="min-h-screen bg-theme-bg text-theme-text p-10">
+      <div className="max-w-3xl mx-auto rounded-2xl bg-theme-bg-secondary shadow-[var(--shadow-card)] p-8 border border-theme-border-card">
 
         <h1 className="text-4xl font-bold mb-8">
           👤 My Profile
@@ -112,7 +112,7 @@ console.log(data);
         <div className="space-y-5">
 
           <input
-            className="w-full rounded-lg bg-slate-800 p-3"
+            className="w-full rounded-lg bg-theme-card-hover p-3"
             placeholder="Full Name"
             value={profile.full_name}
             onChange={(e) =>
@@ -166,7 +166,7 @@ console.log(data);
           />
 
           <textarea
-            className="w-full rounded-lg bg-slate-800 p-3"
+            className="w-full rounded-lg bg-theme-card-hover p-3"
             rows={4}
             placeholder="Bio"
             value={profile.bio}

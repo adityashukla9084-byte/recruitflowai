@@ -54,11 +54,11 @@ export default function StatsCards({
         return (
           <div
             key={card.title}
-            className="rounded-2xl border border-slate-800 bg-slate-900/70 backdrop-blur-lg p-6 hover:border-cyan-500 transition"
+            className="rounded-2xl border border-theme-border-card bg-theme-card backdrop-blur-lg p-6 hover:border-cyan-500 transition"
           >
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-slate-400">{card.title}</p>
+                <p className="text-theme-text-secondary">{card.title}</p>
                 {loading ? (
   <div className="mt-2 h-8 w-24 animate-pulse rounded bg-slate-700" />
 ) : (
@@ -66,7 +66,7 @@ export default function StatsCards({
 )}
               </div>
 
-              <Icon size={34} className="text-cyan-400" />
+              <Icon size={34} className="text-theme-accent" />
             </div>
           </div>
         );

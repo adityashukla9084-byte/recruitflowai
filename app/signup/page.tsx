@@ -34,17 +34,17 @@ export default function SignupPage() {
   }
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-slate-950">
-      <div className="w-full max-w-md rounded-2xl bg-slate-900 p-8">
+    <main className="flex min-h-screen items-center justify-center bg-theme-bg">
+      <div className="w-full max-w-md rounded-2xl bg-theme-bg-secondary shadow-[var(--shadow-card)] p-8">
 
-        <h1 className="mb-8 text-center text-3xl font-bold text-cyan-400">
+        <h1 className="mb-8 text-center text-3xl font-bold text-theme-accent">
           RecruitFlow AI
         </h1>
 
         <input
           type="email"
           placeholder="Email"
-          className="mb-4 w-full rounded-lg border border-slate-700 bg-slate-800 p-4 text-white"
+          className="mb-4 w-full rounded-lg border border-theme-border-input bg-theme-card-hover p-4 text-theme-text"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -52,7 +52,7 @@ export default function SignupPage() {
         <input
           type="password"
           placeholder="Password"
-          className="mb-6 w-full rounded-lg border border-slate-700 bg-slate-800 p-4 text-white"
+          className="mb-6 w-full rounded-lg border border-theme-border-input bg-theme-card-hover p-4 text-theme-text"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

@@ -1,56 +1,151 @@
 "use client";
 
-import Link from "next/link";
-import { Brain, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Building2, ArrowRight, Search } from "lucide-react";
 
-const roles = [
-  "Frontend Developer",
-  "Backend Developer",
-  "Full Stack Developer",
-  "React Developer",
-  "Next.js Developer",
-  "Node.js Developer",
-  "Python Developer",
-  "Java Developer",
-  "Data Analyst",
-  "UI/UX Designer",
-  "Product Manager",
-  "HR Recruiter",
+const companies = [
+  "Google",
+  "Amazon",
+  "Microsoft",
+  "Meta",
+  "Apple",
+  "Netflix",
+  "OpenAI",
+  "NVIDIA",
+  "Tesla",
+  "Oracle",
+  "IBM",
+  "Adobe",
+  "TCS",
+  "Infosys",
+  "Wipro",
+  "HCLTech",
+  "Tech Mahindra",
+  "Accenture",
+  "Capgemini",
+  "Cognizant",
+  "Deloitte",
+  "EY",
+  "KPMG",
+  "PwC",
+  "Flipkart",
+  "Swiggy",
+  "Zomato",
+  "Razorpay",
+  "PhonePe",
+  "Meesho",
+  "CRED",
+  "Zepto",
 ];
 
-export default function InterviewPage() {
+export default function InterviewHome() {
+  const router = useRouter();
+  const [company, setCompany] = useState("");
+
+  const filtered = companies.filter((c) =>
+    c.toLowerCase().includes(company.toLowerCase())
+  );
+
+  function startInterview(name: string) {
+    if (!name.trim()) return;
+
+    router.push(
+      `/dashboard/interview/session?company=${encodeURIComponent(name)}`
+    );
+  }
+
   return (
-    <main className="min-h-screen bg-slate-950 text-white p-10">
-      <div className="max-w-6xl mx-auto">
+    <main className="min-h-screen bg-theme-bg text-theme-text p-10">
+      <div className="max-w-7xl mx-auto">
 
-        <div className="mb-10">
-          <h1 className="text-4xl font-bold flex items-center gap-3">
-            <Brain className="text-cyan-400" size={38} />
-            AI Mock Interview
-          </h1>
+        <h1 className="text-5xl font-bold mb-3">
+          🎙 AI Mock Interview
+        </h1>
 
-          <p className="text-slate-400 mt-3">
-            Select your target job role and start an AI-powered interview.
-          </p>
+        <p className="text-theme-text-secondary mb-10">
+          Search any company in the world or choose one below.
+        </p>
+
+        <div className="rounded-3xl border border-theme-border-card bg-theme-card shadow-[var(--shadow-card)] p-6 mb-10">
+
+          <div className="flex gap-3">
+
+            <div className="flex-1 flex items-center rounded-2xl bg-theme-card-hover px-4">
+
+              <Search className="text-theme-text-secondary mr-3" />
+
+              <input
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                placeholder="Google, SpaceX, Samsung, JP Morgan..."
+                className="w-full bg-transparent py-4 outline-none"
+              />
+
+            </div>
+
+            <button
+              onClick={() => startInterview(company)}
+              className="rounded-2xl bg-cyan-500 px-8 font-bold hover:bg-cyan-600"
+            >
+              Start
+            </button>
+
+          </div>
+
         </div>
+<div className="mb-10 rounded-3xl border border-cyan-500 bg-theme-card shadow-[var(--shadow-card)] p-8">
+
+  <h2 className="text-3xl font-bold">
+    ⚙️ Custom Role Interview
+  </h2>
+
+  <p className="mt-3 text-theme-text-secondary">
+    Enter any job role like React Developer, HR, Data Analyst, Marketing, etc.
+  </p>
+
+  <button
+    onClick={() => router.push("/dashboard/interview/custom")}
+    className="mt-6 rounded-2xl bg-cyan-500 px-8 py-4 font-bold hover:bg-cyan-600"
+  >
+    Start Custom Interview
+  </button>
+
+</div>
+        <h2 className="text-2xl font-bold mb-6">
+          ⭐ Popular Companies
+        </h2>
 
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {roles.map((role) => (
-            <Link
-              key={role}
-              href={`/dashboard/interview/session?role=${encodeURIComponent(role)}`}
-              className="rounded-2xl border border-slate-800 bg-slate-900 p-6 hover:border-cyan-500 transition"
+
+          {filtered.map((item) => (
+
+            <button
+              key={item}
+              onClick={() => startInterview(item)}
+              className="text-left rounded-3xl border border-theme-border-card bg-theme-card shadow-[var(--shadow-card)] p-8 hover:border-cyan-500 hover:scale-[1.02] transition"
             >
-              <h2 className="text-xl font-bold">
-                {role}
+              <Building2
+                size={42}
+                className="text-theme-accent mb-5"
+              />
+
+              <h2 className="text-2xl font-bold">
+                {item}
               </h2>
 
-              <div className="mt-6 flex items-center gap-2 text-cyan-400">
+              <div className="mt-8 flex items-center gap-2 text-theme-accent">
+
                 Start Interview
+
                 <ArrowRight size={18} />
+
               </div>
-            </Link>
+
+            </button>
+
           ))}
+
         </div>
 
       </div>

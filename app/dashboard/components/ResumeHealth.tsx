@@ -35,9 +35,9 @@ export default function ResumeHealth({
       : "text-red-400";
 
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6 shadow-lg">
+    <div className="rounded-2xl border border-theme-border-card bg-theme-bg-secondary p-6 shadow-lg shadow-[var(--shadow-card)]">
 
-      <h2 className="text-lg font-semibold text-slate-400">
+      <h2 className="text-lg font-semibold text-theme-text-secondary">
         Resume Health
       </h2>
 

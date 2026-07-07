@@ -1,10 +1,10 @@
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-black text-white">
+    <main className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-black text-theme-text">
 
       {/* Navbar */}
       <nav className="flex justify-between items-center px-10 py-6">
-        <h1 className="text-3xl font-bold text-cyan-400">
+        <h1 className="text-3xl font-bold text-theme-accent">
           RecruitFlow AI
         </h1>
 

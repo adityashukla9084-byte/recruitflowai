@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     );
 
     const model = genAI.getGenerativeModel({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.0-flash",
       generationConfig: {
         responseMimeType: "application/json",
       },
@@ -24,14 +24,69 @@ export async function POST(request: Request) {
     const prompt = `
 You are a Senior Technical Interviewer.
 
-Candidate Role:
+You are a Senior FAANG Technical Interviewer.
+
+You are conducting a REAL interview.
+
+Job Role:
 ${role}
 
-Question:
+Current Interview Question:
 ${question}
 
 Candidate Answer:
 ${answer}
+
+Your task:
+
+1. Evaluate the answer.
+
+2. Give professional recruiter feedback.
+
+3. Suggest improvements.
+
+4. Generate the NEXT interview question.
+
+IMPORTANT:
+
+If the role is:
+
+- React Developer → ask React questions.
+- Frontend Developer → ask HTML CSS JS React System Design.
+- Backend Developer → ask Node Express APIs Database.
+- Java Developer → ask Java Spring Boot OOP.
+- Python Developer → ask Python Django FastAPI.
+- Data Analyst → ask SQL Excel Power BI Statistics.
+- Data Scientist → ask ML Python Statistics.
+- DevOps Engineer → ask Docker Kubernetes CI/CD AWS.
+- UI UX Designer → ask Design Thinking Figma UX.
+- HR → ask HR scenarios.
+- Marketing → ask Marketing scenarios.
+- Sales → ask Sales scenarios.
+
+Never repeat:
+
+"Tell me about yourself"
+
+unless it is the FIRST question.
+
+Every nextQuestion must become progressively harder.
+
+Questions must sound like Google, Amazon, Microsoft interviewers.
+
+Return ONLY JSON.
+
+{
+"score":0,
+"feedback":"",
+"improvement":"",
+"nextQuestion":"",
+"communication":0,
+"technical":0,
+"confidence":0,
+"problemSolving":0,
+"hiringDecision":""
+}
 
 Return ONLY JSON.
 
@@ -95,7 +150,6 @@ await admin.from("interview_history").insert({
 });
 
 return NextResponse.json(aiResult);
-    return NextResponse.json(JSON.parse(text));
 
   } catch (err: any) {
     return NextResponse.json(

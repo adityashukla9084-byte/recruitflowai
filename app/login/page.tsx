@@ -24,8 +24,8 @@ export default function Login() {
   }
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-900 text-white">
-      <div className="bg-gray-800 p-8 rounded-xl w-96">
+    <main className="min-h-screen flex items-center justify-center bg-theme-bg text-theme-text">
+      <div className="bg-theme-card-hover p-8 rounded-xl w-96">
         <h1 className="text-3xl font-bold mb-6">Login</h1>
 
         <input
@@ -33,7 +33,7 @@ export default function Login() {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-3 mb-4 rounded bg-gray-700"
+          className="w-full p-3 mb-4 rounded bg-theme-input"
         />
 
         <input
@@ -41,7 +41,7 @@ export default function Login() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-3 mb-6 rounded bg-gray-700"
+          className="w-full p-3 mb-6 rounded bg-theme-input"
         />
 
         <button
