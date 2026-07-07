@@ -1,9 +1,10 @@
+import { Briefcase } from "lucide-react";
 import Link from "next/link";
 import {
   History,
   Download,
   FileText,
-  Briefcase,
+  
   Mic,
   User,
   BarChart3,
@@ -11,6 +12,11 @@ import {
 } from "lucide-react";
 
 const actions = [
+  {
+  title: "Job Tracker",
+  href: "/dashboard/jobs",
+  icon: Briefcase,
+},
   {
     title: "AI Mock Interview",
     href: "/dashboard/interview",
