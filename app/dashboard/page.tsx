@@ -6,7 +6,6 @@ import { supabase } from "@/lib/supabase";
 import type { AnalysisResult } from "./types";
 
 import ProgressCard from "./components/ProgressCard";
-import Sidebar from "./components/sidebar";
 import FeedbackCard from "./components/FeedbackCard";
 import KeywordCard from "./components/KeywordCard";
 import InterviewCard from "./components/InterviewCard";
@@ -16,7 +15,7 @@ import SalaryCard from "./components/SalaryCard";
 import CoverLetterCard from "./components/CoverLetterCard";
 import HistoryCard from "./components/HistoryCard";
 import DownloadReportButton from "./components/DownloadReportButton";
-import StatsCards from "./components/statscards";
+import StatsCards from "./components/StatsCards";
 import Header from "./components/header";
 import Hero from "./components/hero";
 import ScoreGauge from "./components/ScoreGauge";
@@ -116,7 +115,7 @@ const response = await fetch("/api/analyze", {
 
   return (
   <div className="flex bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white">
-    <Sidebar />
+    
 
     <main className="flex-1 min-h-screen">
 <Header />

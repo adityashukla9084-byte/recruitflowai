@@ -16,6 +16,7 @@ const items = [
   { name: "Profile", href: "/dashboard/profile", icon: User },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
+
 export default function Sidebar() {
   return (
     <aside className="w-72 h-screen bg-slate-950 border-r border-slate-800 p-6 sticky top-0">

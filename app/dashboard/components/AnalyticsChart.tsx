@@ -19,6 +19,7 @@ type Props = {
 
 export default function AnalyticsChart({ data }: Props) {
   return (
+    
     <div className="rounded-3xl border border-slate-800 bg-slate-900/70 backdrop-blur-xl p-6 mt-8">
       <h2 className="mb-6 text-2xl font-bold">
         ATS Score Trend
