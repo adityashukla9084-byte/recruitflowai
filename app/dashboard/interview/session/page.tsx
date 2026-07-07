@@ -1,10 +1,14 @@
 "use client";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 
+import { Mic, Square } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { Send } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-
+import { useEffect } from "react";
 export default function InterviewSession() {
   const params = useSearchParams();
 
@@ -15,10 +19,30 @@ export default function InterviewSession() {
   );
 
   const [answer, setAnswer] = useState("");
+  useEffect(() => {
+  speak(question);
+}, [question]);
+  function speak(text: string) {
+  const utterance = new SpeechSynthesisUtterance(text);
 
+  utterance.rate = 1;
+  utterance.pitch = 1;
+  utterance.lang = "en-US";
+
+  window.speechSynthesis.speak(utterance);
+}
+const {
+  transcript,
+  resetTranscript,
+  browserSupportsSpeechRecognition,
+} = useSpeechRecognition();
+
+if (!browserSupportsSpeechRecognition) {
+  return <div>Browser doesn't support Speech Recognition.</div>;
+}
   const [result, setResult] = useState<any>(null);
 const [loading, setLoading] = useState(false);
-
+const [questionCount, setQuestionCount] = useState(1);
 async function submitAnswer() {
   if (!answer.trim()) return;
 
@@ -43,14 +67,21 @@ const {
 
 setResult(data);
 
+setQuestionCount((prev) => prev + 1);
+
+if (questionCount >= 2) {
+  window.location.href = "/dashboard/interview/report";
+  return;
+}
+
 if (data.nextQuestion) {
   setQuestion(data.nextQuestion);
+  speak(data.nextQuestion);
 }
 
 setAnswer("");
 
 setLoading(false);
-
   
 }
 
@@ -69,7 +100,7 @@ setLoading(false);
         <div className="rounded-2xl border border-slate-800 bg-slate-900 p-6">
 
           <h2 className="text-xl font-bold mb-4">
-            Question 1
+            Question {questionCount}
           </h2>
 
           <p className="text-slate-300">
@@ -79,14 +110,41 @@ setLoading(false);
         </div>
 
         <textarea
-          value={answer}
-          onChange={(e) => setAnswer(e.target.value)}
-          rows={8}
-          placeholder="Type your answer..."
-          className="w-full mt-8 rounded-xl bg-slate-900 border border-slate-800 p-4 outline-none"
-        />
+  value={transcript || answer}
+  onChange={(e) => setAnswer(e.target.value)}
+  rows={8}
+  placeholder="Speak or type your answer..."
+  className="w-full mt-8 rounded-xl bg-slate-900 border border-slate-800 p-4 outline-none"
+/>
+<div className="mt-6 flex gap-4">
 
-        <button
+  <button
+    onClick={() =>
+      SpeechRecognition.startListening({
+        continuous: true,
+      })
+    }
+    className="rounded-xl bg-green-600 px-5 py-3 flex items-center gap-2"
+  >
+    <Mic size={18} />
+    Start Recording
+  </button>
+
+  <button
+    onClick={() => {
+      SpeechRecognition.stopListening();
+      setAnswer(transcript);
+    }}
+    className="rounded-xl bg-red-600 px-5 py-3 flex items-center gap-2"
+  >
+    <Square size={18} />
+    Stop Recording
+  </button>
+
+</div>
+  
+      <button
+      
   onClick={submitAnswer}
   disabled={loading}
   className="mt-6 flex items-center gap-2 rounded-xl bg-cyan-500 px-6 py-3 font-semibold hover:bg-cyan-600 disabled:opacity-50"

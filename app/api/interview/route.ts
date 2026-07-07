@@ -39,9 +39,25 @@ Return ONLY JSON.
 "score":0,
 "feedback":"",
 "improvement":"",
-"nextQuestion":""
+"nextQuestion":"",
+"communication":0,
+"technical":0,
+"confidence":0,
+"problemSolving":0,
+"hiringDecision":""
 }
 
+Rules:
+- Score between 0-100
+- communication between 0-100
+- technical between 0-100
+- confidence between 0-100
+- problemSolving between 0-100
+- hiringDecision must be one of:
+  "Rejected"
+  "Average"
+  "Recommended"
+  "Strongly Recommended"
 Rules:
 
 Score must be 0-100.
