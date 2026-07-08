@@ -2,8 +2,8 @@
 
 import {
   ResponsiveContainer,
-  LineChart,
-  Line,
+  AreaChart,
+  Area,
   XAxis,
   YAxis,
   Tooltip,
@@ -17,32 +17,71 @@ type Props = {
   }[];
 };
 
+const CustomTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-xl border border-theme-border bg-theme-card/90 backdrop-blur-md p-3 shadow-lg">
+        <p className="text-xs text-theme-text-secondary font-semibold uppercase tracking-wider">Run {payload[0].payload.name}</p>
+        <p className="text-lg font-bold mt-0.5 text-theme-accent">
+          {payload[0].value}% <span className="text-xs font-medium text-theme-text-secondary">ATS Score</span>
+        </p>
+      </div>
+    );
+  }
+  return null;
+};
+
 export default function AnalyticsChart({ data }: Props) {
   return (
-    
-    <div className="rounded-3xl border border-theme-border-card bg-theme-card backdrop-blur-xl p-6 mt-8 shadow-[var(--shadow-card)]">
-      <h2 className="mb-6 text-2xl font-bold">
-        ATS Score Trend
+    <div className="rounded-3xl border border-theme-border bg-theme-card/45 backdrop-blur-xl p-6 mt-8 shadow-[var(--shadow-card)] hover:shadow-lg transition-all duration-300">
+      <h2 className="mb-6 text-xl font-bold tracking-tight px-2">
+        ATS Optimization Trend
       </h2>
 
-      <ResponsiveContainer width="100%" height={350}>
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+      <div className="w-full" style={{ height: 350 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+            <defs>
+              <linearGradient id="scoreColor" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+              </linearGradient>
+            </defs>
 
-          <XAxis dataKey="name" stroke="#94a3b8" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-primary)" opacity={0.4} />
 
-          <YAxis stroke="#94a3b8" />
+            <XAxis
+              dataKey="name"
+              stroke="var(--text-muted)"
+              fontSize={12}
+              tickLine={false}
+              axisLine={false}
+              dy={10}
+            />
 
-          <Tooltip />
+            <YAxis
+              stroke="var(--text-muted)"
+              fontSize={12}
+              tickLine={false}
+              axisLine={false}
+              domain={[0, 100]}
+              dx={-5}
+            />
 
-          <Line
-            type="monotone"
-            dataKey="score"
-            stroke="#06b6d4"
-            strokeWidth={4}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+            <Tooltip content={<CustomTooltip />} cursor={{ stroke: "#3b82f6", strokeWidth: 1, strokeDasharray: "4 4" }} />
+
+            <Area
+              type="monotone"
+              dataKey="score"
+              stroke="#3b82f6"
+              strokeWidth={3}
+              fillOpacity={1}
+              fill="url(#scoreColor)"
+              activeDot={{ r: 6, strokeWidth: 0, fill: "#3b82f6" }}
+            />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   );
 }
