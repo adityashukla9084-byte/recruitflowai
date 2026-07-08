@@ -1,3 +1,4 @@
+import { Brain } from "lucide-react";
 import { FilePlus2 } from "lucide-react";
 import { Briefcase } from "lucide-react";
 import Link from "next/link";
@@ -17,6 +18,16 @@ const actions = [
   title: "Job Tracker",
   href: "/dashboard/jobs",
   icon: Briefcase,
+},
+{
+  title: "AI Job Finder",
+  href: "/dashboard/job-finder",
+  icon: Briefcase,
+},
+{
+  title: "AI Career Coach",
+  href: "/dashboard/career-coach",
+  icon: Brain,
 },
   {
     title: "AI Mock Interview",
