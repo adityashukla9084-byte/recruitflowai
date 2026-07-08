@@ -1,3 +1,4 @@
+import { FilePlus2 } from "lucide-react";
 import { Briefcase } from "lucide-react";
 import Link from "next/link";
 import {
@@ -22,6 +23,11 @@ const actions = [
     href: "/dashboard/interview",
     icon: Mic,
   },
+  {
+  title: "AI Resume Builder",
+  href: "/dashboard/resume-builder",
+  icon: FilePlus2,
+ },
   {
     title: "Analytics",
     href: "/dashboard/analytics",

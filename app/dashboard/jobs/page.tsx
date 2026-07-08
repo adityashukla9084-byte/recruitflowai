@@ -24,7 +24,20 @@ export default function JobsPage() {
 
     setJobs(data || []);
   }
+async function deleteJob(id: number) {
+  const { error } = await supabase
+    .from("job_tracker")
+    .delete()
+    .eq("id", id);
 
+  if (error) {
+    console.log(error);
+    alert(error.message);
+    return;
+  }
+
+  loadJobs();
+}
   useEffect(() => {
     loadJobs();
   }, []);
@@ -48,9 +61,8 @@ export default function JobsPage() {
     setStatus("Applied");
 
     loadJobs();
-    }
-
-    return (
+  }
+return (
     <main className="min-h-screen bg-slate-950 text-white p-10">
       <div className="max-w-6xl mx-auto">
 
@@ -87,7 +99,7 @@ export default function JobsPage() {
 
           <button
             onClick={addJob}
-            className="rounded-xl bg-cyan-500 font-bold"
+            className="rounded-xl bg-cyan-500 hover:bg-cyan-600 font-bold p-3"
           >
             Add Job
           </button>
@@ -107,16 +119,52 @@ export default function JobsPage() {
             </thead>
 
             <tbody>
-              {jobs.map((job) => (
-                <tr
-                  key={job.id}
-                  className="border-t border-slate-800"
-                >
-                  <td className="p-4">{job.company}</td>
-                  <td className="p-4">{job.role}</td>
-                  <td className="p-4">{job.status}</td>
+
+              {jobs.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={3}
+                    className="p-6 text-center text-slate-400"
+                  >
+                    No jobs added yet.
+                  </td>
                 </tr>
-              ))}
+              ) : (
+                jobs.map((job) => (
+                  <tr
+                    key={job.id}
+                    className="border-t border-slate-800"
+                  >
+
+                    <td className="p-4">
+                      {job.company}
+                    </td>
+
+                    <td className="p-4">
+                      {job.role}
+                    </td>
+
+                    <td className="p-4">
+                      <div className="flex items-center gap-3">
+
+                        <span className="rounded-full bg-cyan-500 px-3 py-1 text-sm">
+                          {job.status}
+                        </span>
+
+                        <button
+                          onClick={() => deleteJob(job.id)}
+                          className="rounded-lg bg-red-600 px-3 py-1 text-sm hover:bg-red-700"
+                        >
+                          Delete
+                        </button>
+
+                      </div>
+                    </td>
+
+                  </tr>
+                ))
+              )}
+
             </tbody>
 
           </table>

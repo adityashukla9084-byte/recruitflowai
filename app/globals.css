@@ -102,3 +102,96 @@ textarea {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.15s ease, box-shadow 0.3s ease, transform 0.15s ease, opacity 0.15s ease;
 }
 
+/* ── Print styles for PDF download ── */
+@media print {
+  /* Hide sidebar, nav bars, buttons, and anything marked no-print */
+  .no-print,
+  aside,
+  nav,
+  header,
+  footer,
+  button,
+  a[href="/dashboard/resume-builder"] {
+    display: none !important;
+  }
+
+  /* Reset all backgrounds and spacing */
+  html,
+  body {
+    background: white !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+    overflow: visible !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Reset the dashboard flex layout so main takes full width */
+  body > div,
+  body > div > div,
+  #__next,
+  #__next > div {
+    display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: auto !important;
+    background: white !important;
+  }
+
+  /* Reset main element */
+  main {
+    display: block !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: auto !important;
+    background: white !important;
+    overflow: visible !important;
+  }
+
+  /* Remove outer page styling */
+  .print-container {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: none !important;
+    width: 100% !important;
+    background: white !important;
+  }
+
+  /* Scale the resume to fit A4 width (794px → fits in ~210mm) */
+  .resume-template {
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+    overflow: visible !important;
+  }
+
+  /* Scale the inner resume div to fit page */
+  .resume-template > div {
+    width: 100% !important;
+    min-height: auto !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+  }
+
+  /* Ensure the resume two-column flex stretches fully */
+  .resume-template > div > div {
+    width: 100% !important;
+  }
+
+  /* Disable all transitions during print */
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+  }
+
+  /* A4 page setup */
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+}
