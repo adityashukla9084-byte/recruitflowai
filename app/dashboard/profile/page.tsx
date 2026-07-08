@@ -15,47 +15,49 @@ export default function ProfilePage() {
     email: "",
   });
 
+
+
   useEffect(() => {
-    loadProfile();
+    let active = true;
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user && active) {
+        supabase
+          .from("profiles")
+          .select("*")
+          .eq("user_id", user.id)
+          .maybeSingle()
+          .then(({ data, error }) => {
+            if (active) {
+              console.log(error);
+              console.log(data);
+              if (data) {
+                setProfile({
+                  full_name: data.full_name || "",
+                  phone: data.phone || "",
+                  education: data.education || "",
+                  university: data.university || "",
+                  bio: data.bio || "",
+                  email: user.email || "",
+                });
+              } else {
+                setProfile((prev) => ({
+                  ...prev,
+                  email: user.email || "",
+                }));
+              }
+              setLoading(false);
+            }
+          });
+      } else {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    });
+    return () => {
+      active = false;
+    };
   }, []);
-
-  async function loadProfile() {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
-    if (!user) {
-  setLoading(false);
-  return;
-}
-
-    const { data, error } = await supabase
-  .from("profiles")
-  .select("*")
-  .eq("user_id", user.id)
-  .maybeSingle();
-
-console.log(error);
-console.log(data);
-
-    if (data) {
-      setProfile({
-        full_name: data.full_name || "",
-        phone: data.phone || "",
-        education: data.education || "",
-        university: data.university || "",
-        bio: data.bio || "",
-        email: user.email || "",
-      });
-    } else {
-      setProfile((prev) => ({
-        ...prev,
-        email: user.email || "",
-      }));
-    }
-
-    setLoading(false);
-  }
 
   async function saveProfile() {
   console.log("Save button clicked");

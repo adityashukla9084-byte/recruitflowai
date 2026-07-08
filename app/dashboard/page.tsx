@@ -34,36 +34,38 @@ const [chartData, setChartData] = useState<
   { name: string; score: number }[]
 >([]);
 
-useEffect(() => {
-  loadDashboardStats();
-}, []);
 
-async function loadDashboardStats() {
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
 
-  if (!user) return;
-
-  const { data, count } = await supabase
-    .from("analysis_history")
-    .select("ats_score, created_at", {
-      count: "exact",
-    })
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: true });
-
-  setReportsCount(count ?? 0);
-
-  if (data) {
-    setChartData(
-      data.map((item, index) => ({
-        name: `#${index + 1}`,
-        score: item.ats_score,
-      }))
-    );
-  }
-}
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user && active) {
+        supabase
+          .from("analysis_history")
+          .select("ats_score, created_at", {
+            count: "exact",
+          })
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: true })
+          .then(({ data, count }) => {
+            if (active) {
+              setReportsCount(count ?? 0);
+              if (data) {
+                setChartData(
+                  data.map((item, index) => ({
+                    name: `#${index + 1}`,
+                    score: item.ats_score,
+                  }))
+                );
+              }
+            }
+          });
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
 
 
   async function handleLogout() {

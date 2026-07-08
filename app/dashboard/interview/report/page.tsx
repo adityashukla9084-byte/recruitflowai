@@ -16,33 +16,34 @@ export default function InterviewReportPage() {
   const [report, setReport] = useState<Report | null>(null);
 
   useEffect(() => {
-    loadReport();
+    let active = true;
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session && active) {
+        supabase
+          .from("interview_history")
+          .select("*")
+          .eq("user_id", session.user.id)
+          .order("created_at", { ascending: false })
+          .limit(1)
+          .single()
+          .then(({ data, error }) => {
+            if (active) {
+              if (!error && data) {
+                setReport(data);
+              }
+              setLoading(false);
+            }
+          });
+      } else {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    });
+    return () => {
+      active = false;
+    };
   }, []);
-
-  async function loadReport() {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-
-    if (!session) {
-      setLoading(false);
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from("interview_history")
-      .select("*")
-      .eq("user_id", session.user.id)
-      .order("created_at", { ascending: false })
-      .limit(1)
-      .single();
-
-    if (!error && data) {
-      setReport(data);
-    }
-
-    setLoading(false);
-  }
 
   if (loading) {
     return (

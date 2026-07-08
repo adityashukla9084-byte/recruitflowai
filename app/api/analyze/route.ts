@@ -309,13 +309,14 @@ return NextResponse.json({
       
   
 
-  } catch (error: any) {
+  } catch (error) {
+    const err = error as { message?: string };
     console.error("RecruitFlow AI Error:", error);
 
     return NextResponse.json(
       {
         success: false,
-        error: error?.message || "Analysis Failed",
+        error: err?.message || "Analysis Failed",
       },
       {
         status: 500,

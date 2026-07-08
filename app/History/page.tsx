@@ -18,10 +18,6 @@ export default function HistoryPage() {
   const [history, setHistory] = useState<Analysis[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadHistory();
-  }, []);
-
   async function loadHistory() {
     const {
       data: { user },
@@ -44,6 +40,34 @@ export default function HistoryPage() {
 
     setLoading(false);
   }
+
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user && active) {
+        supabase
+          .from("analysis_history")
+          .select("id, ats_score, job_match, salary_range, created_at")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false })
+          .then(({ data, error }) => {
+            if (active) {
+              if (!error && data) {
+                setHistory(data);
+              }
+              setLoading(false);
+            }
+          });
+      } else {
+        if (active) {
+          setLoading(false);
+        }
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   async function deleteAnalysis(id: string) {
     const ok = confirm("Delete this analysis?");

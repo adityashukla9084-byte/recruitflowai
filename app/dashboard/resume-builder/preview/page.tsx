@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import TemplateCorporate from "../components/TemplateCorporate";
 
 type ExperienceItem = {
@@ -34,9 +34,8 @@ type ResumeData = {
 };
 
 export default function ResumePreview() {
-  const [resumeData, setResumeData] = useState<ResumeData | null>(null);
-
-  useEffect(() => {
+  const [resumeData] = useState<ResumeData | null>(() => {
+    if (typeof window === "undefined") return null;
     const data = localStorage.getItem("generatedResume");
 
     if (data) {
@@ -45,7 +44,7 @@ export default function ResumePreview() {
 
         // Handle legacy format (plain string)
         if (typeof parsed === "string") {
-          setResumeData({
+          return {
             formData: {
               name: "Your Name",
               email: "",
@@ -61,13 +60,13 @@ export default function ResumePreview() {
               certifications: [],
               languages: ["English"],
             },
-          });
+          };
         } else {
-          setResumeData(parsed);
+          return parsed;
         }
       } catch {
         // If parsing fails entirely, treat as plain string
-        setResumeData({
+        return {
           formData: {
             name: "Your Name",
             email: "",
@@ -83,10 +82,11 @@ export default function ResumePreview() {
             certifications: [],
             languages: ["English"],
           },
-        });
+        };
       }
     }
-  }, []);
+    return null;
+  });
 
   if (!resumeData) {
     return (

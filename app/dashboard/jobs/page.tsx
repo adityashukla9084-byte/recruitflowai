@@ -39,7 +39,19 @@ async function deleteJob(id: number) {
   loadJobs();
 }
   useEffect(() => {
-    loadJobs();
+    let active = true;
+    supabase
+      .from("job_tracker")
+      .select("*")
+      .order("id", { ascending: false })
+      .then(({ data }) => {
+        if (active) {
+          setJobs(data || []);
+        }
+      });
+    return () => {
+      active = false;
+    };
   }, []);
 
   async function addJob() {

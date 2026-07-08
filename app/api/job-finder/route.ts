@@ -190,15 +190,16 @@ export async function POST(request: Request) {
     // Sort by match score descending
     filtered.sort((a, b) => b.match - a.match);
 
-    // Strip internal tags before sending to client
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const jobs = filtered.map(({ tags, ...rest }) => rest);
 
     return NextResponse.json({ jobs });
-  } catch (err: any) {
+  } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : "Something went wrong";
     return NextResponse.json(
       {
         jobs: [],
-        error: err.message,
+        error: errorMsg,
       },
       { status: 500 }
     );

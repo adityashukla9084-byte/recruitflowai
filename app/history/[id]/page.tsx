@@ -3,30 +3,35 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { supabase } from "@/lib/supabase";
+import type { AnalysisResult } from "@/app/dashboard/types";
 
 export default function ReportPage() {
   const { id } = useParams();
 
-  const [report, setReport] = useState<any>(null);
+  const [report, setReport] = useState<AnalysisResult | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadReport();
-  }, []);
 
-  async function loadReport() {
-    const { data, error } = await supabase
+
+  useEffect(() => {
+    let active = true;
+    supabase
       .from("analysis_history")
       .select("result")
       .eq("id", id)
-      .single();
-
-    if (!error && data) {
-      setReport(data.result);
-    }
-
-    setLoading(false);
-  }
+      .single()
+      .then(({ data, error }) => {
+        if (active) {
+          if (!error && data) {
+            setReport(data.result as unknown as AnalysisResult);
+          }
+          setLoading(false);
+        }
+      });
+    return () => {
+      active = false;
+    };
+  }, [id]);
 
   if (loading) {
     return (

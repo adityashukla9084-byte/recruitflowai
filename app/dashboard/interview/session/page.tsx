@@ -23,7 +23,14 @@ const [question, setQuestion] = useState("");
 const [mounted, setMounted] = useState(false);
   const [answer, setAnswer] = useState("");
 
-  const [result, setResult] = useState<any>(null);
+type EvaluationResult = {
+  score: number;
+  feedback: string;
+  improvement: string;
+  nextQuestion?: string;
+};
+
+const [result, setResult] = useState<EvaluationResult | null>(null);
 
   const [loading, setLoading] = useState(false);
 
@@ -31,56 +38,47 @@ const [mounted, setMounted] = useState(false);
     useState(1);
 
   const autoSubmitRef = useRef(false);
-useEffect(() => {
-  setMounted(true);
-}, []);
+
   const {
     transcript,
     resetTranscript,
     browserSupportsSpeechRecognition,
   } = useSpeechRecognition();
 
-  if (!browserSupportsSpeechRecognition) {
-     if (!mounted) {
-   return null;
- }
-     return (
-       <div className="min-h-screen bg-theme-bg text-theme-text flex items-center justify-center">
-         Browser doesn't support Speech Recognition.
-       </div>
-     );
-   }
+  useEffect(() => {
+    Promise.resolve().then(() => {
+      setMounted(true);
+    });
+  }, []);
 
   useEffect(() => {
-    async function loadFirstQuestion() {
-      const res = await fetch("/api/interview/first-question", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          role,
-        }),
+    let active = true;
+    fetch("/api/interview/first-question", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        role,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (active) {
+          setQuestion(data.question);
+        }
       });
-
-      const data = await res.json();
-
-      setQuestion(data.question);
-    }
-
-    loadFirstQuestion();
+    return () => {
+      active = false;
+    };
   }, [role]);
 
   function speak(text: string) {
     window.speechSynthesis.cancel();
 
-    const utterance =
-      new SpeechSynthesisUtterance(text);
-
+    const utterance = new SpeechSynthesisUtterance(text);
     utterance.rate = 1;
-
     utterance.pitch = 1;
-
     utterance.lang = "en-US";
 
     window.speechSynthesis.speak(utterance);
@@ -89,30 +87,39 @@ useEffect(() => {
   useEffect(() => {
     speak(question);
   }, [question]);
-  
 
   useEffect(() => {
-    
     if (!transcript) return;
 
-    setAnswer(transcript);
+    Promise.resolve().then(() => {
+      setAnswer(transcript);
+    });
 
     if (autoSubmitRef.current) return;
-
     autoSubmitRef.current = true;
 
-    const timer = setTimeout(async () => {
-      await submitAnswer();
-
-      SpeechRecognition.stopListening();
-
-      resetTranscript();
-
-      autoSubmitRef.current = false;
+    const timer = setTimeout(() => {
+      submitAnswer().then(() => {
+        SpeechRecognition.stopListening();
+        resetTranscript();
+        autoSubmitRef.current = false;
+      });
     }, 3000);
 
     return () => clearTimeout(timer);
-  }, [transcript]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [transcript, resetTranscript]);
+
+  if (!browserSupportsSpeechRecognition) {
+    if (!mounted) {
+      return null;
+    }
+    return (
+      <div className="min-h-screen bg-theme-bg text-theme-text flex items-center justify-center">
+        Browser doesn&apos;t support Speech Recognition.
+      </div>
+    );
+  }
 
   async function submitAnswer() {
     if (!answer.trim()) return;

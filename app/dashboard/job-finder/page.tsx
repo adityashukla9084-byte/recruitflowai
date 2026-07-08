@@ -2,9 +2,7 @@
 
 import { useState } from "react";
 import {
-  Search,
   MapPin,
-  Briefcase,
   DollarSign,
   Building2,
   ExternalLink,
@@ -55,8 +53,9 @@ export default function JobFinderPage() {
       } else {
         setJobs(data.jobs || []);
       }
-    } catch (err: any) {
-      setError(err.message || "Something went wrong");
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Something went wrong";
+      setError(errorMsg);
       setJobs([]);
     }
 

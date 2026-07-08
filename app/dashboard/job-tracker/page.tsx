@@ -3,8 +3,15 @@
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 
+type Job = {
+  id: number;
+  company: string;
+  role: string;
+  status: string;
+};
+
 export default function JobTracker() {
-  const [jobs, setJobs] = useState<any[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("");
   const [status, setStatus] = useState("Applied");
@@ -26,7 +33,24 @@ export default function JobTracker() {
   }
 
   useEffect(() => {
-    loadJobs();
+    let active = true;
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user && active) {
+        supabase
+          .from("job_tracker")
+          .select("*")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false })
+          .then(({ data }) => {
+            if (active) {
+              setJobs(data || []);
+            }
+          });
+      }
+    });
+    return () => {
+      active = false;
+    };
   }, []);
 
   async function addJob() {

@@ -94,8 +94,9 @@ export default function SettingsPage() {
         await supabase.auth.signOut();
         window.location.href = "/";
       }
-    } catch (err: any) {
-      setDeleteError(err.message || "Something went wrong.");
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Something went wrong.";
+      setDeleteError(errorMsg);
     }
 
     setDeleteLoading(false);
@@ -165,8 +166,9 @@ export default function SettingsPage() {
           setPasswordSuccess("");
         }, 2500);
       }
-    } catch (err: any) {
-      setPasswordError(err.message || "Something went wrong.");
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : "Something went wrong.";
+      setPasswordError(errorMsg);
     }
 
     setPasswordLoading(false);

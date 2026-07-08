@@ -56,10 +56,11 @@ Return ONLY JSON.
 
     return NextResponse.json(JSON.parse(text));
 
-  } catch (err: any) {
+  } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : "Something went wrong";
     return NextResponse.json(
       {
-        error: err.message,
+        error: errorMsg,
       },
       {
         status: 500,

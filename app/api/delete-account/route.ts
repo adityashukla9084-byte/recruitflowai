@@ -50,9 +50,10 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (err: any) {
+  } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : "An unexpected error occurred";
     return NextResponse.json(
-      { error: err.message || "An unexpected error occurred" },
+      { error: errorMsg },
       { status: 500 }
     );
   }

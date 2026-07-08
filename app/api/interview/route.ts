@@ -151,10 +151,11 @@ await admin.from("interview_history").insert({
 
 return NextResponse.json(aiResult);
 
-  } catch (err: any) {
+  } catch (err) {
+    const errorMsg = err instanceof Error ? err.message : "Something went wrong";
     return NextResponse.json(
       {
-        error: err.message,
+        error: errorMsg,
       },
       {
         status: 500,
