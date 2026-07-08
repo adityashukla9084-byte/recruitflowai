@@ -29,6 +29,28 @@ export default function LoginPage() {
     resetForm();
   }
 
+  async function handleGoogleLogin() {
+    setError("");
+    setSuccess("");
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`,
+        },
+      });
+
+      if (error) {
+        setError(error.message);
+      }
+    } catch (err: any) {
+      setError(err.message || "Failed to initiate Google sign in.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleSubmit() {
     setError("");
     setSuccess("");
@@ -37,19 +59,6 @@ export default function LoginPage() {
       setError("Please fill in all fields.");
       return;
     }
-    async function handleGoogleLogin() {
-  const { error } = await supabase.auth.signInWithOAuth({
-    provider: "google",
-    options: {
-      redirectTo: `${window.location.origin}/dashboard`,
-    },
-
-  });
-
-  if (error) {
-    setError(error.message);
-  }
-}
     if (isSignUp && password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
@@ -582,32 +591,43 @@ export default function LoginPage() {
 
           {/* Divider */}
           <button
-  
-  style={{
-    width: "100%",
-    padding: "14px",
-    borderRadius: "12px",
-    border: "1px solid rgba(255,255,255,0.1)",
-    background: "rgba(255,255,255,0.05)",
-    color: "white",
-    cursor: "pointer",
-    fontWeight: 600,
-    fontSize: "15px",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "10px",
-    marginBottom: "20px",
-  }}
->
-  <img
-    src="https://www.google.com/favicon.ico"
-    width="20"
-    height="20"
-    alt="Google"
-  />
-  Continue with Google
-</button>
+            onClick={handleGoogleLogin}
+            disabled={loading}
+            style={{
+              width: "100%",
+              padding: "14px",
+              borderRadius: "12px",
+              border: "1px solid rgba(255,255,255,0.1)",
+              background: "rgba(255,255,255,0.05)",
+              color: "white",
+              cursor: loading ? "not-allowed" : "pointer",
+              opacity: loading ? 0.6 : 1,
+              fontWeight: 600,
+              fontSize: "15px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: "10px",
+              marginBottom: "20px",
+              transition: "all 0.3s ease",
+            }}
+            onMouseEnter={(e) => {
+              if (!loading) {
+                e.currentTarget.style.background = "rgba(255,255,255,0.1)";
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.background = "rgba(255,255,255,0.05)";
+            }}
+          >
+            <img
+              src="https://www.google.com/favicon.ico"
+              width="20"
+              height="20"
+              alt="Google"
+            />
+            Continue with Google
+          </button>
           <div
             style={{
               display: "flex",
