@@ -216,26 +216,34 @@ textarea {
     background: white !important;
   }
 
-  /* Scale the resume to fit A4 width (794px → fits in ~210mm) */
+  /* Scale the resume to fit A4 width and height (210mm x 297mm) */
   .resume-template {
-    width: 100% !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
     margin: 0 !important;
     padding: 0 !important;
     box-shadow: none !important;
-    overflow: visible !important;
+    overflow: hidden !important;
+    background: white !important;
+    display: block !important;
   }
 
-  /* Scale the inner resume div to fit page */
+  /* Scale the inner resume div to fit A4 print page */
   .resume-template > div {
-    width: 100% !important;
-    min-height: auto !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    max-height: 297mm !important;
     box-shadow: none !important;
     margin: 0 !important;
+    overflow: hidden !important;
+    background: white !important;
   }
 
   /* Ensure the resume two-column flex stretches fully */
-  .resume-template > div > div {
+  .resume-template > div > .flex {
     width: 100% !important;
+    height: 100% !important;
   }
 
   /* Disable all transitions during print */
@@ -245,7 +253,7 @@ textarea {
     transition: none !important;
   }
 
-  /* A4 page setup */
+  /* A4 portrait page setup */
   @page {
     size: A4 portrait;
     margin: 0;

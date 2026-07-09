@@ -46,11 +46,18 @@ Return this exact JSON structure:
     }
   ],
   "certifications": ["Certification 1", "Certification 2"],
-  "languages": ["Language 1", "Language 2"]
+  "languages": ["Language 1", "Language 2"],
+  "strengths": ["Soft Strength 1", "Soft Strength 2", "Soft Strength 3", "Soft Strength 4", "Soft Strength 5"],
+  "competencies": [
+    "Competency 1: Brief description of candidate's capacity",
+    "Competency 2: Brief description of candidate's capacity",
+    "Competency 3: Brief description of candidate's capacity"
+  ]
 }
 
 Rules:
 - Generate realistic, ATS-friendly content based on the candidate's details.
+- "strengths" MUST be soft/personal skills (e.g. "Clear Communicator", "Analytical Thinker", "Detail-Oriented", "Time Management") and must not repeat the candidate's technical skills.
 - If candidate didn't provide experience, create relevant experience entries based on their skills.
 - If candidate didn't provide specific info for a section, generate suitable recommendations.
 - Keep language professional and action-oriented.
