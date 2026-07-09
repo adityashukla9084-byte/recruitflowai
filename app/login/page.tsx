@@ -11,6 +11,8 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -20,6 +22,8 @@ export default function LoginPage() {
     setEmail("");
     setPassword("");
     setConfirmPassword("");
+    setFullName("");
+    setPhone("");
     setError("");
     setSuccess("");
   }
@@ -59,9 +63,15 @@ export default function LoginPage() {
       setError("Please fill in all fields.");
       return;
     }
-    if (isSignUp && password !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
+    if (isSignUp) {
+      if (!fullName || !phone) {
+        setError("Please fill in all fields.");
+        return;
+      }
+      if (password !== confirmPassword) {
+        setError("Passwords do not match.");
+        return;
+      }
     }
 
     if (password.length < 6) {
@@ -73,10 +83,22 @@ export default function LoginPage() {
 
     try {
       if (isSignUp) {
-        const { error } = await supabase.auth.signUp({ email, password });
+        const { data, error } = await supabase.auth.signUp({ email, password });
         if (error) {
           setError(error.message);
         } else {
+          if (data?.user) {
+            const { error: profileError } = await supabase
+              .from("profiles")
+              .upsert({
+                user_id: data.user.id,
+                full_name: fullName,
+                phone: phone,
+              });
+            if (profileError) {
+              console.error("Error creating profile:", profileError.message);
+            }
+          }
           setSuccess("Account created! Check your email to verify, then log in.");
           setTimeout(() => switchMode(false), 2500);
         }
@@ -316,6 +338,127 @@ export default function LoginPage() {
               }}
             >
               <span>✅</span> {success}
+            </div>
+          )}
+
+          {/* Full Name input (sign up only) */}
+          {isSignUp && (
+            <div style={{ marginBottom: "16px", animation: "fadeInUp 0.3s ease-out" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "13px",
+                  fontWeight: 500,
+                  color: "#94a3b8",
+                  marginBottom: "6px",
+                }}
+              >
+                Full Name
+              </label>
+              <div style={{ position: "relative" }}>
+                <div
+                  style={{
+                    position: "absolute",
+                    left: "14px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "#475569",
+                    pointerEvents: "none",
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                </div>
+                <input
+                  type="text"
+                  placeholder="John Doe"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                  style={{
+                    width: "100%",
+                    padding: "14px 14px 14px 44px",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    background: "rgba(30, 41, 59, 0.4)",
+                    color: "#e2e8f0",
+                    fontSize: "14px",
+                    outline: "none",
+                    transition: "all 0.2s ease",
+                    boxSizing: "border-box",
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = "rgba(6, 182, 212, 0.5)";
+                    e.target.style.boxShadow = "0 0 0 3px rgba(6, 182, 212, 0.1)";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = "rgba(255, 255, 255, 0.08)";
+                    e.target.style.boxShadow = "none";
+                  }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Phone Number input (sign up only) */}
+          {isSignUp && (
+            <div style={{ marginBottom: "16px", animation: "fadeInUp 0.3s ease-out" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "13px",
+                  fontWeight: 500,
+                  color: "#94a3b8",
+                  marginBottom: "6px",
+                }}
+              >
+                Phone Number
+              </label>
+              <div style={{ position: "relative" }}>
+                <div
+                  style={{
+                    position: "absolute",
+                    left: "14px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "#475569",
+                    pointerEvents: "none",
+                  }}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                </div>
+                <input
+                  type="tel"
+                  placeholder="+1 (555) 123-4567"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+                  style={{
+                    width: "100%",
+                    padding: "14px 14px 14px 44px",
+                    borderRadius: "12px",
+                    border: "1px solid rgba(255, 255, 255, 0.08)",
+                    background: "rgba(30, 41, 59, 0.4)",
+                    color: "#e2e8f0",
+                    fontSize: "14px",
+                    outline: "none",
+                    transition: "all 0.2s ease",
+                    boxSizing: "border-box",
+                  }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = "rgba(6, 182, 212, 0.5)";
+                    e.target.style.boxShadow = "0 0 0 3px rgba(6, 182, 212, 0.1)";
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = "rgba(255, 255, 255, 0.08)";
+                    e.target.style.boxShadow = "none";
+                  }}
+                />
+              </div>
             </div>
           )}
 

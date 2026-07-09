@@ -1,13 +1,5 @@
 "use client";
 
-import {
-  FileText,
-  Target,
-  TrendingUp,
-  Briefcase,
-} from "lucide-react";
-import { motion } from "framer-motion";
-
 type Props = {
   atsScore?: number;
   jobMatch?: number;
@@ -16,19 +8,12 @@ type Props = {
   loading?: boolean;
 };
 
-const containerVariants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 15 },
-  show: { opacity: 1, y: 0, transition: { type: "spring" as const, stiffness: 120, damping: 14 } },
-};
+function matchColor(score: number): string {
+  if (score >= 80) return "var(--rf-match-high)";
+  if (score >= 60) return "var(--rf-match-mid)";
+  if (score > 0) return "var(--rf-match-low)";
+  return "var(--text-muted)";
+}
 
 export default function StatsCards({
   atsScore = 0,
@@ -37,79 +22,85 @@ export default function StatsCards({
   salary = "—",
   loading = false,
 }: Props) {
-
-  const cards = [
+  const stats = [
     {
-      title: "ATS Score",
+      label: "ATS Score",
       value: `${atsScore}%`,
-      icon: TrendingUp,
-      glow: "from-blue-500/20 to-indigo-500/20",
-      iconColor: "text-blue-500 dark:text-blue-400",
-      bgColor: "bg-blue-500/10",
+      semantic: true,
+      score: atsScore,
+      mono: true,
     },
     {
-      title: "Job Match",
+      label: "Job Match",
       value: `${jobMatch}%`,
-      icon: Target,
-      glow: "from-emerald-500/20 to-teal-500/20",
-      iconColor: "text-emerald-500 dark:text-emerald-400",
-      bgColor: "bg-emerald-500/10",
+      semantic: true,
+      score: jobMatch,
+      mono: true,
     },
     {
-      title: "Reports",
-      value: reports,
-      icon: FileText,
-      glow: "from-purple-500/20 to-pink-500/20",
-      iconColor: "text-purple-500 dark:text-purple-400",
-      bgColor: "bg-purple-500/10",
+      label: "Reports Run",
+      value: String(reports),
+      semantic: false,
+      score: 0,
+      mono: true,
     },
     {
-      title: "Salary Guide",
+      label: "Salary Est.",
       value: salary,
-      icon: Briefcase,
-      glow: "from-amber-500/20 to-orange-500/20",
-      iconColor: "text-amber-500 dark:text-amber-400",
-      bgColor: "bg-amber-500/10",
+      semantic: false,
+      score: 0,
+      mono: true,
     },
   ];
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="show"
-      className="grid gap-5 sm:grid-cols-2 h-full"
-    >
-      {cards.map((card) => {
-        const Icon = card.icon;
+    // Isolated card tiles with gaps and premium hover effects
+    <div className="grid grid-cols-2 gap-3">
+      {stats.map((stat, i) => {
+        const dotColor = stat.semantic ? matchColor(stat.score) : "var(--border-primary)";
+        const hasValue = stat.value && stat.value !== "—" && stat.value !== "0%" && stat.value !== "0";
 
         return (
-          <motion.div
-            key={card.title}
-            variants={itemVariants}
-            whileHover={{ y: -4, scale: 1.01 }}
-            className="relative overflow-hidden rounded-2xl border border-theme-border bg-theme-card/45 backdrop-blur-xl p-6 shadow-[var(--shadow-card)] hover:shadow-lg transition-all duration-300 group"
+          <div
+            key={stat.label}
+            className="flex flex-col justify-between p-4.5 bg-theme-card border border-theme-border/50 rounded-2xl shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 group cursor-default relative overflow-hidden"
           >
-            {/* Soft glowing ambient circle on hover */}
-            <div className={`absolute -right-10 -bottom-10 h-28 w-28 rounded-full bg-gradient-to-tr ${card.glow} blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+            {/* Soft backdrop glow matching value type */}
+            {stat.semantic && hasValue && (
+              <div 
+                className="absolute -right-6 -bottom-6 w-16 h-16 rounded-full blur-[24px] opacity-15 transition-opacity duration-300 group-hover:opacity-25"
+                style={{ backgroundColor: dotColor }}
+              />
+            )}
 
-            <div className="flex items-center justify-between relative z-10">
-              <div>
-                <p className="text-xs font-semibold text-theme-text-secondary tracking-wider uppercase">{card.title}</p>
-                {loading ? (
-                  <div className="mt-3 h-8 w-24 animate-pulse rounded bg-slate-200 dark:bg-slate-800" />
-                ) : (
-                  <h2 className="mt-2.5 text-3xl font-extrabold tracking-tight">{card.value}</h2>
-                )}
-              </div>
-
-              <div className={`p-3 rounded-xl ${card.bgColor} ${card.iconColor} transition-transform duration-300 group-hover:scale-110`}>
-                <Icon size={24} />
-              </div>
+            <div className="flex items-center gap-2 mb-2.5">
+              <span
+                className="w-2 h-2 rounded-full shrink-0 animate-pulse"
+                style={{ backgroundColor: dotColor }}
+                aria-hidden="true"
+              />
+              <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted select-none">
+                {stat.label}
+              </span>
             </div>
-          </motion.div>
+
+            {loading ? (
+              <div className="h-6 w-16 animate-pulse rounded bg-theme-card-hover" />
+            ) : (
+              <span
+                className="text-xl font-bold leading-none select-all"
+                style={{
+                  color: stat.semantic && hasValue ? matchColor(stat.score) : "var(--text-primary)",
+                  fontFamily: stat.mono ? "var(--font-geist-mono), monospace" : undefined,
+                  fontVariantNumeric: "tabular-nums",
+                }}
+              >
+                {stat.value}
+              </span>
+            )}
+          </div>
         );
       })}
-    </motion.div>
+    </div>
   );
 }

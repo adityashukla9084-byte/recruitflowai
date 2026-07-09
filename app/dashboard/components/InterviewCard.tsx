@@ -2,30 +2,31 @@ type InterviewCardProps = {
   questions: string[];
 };
 
-export default function InterviewCard({
-  questions,
-}: InterviewCardProps) {
+export default function InterviewCard({ questions }: InterviewCardProps) {
   return (
-    <div className="rounded-2xl border border-purple-700 bg-theme-bg-secondary p-6 shadow-lg shadow-[var(--shadow-card)]">
-
-      <h2 className="mb-5 text-xl font-bold text-purple-400">
-        🎤 AI Interview Questions
-      </h2>
-
-      <div className="space-y-4">
+    <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 relative overflow-hidden group">
+      <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      
+      <h3 className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-4 select-none">
+        Interview Prep Questions
+      </h3>
+      <ol className="space-y-3">
         {questions.map((question, index) => (
-          <div
+          <li
             key={index}
-            className="rounded-xl bg-theme-card-hover p-4"
+            className="flex gap-3 text-sm text-theme-text-secondary leading-relaxed"
           >
-            <span className="font-bold text-theme-accent">
-              Q{index + 1}.
-            </span>{" "}
-            {question}
-          </div>
+            <span
+              className="shrink-0 tabular-nums text-xs font-semibold text-theme-text-muted mt-0.5 w-5 text-right"
+              style={{ fontFamily: "var(--font-geist-mono), monospace" }}
+              aria-hidden="true"
+            >
+              {String(index + 1).padStart(2, "0")}.
+            </span>
+            <span>{question}</span>
+          </li>
         ))}
-      </div>
-
+      </ol>
     </div>
   );
 }

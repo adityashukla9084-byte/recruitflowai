@@ -5,18 +5,17 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import type { AnalysisResult } from "./types";
 import { motion, AnimatePresence } from "framer-motion";
-import { 
-  UploadCloud, 
-  FileText, 
-  Sparkles, 
-  Check, 
-  Copy, 
-  X, 
-  AlertTriangle, 
-  CheckCircle,
+import {
+  UploadCloud,
+  FileText,
+  Sparkles,
+  Check,
+  Copy,
+  X,
+  FileSearch,
+  Cpu,
+  History,
   TrendingUp,
-  Award,
-  AlertCircle
 } from "lucide-react";
 
 import ProgressCard from "./components/ProgressCard";
@@ -155,6 +154,53 @@ export default function Dashboard() {
       // Fetch updated history
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .single();
+
+  if (!profile) {
+    await supabase.from("profiles").insert({
+      user_id: user.id,
+      full_name:
+        user.user_metadata?.full_name ||
+        user.user_metadata?.name ||
+        "",
+      email: user.email,
+      phone: "",
+      education: "",
+      universities: "",
+      bio: "",
+      linkedin: "",
+      github: "",
+    });
+  }
+}if (user) {
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .single();
+
+  if (!profile) {
+    await supabase.from("profiles").insert({
+      user_id: user.id,
+      full_name:
+        user.user_metadata?.full_name ||
+        user.user_metadata?.name ||
+        "",
+      email: user.email,
+      phone: "",
+      education: "",
+      universities: "",
+      bio: "",
+      linkedin: "",
+      github: "",
+    });
+  }
+}
+      if (user) {
         const { data: historyData, count } = await supabase
           .from("analysis_history")
           .select("ats_score, created_at", { count: "exact" })
@@ -191,417 +237,646 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="flex-1 min-h-screen bg-gradient-to-br from-[var(--bg-gradient-from)] via-[var(--bg-gradient-via)] to-[var(--bg-gradient-to)] text-theme-text pb-16">
+    <div className="flex-1 min-h-screen bg-theme-bg text-theme-text relative overflow-hidden">
+      {/* Premium Background Ambient Glows */}
+      <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-indigo-500/10 to-violet-500/5 blur-[120px] pointer-events-none animate-float-slow" />
+      <div className="absolute bottom-[10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-cyan-500/5 via-blue-500/10 to-indigo-500/5 blur-[100px] pointer-events-none animate-float-medium" />
+
       <Header />
 
-      <div className="mx-auto max-w-7xl px-6 sm:px-10 py-10 space-y-10">
-        {/* Hero Section */}
+      <div className="mx-auto max-w-7xl px-6 sm:px-10 py-8 pb-20 space-y-8 relative z-10">
+        {/* Page context */}
         <Hero />
 
-        {/* Top Scores & Metrics Panel */}
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-1">
-            <ScoreGauge score={result?.atsScore ?? 0} />
-          </div>
-
-          <div className="lg:col-span-2">
-            <StatsCards
-              atsScore={result?.atsScore}
-              jobMatch={result?.jobMatchScore}
-              reports={reportsCount}
-              salary={result?.salaryRange}
-              loading={loading}
-            />
-          </div>
-        </div>
-
-        {/* Quick actions row */}
-        <QuickActions />
-
-        {/* Trends & Metric Highlights */}
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <AnalyticsChart data={chartData} />
-          </div>
-
-          <div className="lg:col-span-1 flex flex-col justify-between gap-5 mt-8">
-            <div className="rounded-3xl border border-theme-border bg-theme-card/45 backdrop-blur-xl p-6 flex-1 flex flex-col justify-center shadow-[var(--shadow-card)] hover:border-theme-accent/25 transition">
-              <p className="text-xs font-semibold text-theme-text-secondary tracking-wider uppercase">Highest ATS Match</p>
-              <h2 className="mt-2 text-4xl font-black tracking-tight text-theme-accent">
-                {chartData.length ? Math.max(...chartData.map((x) => x.score)) : 0}%
-              </h2>
-            </div>
-
-            <div className="rounded-3xl border border-theme-border bg-theme-card/45 backdrop-blur-xl p-6 flex-1 flex flex-col justify-center shadow-[var(--shadow-card)] hover:border-theme-accent/25 transition">
-              <p className="text-xs font-semibold text-theme-text-secondary tracking-wider uppercase">Average Score</p>
-              <h2 className="mt-2 text-4xl font-black tracking-tight text-theme-accent">
-                {chartData.length
-                  ? Math.round(chartData.reduce((a, b) => a + b.score, 0) / chartData.length)
-                  : 0}%
-              </h2>
-            </div>
-
-            <div className="rounded-3xl border border-theme-border bg-theme-card/45 backdrop-blur-xl p-6 flex-1 flex flex-col justify-center shadow-[var(--shadow-card)] hover:border-theme-accent/25 transition">
-              <p className="text-xs font-semibold text-theme-text-secondary tracking-wider uppercase">Total Submissions</p>
-              <h2 className="mt-2 text-4xl font-black tracking-tight text-theme-accent">
-                {reportsCount}
-              </h2>
-            </div>
-          </div>
-        </div>
-
-        {/* AI Analyzer Dropzone Form */}
-        <section className="mt-12 space-y-6">
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight">🚀 AI Resume Analyzer</h2>
-            <p className="text-sm text-theme-text-secondary">Analyze your resume format and keywords against real job definitions.</p>
-          </div>
-
-          <div className="rounded-3xl border border-theme-border bg-theme-card/30 backdrop-blur-2xl p-6 sm:p-8 shadow-xl">
-            {/* Custom drag zone */}
-            <div
-              onDragEnter={handleDrag}
-              onDragOver={handleDrag}
-              onDragLeave={handleDrag}
-              onDrop={handleDrop}
-              onClick={!file ? selectFiles : undefined}
-              className={`border-2 border-dashed rounded-2xl p-8 text-center transition-all duration-300 ${
-                file 
-                  ? "border-theme-accent/20 bg-theme-card-hover/20 cursor-default" 
-                  : dragActive
-                  ? "border-theme-accent bg-theme-accent/5 scale-[1.01]"
-                  : "border-theme-border hover:border-theme-accent/40 bg-theme-card/40 cursor-pointer"
-              }`}
-            >
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept=".pdf,.docx"
-                className="hidden"
-                onChange={(e) => {
-                  if (e.target.files?.[0]) {
-                    setFile(e.target.files[0]);
-                    setResult(null);
-                  }
-                }}
-              />
-
-              {!file ? (
-                <div className="flex flex-col items-center justify-center space-y-3.5 py-4">
-                  <div className="p-4 rounded-full bg-theme-accent/10 text-theme-accent">
-                    <UploadCloud className="h-8 w-8" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-base">Drag & drop your resume here, or <span className="text-theme-accent">browse</span></p>
-                    <p className="text-xs text-theme-text-secondary mt-1.5">Supports PDF and DOCX formats up to 10MB</p>
-                  </div>
+        {/* ── Split-Screen Workspace ── */}
+        <div className="grid gap-6 lg:grid-cols-3 items-start">
+          {/* Left Column: Upload Scanner & Results Tab Panel (col-span-2) */}
+          <div className="lg:col-span-2 space-y-6">
+            <div className="space-y-3">
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                  Resume Analysis
+                </p>
+                <div className="flex items-center gap-2">
+                  <UploadCloud size={14} className="text-indigo-500" aria-hidden="true" />
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Upload &amp; Scan</h2>
                 </div>
-              ) : (
-                <div className="flex items-center justify-between p-3.5 bg-theme-card rounded-xl max-w-lg mx-auto border border-theme-border">
-                  <div className="flex items-center gap-3.5">
-                    <div className="p-2.5 rounded-lg bg-theme-accent/10 text-theme-accent">
-                      <FileText className="h-5 w-5" />
-                    </div>
-                    <div className="text-left">
-                      <p className="font-semibold text-sm max-w-[200px] sm:max-w-xs truncate">{file.name}</p>
-                      <p className="text-xs text-theme-text-secondary mt-0.5">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
-                    </div>
-                  </div>
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      clearFile();
+              </div>
+
+              <div className="bg-theme-card border border-theme-border/50 rounded-2xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                {/* Dropzone */}
+                <div
+                  onDragEnter={handleDrag}
+                  onDragOver={handleDrag}
+                  onDragLeave={handleDrag}
+                  onDrop={handleDrop}
+                  onClick={!file ? selectFiles : undefined}
+                  role={!file ? "button" : undefined}
+                  tabIndex={!file ? 0 : undefined}
+                  onKeyDown={!file ? (e) => e.key === "Enter" && selectFiles() : undefined}
+                  aria-label={!file ? "Upload resume file" : undefined}
+                  className={`group border-b border-theme-border/40 p-10 text-center transition-all duration-300 ${
+                    file
+                      ? "bg-theme-card"
+                      : dragActive
+                      ? "bg-indigo-500/5 border-dashed border-indigo-500/50 cursor-copy"
+                      : "bg-theme-card hover:bg-theme-card-hover/20 cursor-pointer"
+                  }`}
+                >
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".pdf,.docx"
+                    className="hidden"
+                    aria-hidden="true"
+                    onChange={(e) => {
+                      if (e.target.files?.[0]) {
+                        setFile(e.target.files[0]);
+                        setResult(null);
+                      }
                     }}
-                    className="p-1.5 rounded-lg hover:bg-red-500/10 text-theme-text-secondary hover:text-red-500 transition cursor-pointer"
-                    title="Remove file"
-                  >
-                    <X className="h-4.5 w-4.5" />
-                  </button>
-                </div>
-              )}
-            </div>
+                  />
 
-            {/* Job Description Textarea */}
-            <div className="mt-6 space-y-2">
-              <label className="text-sm font-semibold text-theme-text-secondary uppercase tracking-wider">Job Target / Description (Optional)</label>
-              <textarea
-                placeholder="Paste the target job description here to optimize and check matching keywords..."
-                value={jobDescription}
-                onChange={(e) => setJobDescription(e.target.value)}
-                className="w-full rounded-xl border border-theme-border bg-theme-bg-secondary/40 focus:bg-theme-bg-secondary/80 focus:border-theme-accent/50 focus:ring-1 focus:ring-theme-accent/30 p-4 text-sm text-theme-text transition outline-none resize-none leading-relaxed"
-                rows={6}
-              />
-            </div>
-
-            {/* Action Trigger */}
-            <button
-              onClick={handleAnalyze}
-              disabled={loading || !file}
-              className={`mt-6 w-full rounded-2xl py-4 text-base font-bold text-white transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${
-                loading || !file
-                  ? "bg-slate-300 dark:bg-slate-800 text-slate-400 dark:text-slate-600 cursor-not-allowed border border-transparent"
-                  : "bg-gradient-to-r from-blue-600 via-indigo-600 to-indigo-700 hover:opacity-95 shadow-md shadow-indigo-600/20 active:scale-[0.995]"
-              }`}
-            >
-              {loading ? (
-                <>
-                  <div className="h-5 w-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>Analyzing Resume Layout & Keywords...</span>
-                </>
-              ) : (
-                <>
-                  <Sparkles className="h-5 w-5" />
-                  <span>Execute AI Assessment</span>
-                </>
-              )}
-            </button>
-          </div>
-        </section>
-
-        {/* Analysis Results Visualizer */}
-        <AnimatePresence mode="wait">
-          {result && (
-            <motion.section
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
-              className="mt-14 space-y-6"
-            >
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                <div>
-                  <h2 className="text-2xl font-bold tracking-tight">✨ Analytics Assessment Result</h2>
-                  <p className="text-sm text-theme-text-secondary">Fully compiled feedback and optimizations from RecruitFlow AI.</p>
-                </div>
-              </div>
-
-              {/* Tabs list */}
-              <div className="flex border-b border-theme-border gap-2 overflow-x-auto pb-px">
-                {([
-                  { id: "overview", label: "Overview & Scores" },
-                  { id: "keywords", label: "Keywords & Strengths" },
-                  { id: "enhancements", label: "AI Resume Enhancer" },
-                  { id: "coach", label: "AI Career Prep" },
-                ] as const).map((tab) => {
-                  const isActive = activeTab === tab.id;
-                  return (
-                    <button
-                      key={tab.id}
-                      onClick={() => setActiveTab(tab.id)}
-                      className={`relative px-5 py-3 text-sm font-semibold whitespace-nowrap transition-colors duration-300 cursor-pointer ${
-                        isActive ? "text-theme-accent" : "text-theme-text-secondary hover:text-theme-text"
-                      }`}
-                    >
-                      {isActive && (
-                        <motion.div
-                          layoutId="activeTabIndicator"
-                          className="absolute bottom-0 left-0 right-0 h-0.5 bg-theme-accent"
-                          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  {!file ? (
+                    <div className="flex flex-col items-center gap-3.5">
+                      {/* Icon wrapper badge */}
+                      <div className="w-11 h-11 rounded-xl border border-theme-border bg-theme-bg-secondary/40 flex items-center justify-center shadow-sm group-hover:border-indigo-500/35 group-hover:bg-theme-card-hover transition-all duration-300">
+                        <UploadCloud
+                          className="h-5 w-5 text-theme-text-muted group-hover:text-indigo-500 transition-colors duration-300"
+                          strokeWidth={1.5}
+                          aria-hidden="true"
                         />
-                      )}
-                      {tab.label}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Tab Panels */}
-              <div className="mt-6">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={activeTab}
-                    initial={{ opacity: 0, x: 5 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -5 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {activeTab === "overview" && (
-                      <div className="space-y-6">
-                        {/* Summary overview metrics */}
-                        <div className="grid gap-5 md:grid-cols-4">
-                          <ProgressCard title="ATS Layout Fit" value={result.atsScore} />
-                          <ProgressCard title="Grammar & Style" value={result.grammarScore} />
-                          <ProgressCard title="Formatting Structure" value={result.formattingScore} />
-                          <ProgressCard title="Readability Level" value={result.readabilityScore} />
-                        </div>
-
-                        {/* Recruiter feedback */}
-                        <FeedbackCard feedback={result.recruiterFeedback} />
                       </div>
-                    )}
-
-                    {activeTab === "keywords" && (
-                      <div className="space-y-6">
-                        {/* Keyword Card */}
-                        <KeywordCard matchedKeywords={result.matchedKeywords} missingKeywords={result.missingKeywords} />
-
-                        {/* Strengths & Weaknesses */}
-                        <div className="grid gap-6 md:grid-cols-2">
-                          <div className="rounded-2xl border border-emerald-500/20 bg-theme-card/30 backdrop-blur-xl p-6 shadow-sm">
-                            <h3 className="mb-4 text-lg font-bold text-emerald-500 flex items-center gap-2">
-                              <CheckCircle className="h-5 w-5" />
-                              <span>✅ Key Strengths</span>
-                            </h3>
-                            <ul className="space-y-3 list-none">
-                              {result.strengths.map((item, index) => (
-                                <li key={index} className="flex gap-2 text-sm text-theme-text-secondary leading-relaxed">
-                                  <span className="text-emerald-500 select-none">•</span>
-                                  <span>{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-
-                          <div className="rounded-2xl border border-red-500/20 bg-theme-card/30 backdrop-blur-xl p-6 shadow-sm">
-                            <h3 className="mb-4 text-lg font-bold text-red-500 flex items-center gap-2">
-                              <AlertCircle className="h-5 w-5" />
-                              <span>❌ Core Weaknesses</span>
-                            </h3>
-                            <ul className="space-y-3 list-none">
-                              {result.weaknesses.map((item, index) => (
-                                <li key={index} className="flex gap-2 text-sm text-theme-text-secondary leading-relaxed">
-                                  <span className="text-red-500 select-none">•</span>
-                                  <span>{item}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        </div>
+                      <div>
+                        <p className="text-sm text-theme-text">
+                          Drop resume here or{" "}
+                          <span
+                            className="underline underline-offset-2 decoration-theme-text-muted font-medium"
+                            style={{ color: "var(--accent)" }}
+                          >
+                            browse files
+                          </span>
+                        </p>
+                        <p className="text-xs text-theme-text-muted mt-1">PDF or DOCX · max 10 MB</p>
                       </div>
-                    )}
-
-                    {activeTab === "enhancements" && (
-                      <div className="space-y-6">
-                        {/* Summary with copy button */}
-                        <div className="relative rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 shadow-sm">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-bold text-theme-accent flex items-center gap-2">
-                              <Sparkles className="h-5 w-5" />
-                              <span>✨ AI Optimized Summary</span>
-                            </h3>
-                            <button
-                              onClick={() => handleCopy(result.rewrittenSummary, "summary")}
-                              className="p-2 rounded-xl border border-theme-border hover:bg-theme-card-hover/40 text-theme-text-secondary hover:text-theme-text transition flex items-center gap-1.5 text-xs font-semibold cursor-pointer"
-                            >
-                              {copiedSummary ? (
-                                <>
-                                  <Check className="h-3.5 w-3.5 text-emerald-500" />
-                                  <span className="text-emerald-500">Copied</span>
-                                </>
-                              ) : (
-                                <>
-                                  <Copy className="h-3.5 w-3.5" />
-                                  <span>Copy</span>
-                                </>
-                              )}
-                            </button>
-                          </div>
-                          <p className="leading-relaxed text-sm text-theme-text-secondary whitespace-pre-wrap">
-                            {result.rewrittenSummary}
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between max-w-sm mx-auto">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-xl border border-theme-border bg-theme-bg-secondary/40 flex items-center justify-center">
+                          <FileText
+                            className="h-4.5 w-4.5 text-theme-text-secondary shrink-0"
+                            strokeWidth={1.5}
+                            aria-hidden="true"
+                          />
+                        </div>
+                        <div className="text-left">
+                          <p className="text-sm text-theme-text font-medium truncate max-w-[180px] sm:max-w-xs">
+                            {file.name}
+                          </p>
+                          <p className="text-xs text-theme-text-muted font-mono">
+                            {(file.size / 1024 / 1024).toFixed(2)} MB
                           </p>
                         </div>
+                      </div>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          clearFile();
+                        }}
+                        className="p-1.5 rounded-lg text-theme-text-muted hover:text-theme-text hover:bg-theme-card-hover transition-colors duration-150 cursor-pointer focus-visible:outline-2"
+                        title="Remove file"
+                        aria-label="Remove file"
+                      >
+                        <X className="h-4 w-4" strokeWidth={1.5} />
+                      </button>
+                    </div>
+                  )}
+                </div>
 
-                        {/* Suggestions and Download */}
-                        <div className="grid gap-6 md:grid-cols-2">
-                          <div className="rounded-2xl border border-amber-500/20 bg-theme-card/30 backdrop-blur-xl p-6 shadow-sm">
-                            <h3 className="mb-4 text-lg font-bold text-amber-500 flex items-center gap-2">
-                              <AlertTriangle className="h-5 w-5" />
-                              <span>💡 Layout Suggestions</span>
-                            </h3>
-                            <ul className="space-y-3 list-none">
-                              {result.suggestions.map((item, index) => (
-                                <li key={index} className="flex gap-2 text-sm text-theme-text-secondary leading-relaxed">
-                                  <span className="text-amber-500 select-none">•</span>
-                                  <span>{item}</span>
-                                </li>
-                              ))}
-                            </ul>
+                {/* Job Description textarea */}
+                <div className="p-5 border-b border-theme-border/40 bg-theme-bg-secondary/10">
+                  <label
+                    htmlFor="job-description"
+                    className="block text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-2.5 select-none"
+                  >
+                    Job Description{" "}
+                    <span className="normal-case font-normal text-theme-text-muted">
+                      (optional)
+                    </span>
+                  </label>
+                  <div className="rounded-xl border border-theme-border/50 p-4 bg-theme-bg-secondary/30 focus-within:border-indigo-500/40 focus-within:ring-2 focus-within:ring-indigo-500/10 transition-all duration-200">
+                    <textarea
+                      id="job-description"
+                      placeholder="Paste the job requisition text to check keyword alignment..."
+                      value={jobDescription}
+                      onChange={(e) => setJobDescription(e.target.value)}
+                      className="w-full bg-transparent text-sm text-theme-text placeholder:text-theme-text-muted outline-none resize-none leading-relaxed focus-visible:outline-none"
+                      rows={5}
+                    />
+                  </div>
+                </div>
+
+                {/* Analyze button */}
+                <div className="p-4.5 bg-theme-bg-secondary/20">
+                  <button
+                    id="analyze-btn"
+                    onClick={handleAnalyze}
+                    disabled={loading || !file}
+                    className="w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-white transition-all duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 hover:scale-[1.005] active:scale-[0.995] bg-gradient-to-r from-violet-600 via-indigo-600 to-indigo-500 hover:from-violet-700 hover:via-indigo-700 hover:to-indigo-600 shadow-md shadow-indigo-500/25 hover:shadow-lg hover:shadow-indigo-500/35"
+                  >
+                    {loading ? (
+                      <>
+                        <div
+                          className="h-3.5 w-3.5 rounded-full border-[1.5px] border-white/25 border-t-white animate-spin"
+                          aria-hidden="true"
+                        />
+                        <span>Analyzing...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="h-3.5 w-3.5 animate-pulse" strokeWidth={1.5} aria-hidden="true" />
+                        <span>Run AI Analysis</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Zone 2: Analysis Results (Inside Left Column) ── */}
+            <AnimatePresence mode="wait">
+              {loading ? (
+                <motion.div
+                  key="loading-skeleton"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.15 }}
+                  className="space-y-4 border-t border-theme-border/50 pt-6 animate-pulse"
+                >
+                  <div className="flex items-center gap-2">
+                    <Sparkles size={14} className="text-theme-text-muted animate-spin" />
+                    <div className="h-4 w-32 rounded bg-theme-card-hover" />
+                  </div>
+                  {/* Tab row skeleton */}
+                  <div className="flex gap-2 border-b border-theme-border/40 overflow-x-auto">
+                    {[1, 2, 3, 4].map((i) => (
+                      <div key={i} className="px-4 py-2.5">
+                        <div className="h-4 w-16 rounded bg-theme-card-hover" />
+                      </div>
+                    ))}
+                  </div>
+                  {/* Panel skeletons */}
+                  <div className="space-y-4">
+                    <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                      {[1, 2, 3, 4].map((i) => (
+                        <div key={i} className="bg-theme-card border border-theme-border/50 rounded-2xl p-4 h-[72px] flex flex-col justify-between shadow-[var(--shadow-card)]">
+                          <div className="h-2.5 w-14 rounded bg-theme-card-hover" />
+                          <div className="h-5 w-8 rounded bg-theme-card-hover" />
+                        </div>
+                      ))}
+                    </div>
+                    <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-5 space-y-3 shadow-[var(--shadow-card)]">
+                      <div className="h-3 w-28 rounded bg-theme-card-hover" />
+                      <div className="h-3 w-full rounded bg-theme-card-hover" />
+                      <div className="h-3 w-5/6 rounded bg-theme-card-hover" />
+                      <div className="h-3 w-4/5 rounded bg-theme-card-hover" />
+                    </div>
+                  </div>
+                </motion.div>
+              ) : result ? (
+                <motion.section
+                  key="results-section"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.2 }}
+                  className="space-y-4 border-t border-theme-border/50 pt-6"
+                  aria-label="Analysis results"
+                >
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                      Analysis Output
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <Sparkles size={14} className="text-indigo-500" aria-hidden="true" />
+                      <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Assessment Results</h2>
+                    </div>
+                  </div>
+
+                  {/* Tab row - capsule style */}
+                  <div
+                    className="flex gap-1.5 p-1 bg-theme-bg-secondary/40 border border-theme-border/50 rounded-xl overflow-x-auto max-w-max mb-2 backdrop-blur-sm shadow-sm"
+                    role="tablist"
+                    aria-label="Result sections"
+                  >
+                    {([
+                      { id: "overview", label: "Scores" },
+                      { id: "keywords", label: "Keywords" },
+                      { id: "enhancements", label: "Enhancements" },
+                      { id: "coach", label: "Career Prep" },
+                    ] as const).map((tab) => {
+                      const isActive = activeTab === tab.id;
+                      return (
+                        <button
+                          key={tab.id}
+                          id={`tab-${tab.id}`}
+                          role="tab"
+                          aria-selected={isActive}
+                          aria-controls={`panel-${tab.id}`}
+                          onClick={() => setActiveTab(tab.id)}
+                          className={`relative px-4 py-2 text-xs font-semibold whitespace-nowrap transition-colors duration-200 cursor-pointer rounded-lg ${
+                            isActive
+                              ? "text-theme-text"
+                              : "text-theme-text-muted hover:text-theme-text-secondary"
+                          }`}
+                        >
+                          {isActive && (
+                            <motion.div
+                              layoutId="activeTabBar"
+                              className="absolute inset-0 bg-theme-card border border-theme-border/60 rounded-[6px] shadow-sm"
+                              style={{ zIndex: 0 }}
+                              transition={{ type: "spring", stiffness: 350, damping: 30 }}
+                              aria-hidden="true"
+                            />
+                          )}
+                          <span className="relative z-10">{tab.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  {/* Tab panels */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeTab}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.12 }}
+                      id={`panel-${activeTab}`}
+                      role="tabpanel"
+                      aria-labelledby={`tab-${activeTab}`}
+                    >
+                      {activeTab === "overview" && (
+                        <div className="space-y-4">
+                          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                            <ProgressCard title="ATS Layout" value={result.atsScore} />
+                            <ProgressCard title="Grammar" value={result.grammarScore} />
+                            <ProgressCard title="Formatting" value={result.formattingScore} />
+                            <ProgressCard title="Readability" value={result.readabilityScore} />
                           </div>
+                          <FeedbackCard feedback={result.recruiterFeedback} />
+                        </div>
+                      )}
 
-                          <div className="rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 flex flex-col justify-between shadow-sm">
-                            <div>
-                              <h3 className="text-lg font-bold text-theme-text mb-2">📄 Export Evaluation Report</h3>
-                              <p className="text-sm text-theme-text-secondary leading-relaxed">
-                                Download a copy of your ATS report in PDF format to view keywords, suggestions, and scores offline.
-                              </p>
+                      {activeTab === "keywords" && (
+                        <div className="space-y-4">
+                          <KeywordCard
+                            matchedKeywords={result.matchedKeywords}
+                            missingKeywords={result.missingKeywords}
+                          />
+                          <div className="grid gap-4 md:grid-cols-2">
+                            {/* Strengths */}
+                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted mb-4">
+                                Strengths
+                              </h3>
+                              <ul className="space-y-2.5" aria-label="Strengths list">
+                                {result.strengths.map((item, index) => (
+                                  <li
+                                    key={index}
+                                    className="flex gap-3 text-sm text-theme-text-secondary leading-relaxed"
+                                  >
+                                    <span
+                                      className="mt-[7px] w-[5px] h-[5px] rounded-full shrink-0"
+                                      style={{ backgroundColor: "var(--rf-match-high)" }}
+                                      aria-hidden="true"
+                                    />
+                                    <span>{item}</span>
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
-                            <div className="mt-6">
-                              <DownloadReportButton result={result} />
+                            {/* Gaps */}
+                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted mb-4">
+                                Gaps
+                              </h3>
+                              <ul className="space-y-2.5" aria-label="Weaknesses list">
+                                {result.weaknesses.map((item, index) => (
+                                  <li
+                                    key={index}
+                                    className="flex gap-3 text-sm text-theme-text-secondary leading-relaxed"
+                                  >
+                                    <span
+                                      className="mt-[7px] w-[5px] h-[5px] rounded-full shrink-0"
+                                      style={{ backgroundColor: "var(--rf-match-low)" }}
+                                      aria-hidden="true"
+                                    />
+                                    <span>{item}</span>
+                                  </li>
+                                ))}
+                              </ul>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    )}
+                      )}
 
-                    {activeTab === "coach" && (
-                      <div className="space-y-6">
-                        {/* Cover Letter with copy button */}
-                        <div className="relative rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 shadow-sm">
-                          <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-lg font-bold text-theme-accent flex items-center gap-2">
-                              <FileText className="h-5 w-5" />
-                              <span>📄 AI Generated Cover Letter</span>
-                            </h3>
-                            <button
-                              onClick={() => handleCopy(result.coverLetter, "letter")}
-                              className="p-2 rounded-xl border border-theme-border hover:bg-theme-card-hover/40 text-theme-text-secondary hover:text-theme-text transition flex items-center gap-1.5 text-xs font-semibold cursor-pointer"
-                            >
-                              {copiedCoverLetter ? (
-                                <>
-                                  <Check className="h-3.5 w-3.5 text-emerald-500" />
-                                  <span className="text-emerald-500">Copied</span>
-                                </>
-                              ) : (
-                                <>
-                                  <Copy className="h-3.5 w-3.5" />
-                                  <span>Copy</span>
-                                </>
-                              )}
-                            </button>
-                          </div>
-                          <div className="max-h-96 overflow-y-auto rounded-xl bg-theme-bg-secondary/40 p-4 border border-theme-border/50">
-                            <p className="whitespace-pre-wrap leading-relaxed text-sm text-theme-text-secondary">
-                              {result.coverLetter}
+                      {activeTab === "enhancements" && (
+                        <div className="space-y-4">
+                          {/* Optimized Summary */}
+                          <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                            <div className="flex items-center justify-between mb-4">
+                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted">
+                                Optimized Summary
+                              </h3>
+                              <button
+                                onClick={() => handleCopy(result.rewrittenSummary, "summary")}
+                                className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md border border-theme-border text-theme-text-muted hover:text-theme-text hover:bg-theme-card-hover transition-colors duration-150 cursor-pointer focus-visible:outline-2"
+                                aria-label="Copy optimized summary"
+                              >
+                                {copiedSummary ? (
+                                  <>
+                                    <Check className="h-3 w-3" strokeWidth={2} aria-hidden="true" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="h-3 w-3" strokeWidth={1.75} aria-hidden="true" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                            <p className="text-sm text-theme-text-secondary leading-7 whitespace-pre-wrap">
+                              {result.rewrittenSummary}
                             </p>
                           </div>
-                        </div>
 
-                        {/* Prep material */}
-                        <div className="grid gap-6 md:grid-cols-2">
-                          <InterviewCard questions={result.interviewQuestions} />
+                          <div className="grid gap-4 md:grid-cols-2">
+                            {/* Layout suggestions */}
+                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted mb-4">
+                                Layout Suggestions
+                              </h3>
+                              <ol className="space-y-2.5" aria-label="Layout suggestions">
+                                {result.suggestions.map((item, index) => (
+                                  <li
+                                    key={index}
+                                    className="flex gap-3 text-sm text-theme-text-secondary leading-relaxed"
+                                  >
+                                    <span
+                                      className="shrink-0 text-xs text-theme-text-muted tabular-nums mt-0.5 w-5 text-right"
+                                      style={{ fontFamily: "var(--font-geist-mono), monospace" }}
+                                      aria-hidden="true"
+                                    >
+                                      {String(index + 1).padStart(2, "0")}.
+                                    </span>
+                                    <span>{item}</span>
+                                  </li>
+                                ))}
+                              </ol>
+                            </div>
 
-                          <div className="space-y-6">
-                            <SalaryCard salary={result.salaryRange} />
-                            <JobMatchCard matchScore={result.jobMatchScore} />
+                            {/* Export */}
+                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 flex flex-col shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted mb-2">
+                                Export Report
+                              </h3>
+                              <p className="text-xs text-theme-text-muted leading-relaxed mt-1 flex-1">
+                                Download a PDF with ATS scores, keyword gaps, and recruiter feedback.
+                              </p>
+                              <div className="mt-5">
+                                <DownloadReportButton result={result} />
+                              </div>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    )}
-                  </motion.div>
-                </AnimatePresence>
+                      )}
+
+                      {activeTab === "coach" && (
+                        <div className="space-y-4">
+                          {/* Cover letter */}
+                          <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                            <div className="flex items-center justify-between mb-4">
+                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted">
+                                Cover Letter Draft
+                              </h3>
+                              <button
+                                onClick={() => handleCopy(result.coverLetter, "letter")}
+                                className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md border border-theme-border text-theme-text-muted hover:text-theme-text hover:bg-theme-card-hover transition-colors duration-150 cursor-pointer focus-visible:outline-2"
+                                aria-label="Copy cover letter draft"
+                              >
+                                {copiedCoverLetter ? (
+                                  <>
+                                    <Check className="h-3 w-3" strokeWidth={2} aria-hidden="true" />
+                                    <span>Copied</span>
+                                  </>
+                                ) : (
+                                  <>
+                                    <Copy className="h-3 w-3" strokeWidth={1.75} aria-hidden="true" />
+                                    <span>Copy</span>
+                                  </>
+                                )}
+                              </button>
+                            </div>
+                            <div className="max-h-80 overflow-y-auto">
+                              <p className="text-sm text-theme-text-secondary leading-7 whitespace-pre-wrap">
+                                {result.coverLetter}
+                              </p>
+                            </div>
+                          </div>
+
+                          <div className="grid gap-4 md:grid-cols-2">
+                            <InterviewCard questions={result.interviewQuestions} />
+                            <div className="space-y-3">
+                              <SalaryCard salary={result.salaryRange} />
+                              <JobMatchCard matchScore={result.jobMatchScore} />
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </motion.div>
+                  </AnimatePresence>
+                </motion.section>
+              ) : (
+                <motion.div
+                  key="empty-placeholder"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -6 }}
+                  transition={{ duration: 0.15 }}
+                  className="space-y-4 border-t border-theme-border/50 pt-6 select-none"
+                >
+                  <div>
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                      Analysis Output
+                    </p>
+                    <div className="flex items-center gap-2">
+                      <Sparkles size={14} className="text-theme-text-muted" aria-hidden="true" />
+                      <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text text-theme-text-muted">Assessment Results</h2>
+                    </div>
+                  </div>
+
+                  {/* Tab row placeholder */}
+                  <div className="flex border-b border-theme-border/40 overflow-x-auto opacity-40">
+                    {["Scores", "Keywords", "Enhancements", "Career Prep"].map((tab, idx) => (
+                      <span
+                        key={idx}
+                        className="px-4 py-2.5 text-xs text-theme-text-muted font-semibold border-b-2 border-transparent"
+                      >
+                        {tab}
+                      </span>
+                    ))}
+                  </div>
+
+                  {/* Dashed placeholder container */}
+                  <div className="border border-dashed border-theme-border/50 rounded-2xl p-10 text-center flex flex-col items-center justify-center space-y-4 bg-theme-bg-secondary/10 shadow-[var(--shadow-card)] hover:border-indigo-500/20 transition-all duration-300">
+                    <div className="w-11 h-11 rounded-xl border border-theme-border bg-theme-bg-secondary/40 flex items-center justify-center text-theme-text-muted">
+                      <FileSearch size={16} strokeWidth={1.5} aria-hidden="true" />
+                    </div>
+                    <div className="space-y-1.5 max-w-xs">
+                      <p className="text-sm font-semibold text-theme-text">Ready for analysis</p>
+                      <p className="text-xs text-theme-text-muted leading-relaxed">
+                        Select a candidate file and click "Run AI Analysis" to extract compatibility scores and gaps.
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Right Column: Score Console, Trend Charts, and History (col-span-1) */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Zone 3: Match Quality */}
+            <div className="space-y-3">
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                  Match Quality
+                </p>
+                <div className="flex items-center gap-2">
+                  <TrendingUp size={14} className="text-indigo-500" aria-hidden="true" />
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Score Console</h2>
+                </div>
               </div>
-            </motion.section>
-          )}
-        </AnimatePresence>
+              <ScoreGauge score={result?.atsScore ?? 0} />
+              <StatsCards
+                atsScore={result?.atsScore}
+                jobMatch={result?.jobMatchScore}
+                reports={reportsCount}
+                salary={result?.salaryRange}
+                loading={loading}
+              />
+            </div>
+
+            {/* Zone 4: Trend & History */}
+            <div className="space-y-3">
+              <div>
+                <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                  History
+                </p>
+                <div className="flex items-center gap-2">
+                  <History size={14} className="text-indigo-500" aria-hidden="true" />
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Score Trend</h2>
+                </div>
+              </div>
+              <AnalyticsChart data={chartData} />
+
+              <div className="grid grid-cols-3 gap-2.5">
+                {/* Best score */}
+                <div className="bg-theme-card border border-theme-border/50 rounded-xl p-3 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
+                    Best
+                  </span>
+                  <span
+                    className="text-base font-bold leading-none"
+                    style={{
+                      color: "var(--rf-match-high)",
+                      fontFamily: "var(--font-geist-mono), monospace",
+                      fontVariantNumeric: "tabular-nums",
+                    }}
+                  >
+                    {chartData.length
+                      ? `${Math.max(...chartData.map((x) => x.score))}%`
+                      : "—"}
+                  </span>
+                </div>
+
+                {/* Average */}
+                <div className="bg-theme-card border border-theme-border/50 rounded-xl p-3 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
+                    Avg
+                  </span>
+                  <span
+                    className="text-base font-bold leading-none text-theme-text"
+                    style={{
+                      fontFamily: "var(--font-geist-mono), monospace",
+                      fontVariantNumeric: "tabular-nums",
+                    }}
+                  >
+                    {chartData.length
+                      ? `${Math.round(
+                          chartData.reduce((a, b) => a + b.score, 0) / chartData.length
+                        )}%`
+                      : "—"}
+                  </span>
+                </div>
+
+                {/* Total runs */}
+                <div className="bg-theme-card border border-theme-border/50 rounded-xl p-3 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
+                    Runs
+                  </span>
+                  <span
+                    className="text-base font-bold leading-none text-theme-text"
+                    style={{
+                      fontFamily: "var(--font-geist-mono), monospace",
+                      fontVariantNumeric: "tabular-nums",
+                    }}
+                  >
+                    {reportsCount}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── AI Tools Grid (Full Width at Bottom) ── */}
+        <div className="space-y-4 border-t border-theme-border/50 pt-8">
+          <div>
+            <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+              Platform
+            </p>
+            <div className="flex items-center gap-2">
+              <Cpu size={14} className="text-indigo-500" aria-hidden="true" />
+              <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">AI Tools &amp; Copilots</h2>
+            </div>
+          </div>
+          <QuickActions />
+        </div>
       </div>
 
-      <footer className="border-t border-theme-border py-8 mt-16 bg-theme-bg/30 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl flex flex-col sm:flex-row items-center justify-between gap-4 px-6 sm:px-10">
-          <div>
-            <h2 className="font-extrabold text-theme-accent text-lg tracking-tight">RecruitFlow</h2>
-            <p className="text-xs text-theme-text-secondary mt-0.5">
-              AI-Powered Careers Platform
-            </p>
+      {/* Footer */}
+      <footer className="border-t border-theme-border/40 py-5 bg-theme-bg-secondary/10">
+        <div className="mx-auto max-w-7xl flex items-center justify-between px-6 sm:px-10">
+          <div className="flex items-center gap-2">
+            <span
+              className="w-1.5 h-1.5 rounded-sm"
+              style={{ backgroundColor: "var(--accent)" }}
+              aria-hidden="true"
+            />
+            <span className="text-xs text-theme-text-muted font-semibold">RecruitFlow</span>
           </div>
-
-          <div className="text-center sm:text-right">
-            <p className="text-xs text-theme-text-secondary">
-              Version 2.0.0
-            </p>
-            <p className="text-[10px] text-theme-text-muted mt-0.5">
-              Built with Next.js • Supabase • Gemini AI
-            </p>
-          </div>
+          <span
+            className="text-xs text-theme-text-muted"
+            style={{ fontFamily: "var(--font-geist-mono), monospace" }}
+          >
+            v2.0.0
+          </span>
         </div>
       </footer>
     </div>

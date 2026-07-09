@@ -8,42 +8,62 @@ export default function KeywordCard({
   missingKeywords,
 }: KeywordCardProps) {
   return (
-    <div className="grid gap-6 lg:grid-cols-2">
-
-      <div className="rounded-2xl border border-green-800 bg-theme-bg-secondary p-6 shadow-lg shadow-[var(--shadow-card)]">
-        <h2 className="mb-5 text-xl font-bold text-green-400">
-          ✅ Matched Keywords
-        </h2>
-
-        <div className="flex flex-wrap gap-3">
-          {matchedKeywords.map((keyword, index) => (
-            <span
-              key={index}
-              className="rounded-full bg-green-500/20 px-4 py-2 text-sm font-medium text-green-300"
-            >
-              {keyword}
-            </span>
-          ))}
+    <div className="grid gap-4 lg:grid-cols-2">
+      {/* Matched */}
+      <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 relative overflow-hidden group">
+        <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        <h3 className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-4 select-none">
+          Matched Keywords
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {matchedKeywords.length > 0 ? (
+            matchedKeywords.map((keyword, index) => (
+              <span
+                key={index}
+                className="px-2.5 py-1 text-xs font-semibold rounded-lg border transition-all duration-200"
+                style={{
+                  color: "var(--rf-match-high)",
+                  backgroundColor: "color-mix(in srgb, var(--rf-match-high) 8%, transparent)",
+                  borderColor: "color-mix(in srgb, var(--rf-match-high) 20%, transparent)",
+                }}
+              >
+                {keyword}
+              </span>
+            ))
+          ) : (
+            <span className="text-xs text-theme-text-muted italic">No matched keywords</span>
+          )}
         </div>
       </div>
 
-      <div className="rounded-2xl border border-red-800 bg-theme-bg-secondary p-6 shadow-lg shadow-[var(--shadow-card)]">
-        <h2 className="mb-5 text-xl font-bold text-red-400">
-          ❌ Missing Keywords
-        </h2>
-
-        <div className="flex flex-wrap gap-3">
-          {missingKeywords.map((keyword, index) => (
-            <span
-              key={index}
-              className="rounded-full bg-red-500/20 px-4 py-2 text-sm font-medium text-red-300"
-            >
-              {keyword}
-            </span>
-          ))}
+      {/* Missing */}
+      <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 relative overflow-hidden group">
+        <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-rose-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        
+        <h3 className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-4 select-none">
+          Missing Keywords
+        </h3>
+        <div className="flex flex-wrap gap-2">
+          {missingKeywords.length > 0 ? (
+            missingKeywords.map((keyword, index) => (
+              <span
+                key={index}
+                className="px-2.5 py-1 text-xs font-semibold rounded-lg border transition-all duration-200"
+                style={{
+                  color: "var(--rf-match-low)",
+                  backgroundColor: "color-mix(in srgb, var(--rf-match-low) 8%, transparent)",
+                  borderColor: "color-mix(in srgb, var(--rf-match-low) 20%, transparent)",
+                }}
+              >
+                {keyword}
+              </span>
+            ))
+          ) : (
+            <span className="text-xs text-theme-text-muted italic">No missing keywords</span>
+          )}
         </div>
       </div>
-
     </div>
   );
 }

@@ -10,17 +10,52 @@ import {
   User,
   Settings,
   LogOut,
-  Sparkles,
+  Cpu,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
-const items = [
+const workspaceItems = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "History", href: "/history", icon: History },
   { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
+];
+
+const accountItems = [
   { name: "Profile", href: "/dashboard/profile", icon: User },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
+
+type NavItem = { name: string; href: string; icon: React.ComponentType<{ size?: number; strokeWidth?: number; className?: string }> };
+
+function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
+  const Icon = item.icon;
+  const isActive = pathname === item.href;
+  return (
+    <Link
+      href={item.href}
+      className={`relative flex items-center gap-2.5 px-3.5 py-2.5 text-sm rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 ${
+        isActive
+          ? "text-theme-text bg-indigo-500/10 border border-indigo-500/20 font-semibold shadow-[0_4px_12px_rgba(99,102,241,0.08)]"
+          : "text-theme-text-secondary hover:text-theme-text hover:bg-theme-card-hover/70 hover:translate-x-0.5 font-normal"
+      }`}
+    >
+      {isActive && (
+        <motion.span
+          layoutId="sidebarActiveBar"
+          className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full"
+          style={{ backgroundColor: "var(--accent)" }}
+          transition={{ type: "spring", stiffness: 350, damping: 30 }}
+        />
+      )}
+      <Icon
+        size={14}
+        strokeWidth={isActive ? 2 : 1.75}
+        className={`shrink-0 transition-colors duration-200 ${isActive ? "text-indigo-500" : "text-theme-text-muted group-hover:text-theme-text-secondary"}`}
+      />
+      <span>{item.name}</span>
+    </Link>
+  );
+}
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -32,62 +67,52 @@ export default function Sidebar() {
   }
 
   return (
-    <aside className="w-72 h-screen bg-theme-sidebar/80 backdrop-blur-xl border-r border-theme-border flex flex-col justify-between p-6 sticky top-0 z-30">
-      <div>
-        {/* Brand Logo */}
-        <div className="flex items-center gap-2 mb-10 px-2">
-          <div className="h-9 w-9 rounded-xl bg-gradient-to-tr from-indigo-500 via-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-indigo-500/30">
-            <Sparkles className="text-white h-5 w-5" />
+    <aside className="w-60 h-screen bg-theme-sidebar/95 backdrop-blur-md border-r border-theme-border/40 flex flex-col justify-between py-6 px-4 sticky top-0 z-30 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
+      <div className="space-y-7">
+        {/* Brand wordmark with dynamic glow */}
+        <div className="flex items-center gap-2.5 px-3.5 pb-2 select-none">
+          <div className="relative w-6 h-6 flex items-center justify-center shrink-0">
+            <span
+              className="absolute w-4.5 h-4.5 rotate-45 border border-indigo-500/50 bg-indigo-500/10 rounded-[3px] animate-pulse"
+            />
+            <span
+              className="absolute w-2 h-2 rotate-45 bg-gradient-to-tr from-violet-500 to-indigo-500 rounded-[1.5px]"
+            />
           </div>
-          <span className="text-2xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-blue-600 to-cyan-500 dark:from-indigo-400 dark:via-blue-400 dark:to-cyan-400 tracking-tight">
-            RecruitFlow
+          <span className="text-sm font-bold bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-600 dark:from-violet-400 dark:via-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent tracking-tight">
+            RecruitFlow AI
           </span>
         </div>
 
-        {/* Navigation Items */}
+        {/* Workspace navigation */}
         <nav className="space-y-1">
-          {items.map((item) => {
-            const Icon = item.icon;
-            const isActive = pathname === item.href;
+          <p className="px-3.5 mb-2.5 text-[10px] font-bold uppercase tracking-widest text-theme-text-muted/80 select-none">
+            Workspace
+          </p>
+          {workspaceItems.map((item) => (
+            <NavLink key={item.name} item={item} pathname={pathname} />
+          ))}
+        </nav>
 
-            return (
-              <Link
-                key={item.name}
-                href={item.href}
-                className={`relative flex items-center gap-3.5 rounded-xl px-4 py-3.5 text-sm font-medium transition-all duration-300 group ${
-                  isActive
-                    ? "text-theme-accent bg-theme-card-hover shadow-[var(--shadow-card)]"
-                    : "text-theme-text-secondary hover:text-theme-text hover:bg-theme-card-hover/40"
-                }`}
-              >
-                {isActive && (
-                  <motion.div
-                    layoutId="activeIndicator"
-                    className="absolute left-0 w-1 h-6 bg-gradient-to-b from-indigo-500 to-cyan-400 rounded-r-full"
-                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  />
-                )}
-                <Icon
-                  size={20}
-                  className={`transition-colors duration-300 ${
-                    isActive ? "text-theme-accent" : "text-theme-text-muted group-hover:text-theme-text-secondary"
-                  }`}
-                />
-                <span>{item.name}</span>
-              </Link>
-            );
-          })}
+        {/* Account navigation */}
+        <nav className="space-y-1">
+          <p className="px-3.5 mb-2.5 text-[10px] font-bold uppercase tracking-widest text-theme-text-muted/80 select-none">
+            Account
+          </p>
+          {accountItems.map((item) => (
+            <NavLink key={item.name} item={item} pathname={pathname} />
+          ))}
         </nav>
       </div>
 
-      {/* Logout Action */}
-      <div className="pt-6 border-t border-theme-border/60">
+      {/* Log out */}
+      <div className="border-t border-theme-border/40 pt-4">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center gap-3.5 rounded-xl px-4 py-3.5 text-sm font-medium text-red-500 hover:bg-red-500/10 transition-all duration-300 cursor-pointer"
+          className="w-full flex items-center gap-2.5 px-3.5 py-2.5 text-sm font-medium text-theme-text-secondary hover:text-theme-text hover:bg-theme-card-hover/70 rounded-xl transition-all duration-200 cursor-pointer focus-visible:outline-2"
         >
-          <LogOut size={20} />
-          <span>Logout</span>
+          <LogOut size={14} strokeWidth={1.75} className="shrink-0" />
+          <span>Log out</span>
         </button>
       </div>
     </aside>

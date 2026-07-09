@@ -17,13 +17,27 @@ type Props = {
   }[];
 };
 
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: { value: number; payload: { name: string } }[] }) => {
   if (active && payload && payload.length) {
     return (
-      <div className="rounded-xl border border-theme-border bg-theme-card/90 backdrop-blur-md p-3 shadow-lg">
-        <p className="text-xs text-theme-text-secondary font-semibold uppercase tracking-wider">Run {payload[0].payload.name}</p>
-        <p className="text-lg font-bold mt-0.5 text-theme-accent">
-          {payload[0].value}% <span className="text-xs font-medium text-theme-text-secondary">ATS Score</span>
+      <div
+        className="rounded-xl border border-theme-border bg-theme-card/90 backdrop-blur-md p-3 shadow-lg"
+        style={{ minWidth: 120 }}
+      >
+        <p
+          className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted"
+        >
+          Run {payload[0].payload.name}
+        </p>
+        <p
+          className="text-base font-bold mt-1 text-theme-text"
+          style={{
+            fontFamily: "var(--font-geist-mono), monospace",
+            fontVariantNumeric: "tabular-nums",
+          }}
+        >
+          {payload[0].value}
+          <span className="text-xs font-normal text-theme-text-muted ml-0.5">%</span>
         </p>
       </div>
     );
@@ -33,51 +47,63 @@ const CustomTooltip = ({ active, payload }: any) => {
 
 export default function AnalyticsChart({ data }: Props) {
   return (
-    <div className="rounded-3xl border border-theme-border bg-theme-card/45 backdrop-blur-xl p-6 mt-8 shadow-[var(--shadow-card)] hover:shadow-lg transition-all duration-300">
-      <h2 className="mb-6 text-xl font-bold tracking-tight px-2">
-        ATS Optimization Trend
-      </h2>
+    <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-default relative overflow-hidden group">
+      
+      {/* Subtle indicator accent line on the left side of card */}
+      <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-      <div className="w-full" style={{ height: 350 }}>
+      <h3 className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-5 select-none">
+        ATS Score Over Time
+      </h3>
+
+      <div style={{ height: 220 }}>
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+          <AreaChart data={data} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
             <defs>
-              <linearGradient id="scoreColor" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+              <linearGradient id="areaFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="var(--accent)" stopOpacity={0.12} />
+                <stop offset="100%" stopColor="var(--accent)" stopOpacity={0} />
               </linearGradient>
             </defs>
 
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-primary)" opacity={0.4} />
+            <CartesianGrid
+              strokeDasharray="3 3"
+              vertical={false}
+              stroke="var(--border-primary)"
+              strokeOpacity={0.6}
+            />
 
             <XAxis
               dataKey="name"
               stroke="var(--text-muted)"
-              fontSize={12}
+              fontSize={11}
               tickLine={false}
               axisLine={false}
-              dy={10}
+              dy={8}
             />
 
             <YAxis
               stroke="var(--text-muted)"
-              fontSize={12}
+              fontSize={11}
               tickLine={false}
               axisLine={false}
               domain={[0, 100]}
-              dx={-5}
+              tickFormatter={(v) => `${v}`}
             />
 
-            <Tooltip content={<CustomTooltip />} cursor={{ stroke: "#3b82f6", strokeWidth: 1, strokeDasharray: "4 4" }} />
+            <Tooltip
+              content={<CustomTooltip />}
+              cursor={{ stroke: "var(--accent)", strokeWidth: 1, strokeDasharray: "3 3" }}
+            />
 
             <Area
               type="monotone"
               dataKey="score"
-              stroke="#3b82f6"
-              strokeWidth={3}
+              stroke="var(--accent)"
+              strokeWidth={2}
               fillOpacity={1}
-              fill="url(#scoreColor)"
-              activeDot={{ r: 6, strokeWidth: 0, fill: "#3b82f6" }}
+              fill="url(#areaFill)"
+              activeDot={{ r: 4, strokeWidth: 0, fill: "var(--accent)" }}
             />
           </AreaChart>
         </ResponsiveContainer>
