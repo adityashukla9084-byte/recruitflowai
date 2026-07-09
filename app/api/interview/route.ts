@@ -21,16 +21,53 @@ export async function POST(request: Request) {
       },
     });
 
-    const prompt = `
+    let resumeText = "";
+    if (token) {
+      const {
+        data: { user },
+      } = await admin.auth.getUser(token);
+
+      if (user) {
+        const { data: history } = await admin
+          .from("analysis_history")
+          .select("summary, result")
+          .eq("user_id", user.id)
+          .order("created_at", { ascending: false })
+          .limit(1);
+
+        if (history && history.length > 0) {
+          const latest = history[0];
+          resumeText = latest.summary || "";
+          if (latest.result) {
+            const resData = latest.result as any;
+            if (resData.skillsFound && resData.skillsFound.length > 0) {
+              resumeText += "\nSkills: " + resData.skillsFound.join(", ");
+            }
+            if (resData.overallVerdict) {
+              resumeText += "\nResume Summary: " + resData.overallVerdict;
+            }
+          }
+        }
+      }
+    }
+
+    let prompt = `
 You are a Senior Technical Interviewer.
-
 You are a Senior FAANG Technical Interviewer.
-
 You are conducting a REAL interview.
 
 Job Role:
 ${role}
+`;
 
+    if (resumeText) {
+      prompt += `
+Candidate Resume Context:
+${resumeText}
+`;
+    }
+
+    prompt += `
 Current Interview Question:
 ${question}
 
@@ -46,7 +83,16 @@ Your task:
 3. Suggest improvements.
 
 4. Generate the NEXT interview question.
+`;
 
+    if (resumeText) {
+      prompt += `
+IMPORTANT:
+- Since a resume was detected, you MUST tailor the nextQuestion specifically to the candidate's skills, experience, or projects mentioned in their resume context, making it relevant to the ${role} position.
+- Do NOT repeat questions and make them progressively more challenging based on their resume background.
+`;
+    } else {
+      prompt += `
 IMPORTANT:
 
 If the role is:
@@ -58,12 +104,15 @@ If the role is:
 - Python Developer → ask Python Django FastAPI.
 - Data Analyst → ask SQL Excel Power BI Statistics.
 - Data Scientist → ask ML Python Statistics.
-- DevOps Engineer → ask Docker Kubernetes CI/CD AWS.
+- DevOps Engineer → ask DevOps tools.
 - UI UX Designer → ask Design Thinking Figma UX.
 - HR → ask HR scenarios.
 - Marketing → ask Marketing scenarios.
 - Sales → ask Sales scenarios.
+`;
+    }
 
+    prompt += `
 Never repeat:
 
 "Tell me about yourself"
@@ -87,41 +136,6 @@ Return ONLY JSON.
 "problemSolving":0,
 "hiringDecision":""
 }
-
-Return ONLY JSON.
-
-{
-"score":0,
-"feedback":"",
-"improvement":"",
-"nextQuestion":"",
-"communication":0,
-"technical":0,
-"confidence":0,
-"problemSolving":0,
-"hiringDecision":""
-}
-
-Rules:
-- Score between 0-100
-- communication between 0-100
-- technical between 0-100
-- confidence between 0-100
-- problemSolving between 0-100
-- hiringDecision must be one of:
-  "Rejected"
-  "Average"
-  "Recommended"
-  "Strongly Recommended"
-Rules:
-
-Score must be 0-100.
-
-Feedback should be professional.
-
-Improvement should explain exactly what to improve.
-
-Generate ONE next interview question for the same role.
 `;
 
     const result = await model.generateContent(prompt);

@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Building2, ArrowRight, Search } from "lucide-react";
+import { Building2, ArrowRight, Search, FileText, CheckCircle2, AlertCircle } from "lucide-react";
+import { supabase } from "@/lib/supabase";
 
 const companies = [
   "Google",
@@ -42,6 +43,30 @@ const companies = [
 export default function InterviewHome() {
   const router = useRouter();
   const [company, setCompany] = useState("");
+  const [hasResume, setHasResume] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user && active) {
+        supabase
+          .from("analysis_history")
+          .select("id")
+          .eq("user_id", user.id)
+          .limit(1)
+          .then(({ data }) => {
+            if (active) {
+              setHasResume(data && data.length > 0);
+            }
+          });
+      } else {
+        if (active) setHasResume(false);
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   const filtered = companies.filter((c) =>
     c.toLowerCase().includes(company.toLowerCase())
@@ -66,6 +91,32 @@ export default function InterviewHome() {
         <p className="text-theme-text-secondary mb-10">
           Search any company in the world or choose one below.
         </p>
+
+        {hasResume !== null && (
+          <div className={`mb-8 rounded-2xl p-4.5 border flex items-start sm:items-center gap-3.5 shadow-sm ${
+            hasResume 
+              ? "bg-indigo-500/10 border-indigo-500/20 text-indigo-300" 
+              : "bg-amber-500/10 border-amber-500/20 text-amber-300"
+          }`}>
+            {hasResume ? (
+              <>
+                <CheckCircle2 className="h-5.5 w-5.5 text-indigo-400 shrink-0 mt-0.5 sm:mt-0" />
+                <div>
+                  <p className="text-sm font-bold">Resume Detected</p>
+                  <p className="text-xs opacity-90 mt-0.5">Your mock interview questions will automatically be tailored to your skills, experience, and projects.</p>
+                </div>
+              </>
+            ) : (
+              <>
+                <AlertCircle className="h-5.5 w-5.5 text-amber-400 shrink-0 mt-0.5 sm:mt-0" />
+                <div>
+                  <p className="text-sm font-bold">No Resume Detected</p>
+                  <p className="text-xs opacity-90 mt-0.5">Upload a resume on the Dashboard first for a personalized interview, or proceed with a general role-based interview.</p>
+                </div>
+              </>
+            )}
+          </div>
+        )}
 
         <div className="rounded-3xl border border-theme-border-card bg-theme-card shadow-[var(--shadow-card)] p-6 mb-10">
 

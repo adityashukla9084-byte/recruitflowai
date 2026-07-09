@@ -27,6 +27,7 @@ function InterviewSessionContent() {
   const [result, setResult] = useState<EvaluationResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [questionCount, setQuestionCount] = useState(1);
+  const [hasResume, setHasResume] = useState<boolean | null>(null);
 
   // Native Speech Recognition states
   const [isListening, setIsListening] = useState(false);
@@ -89,21 +90,44 @@ function InterviewSessionContent() {
 
   useEffect(() => {
     let active = true;
-    fetch("/api/interview/first-question", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        role,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
+    
+    async function initSession() {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!active) return;
+      
+      if (session?.user) {
+        const { data: history } = await supabase
+          .from("analysis_history")
+          .select("id")
+          .eq("user_id", session.user.id)
+          .limit(1);
+        if (active) {
+          setHasResume(history && history.length > 0);
+        }
+      }
+
+      try {
+        const res = await fetch("/api/interview/first-question", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            role,
+            token: session?.access_token,
+          }),
+        });
+        const data = await res.json();
         if (active) {
           setQuestion(data.question);
         }
-      });
+      } catch (err) {
+        console.error("Error loading first question:", err);
+      }
+    }
+
+    initSession();
+
     return () => {
       active = false;
     };
@@ -236,7 +260,18 @@ function InterviewSessionContent() {
       <div className="max-w-4xl mx-auto space-y-6">
         <div>
           <h1 className="text-4xl font-bold mb-2">AI Mock Interview</h1>
-          <p className="text-theme-accent">Role: {role}</p>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+            <p className="text-theme-accent">Role: {role}</p>
+            {hasResume !== null && (
+              <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${
+                hasResume 
+                  ? "bg-indigo-500/10 border-indigo-500/20 text-indigo-400" 
+                  : "bg-amber-500/10 border-amber-500/20 text-amber-400"
+              }`}>
+                {hasResume ? "Tailored to your resume" : "General interview (No resume)"}
+              </span>
+            )}
+          </div>
         </div>
 
         {permissionError && (

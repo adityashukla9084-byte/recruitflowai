@@ -154,52 +154,28 @@ export default function Dashboard() {
       // Fetch updated history
       const { data: { user } } = await supabase.auth.getUser();
       if (user) {
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("user_id")
-    .eq("user_id", user.id)
-    .single();
+        const { data: profiles } = await supabase
+          .from("profiles")
+          .select("user_id")
+          .eq("user_id", user.id);
 
-  if (!profile) {
-    await supabase.from("profiles").insert({
-      user_id: user.id,
-      full_name:
-        user.user_metadata?.full_name ||
-        user.user_metadata?.name ||
-        "",
-      email: user.email,
-      phone: "",
-      education: "",
-      universities: "",
-      bio: "",
-      linkedin: "",
-      github: "",
-    });
-  }
-}if (user) {
-  const { data: profile } = await supabase
-    .from("profiles")
-    .select("user_id")
-    .eq("user_id", user.id)
-    .single();
-
-  if (!profile) {
-    await supabase.from("profiles").insert({
-      user_id: user.id,
-      full_name:
-        user.user_metadata?.full_name ||
-        user.user_metadata?.name ||
-        "",
-      email: user.email,
-      phone: "",
-      education: "",
-      universities: "",
-      bio: "",
-      linkedin: "",
-      github: "",
-    });
-  }
-}
+        if (!profiles || profiles.length === 0) {
+          await supabase.from("profiles").insert({
+            user_id: user.id,
+            full_name:
+              user.user_metadata?.full_name ||
+              user.user_metadata?.name ||
+              "",
+            email: user.email,
+            phone: "",
+            education: "",
+            universities: "",
+            bio: "",
+            linkedin: "",
+            github: "",
+          });
+        }
+      }
       if (user) {
         const { data: historyData, count } = await supabase
           .from("analysis_history")

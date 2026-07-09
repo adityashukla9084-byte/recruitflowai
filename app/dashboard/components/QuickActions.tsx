@@ -9,6 +9,7 @@ import {
   BarChart3,
   ListChecks,
   ArrowUpRight,
+  User,
 } from "lucide-react";
 
 const actionConfigs = [
@@ -19,6 +20,13 @@ const actionConfigs = [
     icon: FilePlus2,
     color: "#8B5CF6", // Violet
   },
+  {
+  title: "My Profile",
+  description: "Manage your personal profile and account information.",
+  href: "/dashboard/profile",
+  icon: User,
+  color: "#6366F1",
+},
   {
     title: "Mock Interview",
     description: "Prep candidates with position-specific AI interview questions.",

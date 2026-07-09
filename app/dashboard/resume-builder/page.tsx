@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/lib/supabase";
 
 export default function ResumeBuilder() {
   const [form, setForm] = useState({
@@ -13,6 +14,40 @@ export default function ResumeBuilder() {
   });
 
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user && active) {
+        setForm((prev) => ({
+          ...prev,
+          email: user.email || "",
+        }));
+
+        supabase
+          .from("profiles")
+          .select("full_name, phone, education, university, bio")
+          .eq("user_id", user.id)
+          .then(({ data, error }) => {
+            if (active && data && data.length > 0) {
+              const profile = data[0];
+              setForm((prev) => ({
+                ...prev,
+                name: profile.full_name || prev.name,
+                phone: profile.phone || prev.phone,
+                education: profile.education 
+                  ? `${profile.education}${profile.university ? `, ${profile.university}` : ""}`
+                  : prev.education,
+                experience: profile.bio || prev.experience,
+              }));
+            }
+          });
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   function update(
     key: keyof typeof form,
@@ -84,6 +119,7 @@ export default function ResumeBuilder() {
             onChange={(e) =>
               update("name", e.target.value)
             }
+            autoComplete="off"
             className="w-full rounded-xl bg-slate-900 border border-slate-800 p-4"
           />
 
@@ -93,6 +129,7 @@ export default function ResumeBuilder() {
             onChange={(e) =>
               update("email", e.target.value)
             }
+            autoComplete="off"
             className="w-full rounded-xl bg-slate-900 border border-slate-800 p-4"
           />
 
@@ -102,6 +139,7 @@ export default function ResumeBuilder() {
             onChange={(e) =>
               update("phone", e.target.value)
             }
+            autoComplete="off"
             className="w-full rounded-xl bg-slate-900 border border-slate-800 p-4"
           />
 

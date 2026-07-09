@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { 
   User, 
@@ -12,7 +12,8 @@ import {
   CheckCircle, 
   AlertCircle, 
   Save, 
-  Loader2 
+  Loader2,
+  Camera
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -21,6 +22,7 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [uploading, setUploading] = useState(false);
 
   const [profile, setProfile] = useState({
     id: null as any,
@@ -30,7 +32,10 @@ export default function ProfilePage() {
     university: "",
     bio: "",
     email: "",
+    avatar_url: "",
   });
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     let active = true;
@@ -46,14 +51,15 @@ export default function ProfilePage() {
               const profileData = data && data.length > 0 ? data[0] : null;
               if (profileData) {
                 setProfile({
-                  id: profileData.id || null,
-                  full_name: profileData.full_name || "",
-                  phone: profileData.phone || "",
-                  education: profileData.education || "",
-                  university: profileData.university || "",
-                  bio: profileData.bio || "",
-                  email: user.email || "",
-                });
+  id: profileData.id || null,
+  full_name: profileData.full_name || "",
+  phone: profileData.phone || "",
+  education: profileData.education || "",
+  university: profileData.university || "",
+  bio: profileData.bio || "",
+  email: user.email || "",
+  avatar_url: profileData.avatar_url || "",
+});
               } else {
                 setProfile((prev) => ({
                   ...prev,
@@ -73,6 +79,90 @@ export default function ProfilePage() {
       active = false;
     };
   }, []);
+  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        alert("User session not found. Please log in again.");
+        return;
+      }
+
+      const fileName = `${user.id}-${Date.now()}`;
+
+      const { error } = await supabase.storage
+        .from("avatars")
+        .upload(fileName, file, {
+          cacheControl: '3600',
+          upsert: true
+        });
+
+      if (error) {
+        throw error;
+      }
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage
+        .from("avatars")
+        .getPublicUrl(fileName);
+
+      setProfile((prev) => ({
+        ...prev,
+        avatar_url: publicUrl,
+      }));
+
+      // Immediately save the avatar URL to the database for this user so it's preserved
+      const { error: dbError } = await supabase
+        .from("profiles")
+        .update({
+          avatar_url: publicUrl,
+        })
+        .eq("user_id", user.id);
+
+      if (dbError) {
+        throw dbError;
+      }
+    } catch (err: any) {
+      alert("Error uploading image: " + (err.message || err));
+      console.error(err);
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  async function handleRemoveAvatar() {
+    setProfile((prev) => ({
+      ...prev,
+      avatar_url: "",
+    }));
+
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const { error } = await supabase
+          .from("profiles")
+          .update({
+            avatar_url: null,
+          })
+          .eq("user_id", user.id);
+
+        if (error) throw error;
+      }
+    } catch (err: any) {
+      alert("Error removing avatar: " + (err.message || err));
+      console.error(err);
+    }
+  }
 
   async function saveProfile() {
     setSaving(true);
@@ -95,6 +185,7 @@ export default function ProfilePage() {
         education: profile.education,
         university: profile.university,
         bio: profile.bio,
+        avatar_url: profile.avatar_url,
       };
 
       if (profile.id) {
@@ -145,9 +236,17 @@ export default function ProfilePage() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-3xl border border-theme-border bg-theme-card/45 backdrop-blur-xl p-8 shadow-[var(--shadow-card)] flex flex-col sm:flex-row items-center gap-6"
         >
-          <div className="h-20 w-20 rounded-full bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center text-white font-black text-2xl shadow-lg ring-4 ring-theme-border/40 select-none">
-            {initials}
-          </div>
+          {profile.avatar_url ? (
+            <img
+              src={profile.avatar_url}
+              alt="Profile"
+              className="h-20 w-20 rounded-full object-cover shadow-lg ring-4 ring-theme-border/40 select-none animate-gradient"
+            />
+          ) : (
+            <div className="h-20 w-20 rounded-full bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center text-white font-black text-2xl shadow-lg ring-4 ring-theme-border/40 select-none">
+              {initials}
+            </div>
+          )}
           <div className="text-center sm:text-left flex-1 space-y-1">
             <h2 className="text-2xl font-bold tracking-tight">{profile.full_name || "New Candidate"}</h2>
             <p className="text-sm text-theme-text-secondary font-medium">{profile.email}</p>
@@ -198,6 +297,62 @@ export default function ProfilePage() {
               </motion.div>
             )}
           </AnimatePresence>
+
+          {/* Profile Picture Upload Section */}
+          <div className="flex flex-col sm:flex-row items-center gap-6 pb-6 border-b border-theme-border/60">
+            <div className="relative">
+              {profile.avatar_url ? (
+                <img
+                  src={profile.avatar_url}
+                  alt="Profile"
+                  className="w-28 h-28 rounded-full object-cover border-4 border-indigo-500/30 shadow-md"
+                />
+              ) : (
+                <div className="w-28 h-28 rounded-full bg-gradient-to-tr from-indigo-500 to-cyan-400 flex items-center justify-center text-white font-black text-3xl shadow-md select-none animate-gradient">
+                  {initials}
+                </div>
+              )}
+              {uploading && (
+                <div className="absolute inset-0 bg-slate-950/70 rounded-full flex items-center justify-center">
+                  <Loader2 className="h-8 w-8 text-cyan-400 animate-spin" />
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col items-center sm:items-start gap-2">
+              <h3 className="text-sm font-semibold text-theme-text uppercase tracking-wider">Profile Picture</h3>
+              <p className="text-xs text-theme-text-secondary text-center sm:text-left">
+                Upload a high-quality picture. Supports JPG, PNG or WEBP.
+              </p>
+              <div className="flex items-center gap-3 mt-1">
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploading}
+                  className="rounded-xl bg-indigo-600/10 hover:bg-indigo-600/20 border border-indigo-500/30 px-4 py-2.5 text-xs font-bold text-indigo-400 hover:text-indigo-300 transition duration-200 cursor-pointer flex items-center gap-2 disabled:opacity-50"
+                >
+                  <Camera size={14} />
+                  <span>Upload Profile Picture</span>
+                </button>
+                {profile.avatar_url && (
+                  <button
+                    type="button"
+                    onClick={handleRemoveAvatar}
+                    className="rounded-xl bg-red-500/10 hover:bg-red-500/20 border border-red-500/30 px-4 py-2.5 text-xs font-bold text-red-400 hover:text-red-300 transition duration-200 cursor-pointer"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </div>
+          </div>
 
           <div className="grid gap-5 md:grid-cols-2">
             {/* Full Name */}
