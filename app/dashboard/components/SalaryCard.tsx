@@ -5,7 +5,7 @@ type SalaryCardProps = {
 export default function SalaryCard({ salary }: SalaryCardProps) {
   return (
     <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-4.5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 relative overflow-hidden group cursor-default">
-      <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-sky-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-2 select-none">
         Estimated Salary

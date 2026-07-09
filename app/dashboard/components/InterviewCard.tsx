@@ -5,7 +5,7 @@ type InterviewCardProps = {
 export default function InterviewCard({ questions }: InterviewCardProps) {
   return (
     <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 relative overflow-hidden group">
-      <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-sky-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       
       <h3 className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-4 select-none">
         Interview Prep Questions

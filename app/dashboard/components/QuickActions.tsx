@@ -9,55 +9,58 @@ import {
   BarChart3,
   ListChecks,
   ArrowUpRight,
-  User,
+  FileSearch,
 } from "lucide-react";
 
-const actionConfigs = [
+const featuredTools = [
   {
     title: "Resume Builder",
-    description: "Generate structured, ATS-optimized resumes from candidate data.",
+    description: "Generate structured, ATS-optimized professional resumes from your candidate profile data. Select modern templates and export high-quality formats.",
     href: "/dashboard/resume-builder",
     icon: FilePlus2,
     color: "#8B5CF6", // Violet
   },
   {
-  title: "My Profile",
-  description: "Manage your personal profile and account information.",
-  href: "/dashboard/profile",
-  icon: User,
-  color: "#6366F1",
-},
-  {
     title: "Mock Interview",
-    description: "Prep candidates with position-specific AI interview questions.",
+    description: "Prep candidates with position-specific AI questions and simulated technical screen interviews. View real-time transcripts and assessment reports.",
     href: "/dashboard/interview",
     icon: Mic,
     color: "#EC4899", // Pink
   },
+];
+
+const compactTools = [
   {
-    title: "Career Coach",
-    description: "AI-guided roadmap, salary benchmarks, and negotiation prep.",
-    href: "/dashboard/career-coach",
-    icon: Brain,
-    color: "#10B981", // Emerald
+    title: "Resume Analysis",
+    description: "Scan resumes against job descriptions to identify keywords and layout gaps.",
+    href: "#upload-section",
+    icon: FileSearch,
+    color: "#0EA5E9", // Sky Blue
   },
   {
     title: "Job Finder",
-    description: "Match open requisitions against active candidate profiles.",
+    description: "Match active candidate profiles against open vacancies and pipelines.",
     href: "/dashboard/job-finder",
     icon: Briefcase,
-    color: "#06B6D4", // Cyan
+    color: "#10B981", // Emerald Green
   },
   {
-    title: "Application Tracker",
-    description: "Pipeline view of active submissions and stage progress.",
-    href: "/dashboard/jobs",
-    icon: ListChecks,
+    title: "Career Coach",
+    description: "AI-guided benchmarks, salary ranges, and negotiation roadmaps.",
+    href: "/dashboard/career-coach",
+    icon: Brain,
     color: "#F59E0B", // Amber
   },
   {
+    title: "Application Tracker",
+    description: "Pipeline view of active submissions and interview stage progress.",
+    href: "/dashboard/jobs",
+    icon: ListChecks,
+    color: "#6366F1", // Indigo
+  },
+  {
     title: "Analytics",
-    description: "Score trends, submission metrics, and keyword gap history.",
+    description: "ATS score trend graphs, candidate pipelines, and progress history.",
     href: "/dashboard/analytics",
     icon: BarChart3,
     color: "#3B82F6", // Blue
@@ -65,64 +68,126 @@ const actionConfigs = [
 ];
 
 export default function QuickActions() {
-  return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {actionConfigs.map((item) => {
-        const Icon = item.icon;
-        return (
-          <Link
-            key={item.title}
-            href={item.href}
-            className="group flex flex-col justify-between p-5 bg-theme-card border border-theme-border/50 hover:border-theme-accent/30 rounded-2xl transition-all duration-300 hover:scale-[1.02] hover:-translate-y-1 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] focus-visible:outline-2 relative overflow-hidden"
-          >
-            {/* Glowing background bloom on hover */}
-            <div
-              className="absolute -right-12 -bottom-12 w-28 h-28 rounded-full blur-[32px] opacity-0 group-hover:opacity-15 transition-opacity duration-300"
-              style={{ backgroundColor: item.color }}
-            />
+  const handleScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("#")) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  };
 
-            <div className="space-y-4 relative z-10">
-              {/* Premium Icon Badge Wrapper */}
+  return (
+    <div className="space-y-4">
+      {/* ── Featured Tools (Top, Large Cards) ── */}
+      <div className="grid gap-3 md:grid-cols-2">
+        {featuredTools.map((item) => {
+          const Icon = item.icon;
+          return (
+            <Link
+              key={item.title}
+              href={item.href}
+              onClick={item.href.startsWith("#") ? (e) => handleScroll(e, item.href) : undefined}
+              className="group flex flex-col justify-between p-4.5 bg-theme-card border border-theme-border/50 hover:border-theme-accent/30 rounded-2xl transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] relative overflow-hidden cursor-pointer"
+            >
+              {/* Glow bloom on hover */}
+              <div
+                className="absolute -right-8 -bottom-8 w-24 h-24 rounded-full blur-[32px] opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"
+                style={{ backgroundColor: item.color }}
+              />
+
+              <div className="space-y-3">
+                <div 
+                  className="w-9 h-9 rounded-xl border border-theme-border flex items-center justify-center"
+                  style={{ 
+                    backgroundColor: `color-mix(in srgb, ${item.color} 8%, var(--bg-card-hover))`,
+                    borderColor: `color-mix(in srgb, ${item.color} 20%, var(--border-primary))`
+                  }}
+                >
+                  <Icon
+                    size={16}
+                    strokeWidth={2}
+                    style={{ color: item.color }}
+                    aria-hidden="true"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-sky-500 bg-sky-500/10 px-2 py-0.5 rounded-md">
+                    Featured Tool
+                  </span>
+                  <h3 className="text-sm font-bold text-theme-text group-hover:text-theme-accent transition-colors duration-300">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-theme-text-secondary leading-relaxed">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+
+              <div className="mt-4 flex items-center justify-between">
+                <span className="text-[9px] font-bold uppercase tracking-wider text-theme-text-muted group-hover:text-theme-accent transition-colors duration-300">
+                  Launch Assistant
+                </span>
+                <ArrowUpRight
+                  size={12}
+                  strokeWidth={2.5}
+                  className="text-theme-text-muted group-hover:text-theme-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+                  aria-hidden="true"
+                />
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* ── Compact Tools List (Bottom) ── */}
+      <div className="grid gap-2 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5">
+        {compactTools.map((item) => {
+          const Icon = item.icon;
+          return (
+            <Link
+              key={item.title}
+              href={item.href}
+              onClick={item.href.startsWith("#") ? (e) => handleScroll(e, item.href) : undefined}
+              className="group flex items-center gap-2.5 p-2 bg-theme-card border border-theme-border/50 hover:border-theme-accent/20 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-[var(--shadow-card)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] relative overflow-hidden cursor-pointer"
+            >
+              {/* Micro Icon Badge */}
               <div 
-                className="w-9 h-9 rounded-xl border border-theme-border flex items-center justify-center transition-all duration-300"
+                className="w-8 h-8 rounded-lg border border-theme-border flex items-center justify-center shrink-0"
                 style={{ 
                   backgroundColor: `color-mix(in srgb, ${item.color} 8%, var(--bg-card-hover))`,
-                  borderColor: `color-mix(in srgb, ${item.color} 20%, var(--border-primary))`
+                  borderColor: `color-mix(in srgb, ${item.color} 15%, var(--border-primary))`
                 }}
               >
                 <Icon
-                  size={15}
+                  size={14}
                   strokeWidth={2}
-                  className="transition-colors duration-300"
                   style={{ color: item.color }}
                   aria-hidden="true"
                 />
               </div>
-              
-              <div className="space-y-1">
-                <h3 className="text-sm font-semibold text-theme-text group-hover:text-theme-accent transition-colors duration-300">
+
+              <div className="min-w-0 flex-1">
+                <h4 className="text-xs font-bold text-theme-text truncate group-hover:text-theme-accent transition-colors duration-300">
                   {item.title}
-                </h3>
-                <p className="text-xs text-theme-text-secondary leading-relaxed">
+                </h4>
+                <p className="text-[9px] text-theme-text-muted leading-tight truncate">
                   {item.description}
                 </p>
               </div>
-            </div>
 
-            <div className="mt-5 flex items-center justify-between relative z-10">
-              <span className="text-[9px] font-bold uppercase tracking-wider text-theme-text-muted group-hover:text-theme-accent transition-colors duration-300">
-                Launch Tool
-              </span>
               <ArrowUpRight
-                size={12}
+                size={11}
                 strokeWidth={2}
-                className="text-theme-text-muted group-hover:text-theme-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+                className="text-theme-text-muted/60 group-hover:text-theme-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all shrink-0"
                 aria-hidden="true"
               />
-            </div>
-          </Link>
-        );
-      })}
+            </Link>
+          );
+        })}
+      </div>
     </div>
   );
 }

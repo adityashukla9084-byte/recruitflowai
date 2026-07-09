@@ -5,7 +5,7 @@ type ProgressCardProps = {
 
 function barColor(score: number): string {
   if (score >= 80) return "var(--rf-match-high)";
-  if (score >= 60) return "var(--rf-match-mid)";
+  if (score >= 50) return "var(--rf-match-mid)";
   if (score > 0) return "var(--rf-match-low)";
   return "var(--border-primary)";
 }

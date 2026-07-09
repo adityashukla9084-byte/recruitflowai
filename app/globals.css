@@ -17,7 +17,7 @@
   --text-primary: #0F172A;
   --text-secondary: #475569;
   --text-muted: #94A3B8;
-  --text-accent: #4F46E5;
+  --text-accent: #2563EB;
 
   /* Borders */
   --border-primary: rgba(226, 232, 240, 0.8);
@@ -25,8 +25,8 @@
   --border-input: #E2E8F0;
 
   /* Action */
-  --accent: #4F46E5;
-  --accent-hover: #3730A3;
+  --accent: #2563EB;
+  --accent-hover: #1D4ED8;
 
   /* Dot pattern background */
   --dot-pattern: rgba(79, 70, 229, 0.03);
@@ -56,14 +56,14 @@
   --text-primary: #F8FAFC;
   --text-secondary: #94A3B8;
   --text-muted: #64748B;
-  --text-accent: #818CF8;
+  --text-accent: #38BDF8;
 
   --border-primary: rgba(99, 102, 241, 0.12);
   --border-card: rgba(255, 255, 255, 0.06);
   --border-input: rgba(99, 102, 241, 0.2);
 
-  --accent: #6366F1;
-  --accent-hover: #4F46E5;
+  --accent: #0EA5E9;
+  --accent-hover: #38BDF8;
 
   /* Dot pattern background */
   --dot-pattern: rgba(99, 102, 241, 0.05);

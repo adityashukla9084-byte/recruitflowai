@@ -16,6 +16,7 @@ import {
   Cpu,
   History,
   TrendingUp,
+  Mic,
 } from "lucide-react";
 
 import ProgressCard from "./components/ProgressCard";
@@ -30,9 +31,10 @@ import DownloadReportButton from "./components/DownloadReportButton";
 import StatsCards from "./components/StatsCards";
 import Header from "./components/header";
 import Hero from "./components/hero";
-import ScoreGauge from "./components/ScoreGauge";
+import KeywordComparison from "./components/KeywordComparison";
 import QuickActions from "./components/QuickActions";
 import AnalyticsChart from "./components/AnalyticsChart";
+import InterviewTeaser from "./components/InterviewTeaser";
 
 export default function Dashboard() {
   const router = useRouter();
@@ -215,26 +217,26 @@ export default function Dashboard() {
   return (
     <div className="flex-1 min-h-screen bg-theme-bg text-theme-text relative overflow-hidden">
       {/* Premium Background Ambient Glows */}
-      <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-indigo-500/10 to-violet-500/5 blur-[120px] pointer-events-none animate-float-slow" />
-      <div className="absolute bottom-[10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-cyan-500/5 via-blue-500/10 to-indigo-500/5 blur-[100px] pointer-events-none animate-float-medium" />
+      <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-blue-500/5 to-cyan-500/5 blur-[120px] pointer-events-none animate-float-slow" />
+      <div className="absolute bottom-[10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-cyan-500/5 via-blue-500/10 to-cyan-500/5 blur-[100px] pointer-events-none animate-float-medium" />
 
       <Header />
 
-      <div className="mx-auto max-w-7xl px-6 sm:px-10 py-8 pb-20 space-y-8 relative z-10">
+      <div className="mx-auto max-w-7xl px-6 sm:px-10 py-4 pb-10 space-y-4 relative z-10">
         {/* Page context */}
         <Hero />
 
         {/* ── Split-Screen Workspace ── */}
-        <div className="grid gap-6 lg:grid-cols-3 items-start">
+        <div className="grid gap-4 lg:grid-cols-3 items-start">
           {/* Left Column: Upload Scanner & Results Tab Panel (col-span-2) */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-4" id="upload-section">
             <div className="space-y-3">
               <div>
                 <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
                   Resume Analysis
                 </p>
                 <div className="flex items-center gap-2">
-                  <UploadCloud size={14} className="text-indigo-500" aria-hidden="true" />
+                  <UploadCloud size={14} className="text-sky-500" aria-hidden="true" />
                   <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Upload &amp; Scan</h2>
                 </div>
               </div>
@@ -251,11 +253,11 @@ export default function Dashboard() {
                   tabIndex={!file ? 0 : undefined}
                   onKeyDown={!file ? (e) => e.key === "Enter" && selectFiles() : undefined}
                   aria-label={!file ? "Upload resume file" : undefined}
-                  className={`group border-b border-theme-border/40 p-10 text-center transition-all duration-300 ${
+                  className={`group border-b border-theme-border/40 p-6 text-center transition-all duration-300 ${
                     file
                       ? "bg-theme-card"
                       : dragActive
-                      ? "bg-indigo-500/5 border-dashed border-indigo-500/50 cursor-copy"
+                      ? "bg-sky-500/5 border-dashed border-sky-500/50 cursor-copy"
                       : "bg-theme-card hover:bg-theme-card-hover/20 cursor-pointer"
                   }`}
                 >
@@ -276,9 +278,9 @@ export default function Dashboard() {
                   {!file ? (
                     <div className="flex flex-col items-center gap-3.5">
                       {/* Icon wrapper badge */}
-                      <div className="w-11 h-11 rounded-xl border border-theme-border bg-theme-bg-secondary/40 flex items-center justify-center shadow-sm group-hover:border-indigo-500/35 group-hover:bg-theme-card-hover transition-all duration-300">
+                      <div className="w-11 h-11 rounded-xl border border-theme-border bg-theme-bg-secondary/40 flex items-center justify-center shadow-sm group-hover:border-sky-500/35 group-hover:bg-theme-card-hover transition-all duration-300">
                         <UploadCloud
-                          className="h-5 w-5 text-theme-text-muted group-hover:text-indigo-500 transition-colors duration-300"
+                          className="h-5 w-5 text-theme-text-muted group-hover:text-sky-500 transition-colors duration-300"
                           strokeWidth={1.5}
                           aria-hidden="true"
                         />
@@ -331,7 +333,7 @@ export default function Dashboard() {
                 </div>
 
                 {/* Job Description textarea */}
-                <div className="p-5 border-b border-theme-border/40 bg-theme-bg-secondary/10">
+                <div className="p-4 border-b border-theme-border/40 bg-theme-bg-secondary/10">
                   <label
                     htmlFor="job-description"
                     className="block text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-2.5 select-none"
@@ -341,25 +343,25 @@ export default function Dashboard() {
                       (optional)
                     </span>
                   </label>
-                  <div className="rounded-xl border border-theme-border/50 p-4 bg-theme-bg-secondary/30 focus-within:border-indigo-500/40 focus-within:ring-2 focus-within:ring-indigo-500/10 transition-all duration-200">
+                  <div className="rounded-xl border border-theme-border/50 p-3 bg-theme-bg-secondary/30 focus-within:border-sky-500/40 focus-within:ring-2 focus-within:ring-sky-500/10 transition-all duration-200">
                     <textarea
                       id="job-description"
                       placeholder="Paste the job requisition text to check keyword alignment..."
                       value={jobDescription}
                       onChange={(e) => setJobDescription(e.target.value)}
                       className="w-full bg-transparent text-sm text-theme-text placeholder:text-theme-text-muted outline-none resize-none leading-relaxed focus-visible:outline-none"
-                      rows={5}
+                      rows={3}
                     />
                   </div>
                 </div>
 
                 {/* Analyze button */}
-                <div className="p-4.5 bg-theme-bg-secondary/20">
+                <div className="p-3 bg-theme-bg-secondary/20">
                   <button
                     id="analyze-btn"
                     onClick={handleAnalyze}
                     disabled={loading || !file}
-                    className="w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold text-white transition-all duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 hover:scale-[1.005] active:scale-[0.995] bg-gradient-to-r from-violet-600 via-indigo-600 to-indigo-500 hover:from-violet-700 hover:via-indigo-700 hover:to-indigo-600 shadow-md shadow-indigo-500/25 hover:shadow-lg hover:shadow-indigo-500/35"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl py-3 text-sm font-semibold transition-all duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-40 hover:scale-[1.005] active:scale-[0.995] bg-theme-text text-theme-bg shadow-md hover:shadow-lg hover:opacity-90"
                   >
                     {loading ? (
                       <>
@@ -436,7 +438,7 @@ export default function Dashboard() {
                       Analysis Output
                     </p>
                     <div className="flex items-center gap-2">
-                      <Sparkles size={14} className="text-indigo-500" aria-hidden="true" />
+                      <Sparkles size={14} className="text-sky-500" aria-hidden="true" />
                       <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Assessment Results</h2>
                     </div>
                   </div>
@@ -709,7 +711,7 @@ export default function Dashboard() {
                   </div>
 
                   {/* Dashed placeholder container */}
-                  <div className="border border-dashed border-theme-border/50 rounded-2xl p-10 text-center flex flex-col items-center justify-center space-y-4 bg-theme-bg-secondary/10 shadow-[var(--shadow-card)] hover:border-indigo-500/20 transition-all duration-300">
+                  <div className="border border-dashed border-theme-border/50 rounded-2xl p-6 text-center flex flex-col items-center justify-center space-y-4 bg-theme-bg-secondary/10 shadow-[var(--shadow-card)] hover:border-sky-500/20 transition-all duration-300">
                     <div className="w-11 h-11 rounded-xl border border-theme-border bg-theme-bg-secondary/40 flex items-center justify-center text-theme-text-muted">
                       <FileSearch size={16} strokeWidth={1.5} aria-hidden="true" />
                     </div>
@@ -723,7 +725,78 @@ export default function Dashboard() {
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
+
+            {/* Zone 4: Trend & History (Moved to Left Column for balance) */}
+              <div className="space-y-3 border-t border-theme-border/30 pt-4">
+                <div>
+                  <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                    History
+                  </p>
+                  <div className="flex items-center gap-2">
+                    <History size={14} className="text-sky-500" aria-hidden="true" />
+                    <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Score Trend</h2>
+                  </div>
+                </div>
+                <AnalyticsChart data={chartData} />
+
+                <div className="grid grid-cols-3 gap-2">
+                  {/* Best score */}
+                  <div className="bg-theme-card border border-theme-border/50 rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
+                      Best
+                    </span>
+                    <span
+                      className="text-sm font-bold leading-none"
+                      style={{
+                        color: "var(--rf-match-high)",
+                        fontFamily: "var(--font-geist-mono), monospace",
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
+                      {chartData.length
+                        ? `${Math.max(...chartData.map((x) => x.score))}%`
+                        : "—"}
+                    </span>
+                  </div>
+
+                  {/* Average */}
+                  <div className="bg-theme-card border border-theme-border/50 rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
+                      Avg
+                    </span>
+                    <span
+                      className="text-sm font-bold leading-none text-theme-text"
+                      style={{
+                        fontFamily: "var(--font-geist-mono), monospace",
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
+                      {chartData.length
+                        ? `${Math.round(
+                            chartData.reduce((a, b) => a + b.score, 0) / chartData.length
+                          )}%`
+                        : "—"}
+                    </span>
+                  </div>
+
+                  {/* Total runs */}
+                  <div className="bg-theme-card border border-theme-border/50 rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
+                      Runs
+                    </span>
+                    <span
+                      className="text-sm font-bold leading-none text-theme-text"
+                      style={{
+                        fontFamily: "var(--font-geist-mono), monospace",
+                        fontVariantNumeric: "tabular-nums",
+                      }}
+                    >
+                      {reportsCount}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
           {/* Right Column: Score Console, Trend Charts, and History (col-span-1) */}
           <div className="lg:col-span-1 space-y-6">
@@ -733,12 +806,15 @@ export default function Dashboard() {
                 <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
                   Match Quality
                 </p>
-                <div className="flex items-center gap-2">
-                  <TrendingUp size={14} className="text-indigo-500" aria-hidden="true" />
-                  <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Score Console</h2>
+                  <div className="flex items-center gap-2">
+                    <TrendingUp size={14} className="text-sky-500" aria-hidden="true" />
+                    <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Score Console</h2>
+                  </div>
                 </div>
-              </div>
-              <ScoreGauge score={result?.atsScore ?? 0} />
+                <KeywordComparison
+                  matchedKeywords={result?.matchedKeywords ?? []}
+                  missingKeywords={result?.missingKeywords ?? []}
+                />
               <StatsCards
                 atsScore={result?.atsScore}
                 jobMatch={result?.jobMatchScore}
@@ -748,87 +824,32 @@ export default function Dashboard() {
               />
             </div>
 
-            {/* Zone 4: Trend & History */}
+
+
+            {/* Zone 5: Coaching Insights */}
             <div className="space-y-3">
               <div>
                 <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
-                  History
+                  Coaching Insights
                 </p>
                 <div className="flex items-center gap-2">
-                  <History size={14} className="text-indigo-500" aria-hidden="true" />
-                  <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Score Trend</h2>
+                  <Mic size={14} className="text-sky-500" aria-hidden="true" />
+                  <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Last Interview</h2>
                 </div>
               </div>
-              <AnalyticsChart data={chartData} />
-
-              <div className="grid grid-cols-3 gap-2.5">
-                {/* Best score */}
-                <div className="bg-theme-card border border-theme-border/50 rounded-xl p-3 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
-                    Best
-                  </span>
-                  <span
-                    className="text-base font-bold leading-none"
-                    style={{
-                      color: "var(--rf-match-high)",
-                      fontFamily: "var(--font-geist-mono), monospace",
-                      fontVariantNumeric: "tabular-nums",
-                    }}
-                  >
-                    {chartData.length
-                      ? `${Math.max(...chartData.map((x) => x.score))}%`
-                      : "—"}
-                  </span>
-                </div>
-
-                {/* Average */}
-                <div className="bg-theme-card border border-theme-border/50 rounded-xl p-3 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
-                    Avg
-                  </span>
-                  <span
-                    className="text-base font-bold leading-none text-theme-text"
-                    style={{
-                      fontFamily: "var(--font-geist-mono), monospace",
-                      fontVariantNumeric: "tabular-nums",
-                    }}
-                  >
-                    {chartData.length
-                      ? `${Math.round(
-                          chartData.reduce((a, b) => a + b.score, 0) / chartData.length
-                        )}%`
-                      : "—"}
-                  </span>
-                </div>
-
-                {/* Total runs */}
-                <div className="bg-theme-card border border-theme-border/50 rounded-xl p-3 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
-                    Runs
-                  </span>
-                  <span
-                    className="text-base font-bold leading-none text-theme-text"
-                    style={{
-                      fontFamily: "var(--font-geist-mono), monospace",
-                      fontVariantNumeric: "tabular-nums",
-                    }}
-                  >
-                    {reportsCount}
-                  </span>
-                </div>
-              </div>
+              <InterviewTeaser />
             </div>
           </div>
         </div>
 
         {/* ── AI Tools Grid (Full Width at Bottom) ── */}
-        <div className="space-y-4 border-t border-theme-border/50 pt-8">
+        <div className="space-y-4 border-t border-theme-border/50 pt-4">
           <div>
             <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
               Platform
             </p>
             <div className="flex items-center gap-2">
-              <Cpu size={14} className="text-indigo-500" aria-hidden="true" />
+              <Cpu size={14} className="text-sky-500" aria-hidden="true" />
               <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">AI Tools &amp; Copilots</h2>
             </div>
           </div>
