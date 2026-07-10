@@ -303,13 +303,33 @@ await admin.from("analysis_history").insert({
   result: analysis,
 });
 
-if (userObject && userObject.email) {
-  const emailReportsEnabled = userObject.user_metadata?.email_reports === true;
-  if (emailReportsEnabled) {
-    const fullName = userObject.user_metadata?.full_name || userObject.user_metadata?.name || "";
-    sendReportEmail(userObject.email, fullName, analysis).catch((err) =>
-      console.error("[Email Pipeline] Trigger error:", err)
-    );
+if (userId) {
+  try {
+    // 1. Fetch latest profile preferences from the database
+    const { data: profile } = await admin
+      .from("profiles")
+      .select("email_reports, full_name, email")
+      .eq("user_id", userId)
+      .maybeSingle();
+
+    // 2. Check if email reports are enabled (database value takes precedence, fallback to user_metadata)
+    const emailReportsEnabled = profile?.email_reports === true || userObject?.user_metadata?.email_reports === true;
+
+    if (emailReportsEnabled) {
+      const userEmail = profile?.email || userObject?.email;
+      const fullName = profile?.full_name || userObject?.user_metadata?.full_name || userObject?.user_metadata?.name || "";
+
+      if (userEmail) {
+        console.log(`[Email Pipeline] Dispatching report email to ${userEmail}...`);
+        sendReportEmail(userEmail, fullName, analysis).catch((err) =>
+          console.error("[Email Pipeline] Trigger error:", err)
+        );
+      } else {
+        console.warn("[Email Pipeline] No email address found for userId:", userId);
+      }
+    }
+  } catch (dbErr) {
+    console.error("[Email Pipeline] Failed to check email report preferences:", dbErr);
   }
 }
 
@@ -437,7 +457,7 @@ async function sendReportEmail(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "RecruitFlow AI <onboarding@resend.dev>",
+        from: process.env.RESEND_FROM_EMAIL || "RecruitFlow AI <onboarding@resend.dev>",
         to: email.toLowerCase(),
         subject: `RecruitFlow AI - Resume Analysis Report (Score: ${analysis.atsScore}%)`,
         html: emailHtml,

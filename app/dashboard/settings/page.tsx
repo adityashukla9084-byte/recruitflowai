@@ -21,17 +21,34 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(false);
   const { theme, toggleTheme } = useTheme();
 
-  // Load notification setting from Supabase user metadata on mount
+  // Load notification setting from Supabase on mount
   useEffect(() => {
     let active = true;
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user && active) {
-        const metadata = user.user_metadata;
-        if (metadata && typeof metadata.email_reports !== "undefined") {
-          setNotifications(metadata.email_reports);
-        }
+
+    async function loadNotificationSetting() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user || !active) return;
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("email_reports")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (profile) {
+        setNotifications(profile.email_reports ?? false);
+      } else if (user.user_metadata?.email_reports !== undefined) {
+        setNotifications(user.user_metadata.email_reports ?? false);
+      } else {
+        setNotifications(false);
       }
-    });
+    }
+
+    loadNotificationSetting();
+
     return () => {
       active = false;
     };
@@ -41,14 +58,40 @@ export default function SettingsPage() {
   async function handleToggleNotifications() {
     const nextVal = !notifications;
     setNotifications(nextVal);
+
     try {
-      await supabase.auth.updateUser({
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      // 1. Update user metadata in auth (used by backend email pipeline)
+      const { error: authError } = await supabase.auth.updateUser({
         data: {
           email_reports: nextVal,
         },
       });
+
+      if (authError) {
+        console.error("Failed to update auth user metadata:", authError.message);
+      }
+
+      // 2. Upsert profile row (ensures row exists and updates email_reports column)
+      const { error: dbError } = await supabase
+        .from("profiles")
+        .upsert({
+          user_id: user.id,
+          email_reports: nextVal,
+        }, { onConflict: "user_id" });
+
+      if (dbError) {
+        console.error("Failed to update database profile:", dbError.message);
+        setNotifications(!nextVal);
+      }
     } catch (err) {
       console.error("Failed to save notification preference:", err);
+      setNotifications(!nextVal);
     }
   }
 

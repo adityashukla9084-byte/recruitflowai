@@ -43,6 +43,7 @@ export default function Dashboard() {
   const [file, setFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
   const [loading, setLoading] = useState(false);
+  const [emailReports, setEmailReports] = useState(false);
   const [reportsCount, setReportsCount] = useState(0);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [chartData, setChartData] = useState<{ name: string; score: number }[]>([]);
@@ -59,33 +60,91 @@ export default function Dashboard() {
 
   useEffect(() => {
     let active = true;
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user && active) {
-        supabase
-          .from("analysis_history")
-          .select("ats_score, created_at", { count: "exact" })
-          .eq("user_id", user.id)
-          .order("created_at", { ascending: true })
-          .then(({ data, count }) => {
-            if (active) {
-              setReportsCount(count ?? 0);
-              if (data) {
-                setChartData(
-                  data.map((item, index) => ({
-                    name: `#${index + 1}`,
-                    score: item.ats_score,
-                  }))
-                );
-              }
-            }
-          });
+
+    async function loadData() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user || !active) return;
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("email_reports")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (profile) {
+        setEmailReports(profile.email_reports ?? false);
+      } else if (user.user_metadata?.email_reports !== undefined) {
+        setEmailReports(user.user_metadata.email_reports ?? false);
+      } else {
+        setEmailReports(false);
       }
-    });
+
+      const { data, count } = await supabase
+        .from("analysis_history")
+        .select("ats_score, created_at", { count: "exact" })
+        .eq("user_id", user.id)
+        .order("created_at", { ascending: true });
+
+      if (active) {
+        setReportsCount(count ?? 0);
+
+        if (data) {
+          setChartData(
+            data.map((item, index) => ({
+              name: `#${index + 1}`,
+              score: item.ats_score,
+            }))
+          );
+        }
+      }
+    }
+
+    loadData();
+
     return () => {
       active = false;
     };
   }, []);
 
+  async function toggleEmailReports(value: boolean) {
+    setEmailReports(value);
+
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) return;
+
+      // 1. Update user metadata in auth (used by backend email pipeline)
+      const { error: authError } = await supabase.auth.updateUser({
+        data: {
+          email_reports: value,
+        },
+      });
+
+      if (authError) {
+        console.error("Failed to update auth user metadata:", authError.message);
+      }
+
+      // 2. Upsert profile row (ensures row exists and updates email_reports column)
+      const { error: dbError } = await supabase
+        .from("profiles")
+        .upsert({
+          user_id: user.id,
+          email_reports: value,
+        }, { onConflict: "user_id" });
+
+      if (dbError) {
+        console.error("Failed to update database profile:", dbError.message);
+      }
+    } catch (err) {
+      console.error("Failed to toggle email reports:", err);
+    }
+  }
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();

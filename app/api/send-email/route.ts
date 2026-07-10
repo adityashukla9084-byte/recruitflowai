@@ -3,10 +3,11 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 console.log("RESEND KEY:", process.env.RESEND_API_KEY);
-export async function POST() {
+export async function POST() { 
   try {
+
     const { data, error } = await resend.emails.send({
-      from: "RecruitFlow AI <onboarding@resend.dev>",
+      from: process.env.RESEND_FROM_EMAIL || "RecruitFlow AI <onboarding@resend.dev>",
       to: ['adityashukla9084@gmail.com'],
       subject: "RecruitFlow AI Test Email 🚀",
       html: `
