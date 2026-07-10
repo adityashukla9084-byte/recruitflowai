@@ -35,7 +35,7 @@ export default function ProfilePage() {
     full_name: "",
     phone: "",
     education: "",
-    universities: "",
+    university: "",
     linkedin: "",
     github: "",
     bio: "",
@@ -131,7 +131,7 @@ export default function ProfilePage() {
         full_name: profile.full_name,
         phone: profile.phone,
         education: profile.education,
-        university: profile.universities,
+        university: profile.university,
         linkedin: profile.linkedin,
         github: profile.github,
         bio: profile.bio,
@@ -505,8 +505,8 @@ export default function ProfilePage() {
                             <input
                               className="w-full rounded-xl border border-white/5 bg-slate-950/60 p-3 pl-12 text-sm text-slate-200 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500/20 transition-all"
                               placeholder="Stanford University"
-                              value={profile.universities || ""}
-                              onChange={(e) => setProfile({ ...profile, universities: e.target.value })}
+                              value={profile.university || ""}
+                              onChange={(e) => setProfile({ ...profile, university: e.target.value })}
                             />
                           </div>
                         </div>

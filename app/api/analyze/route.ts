@@ -276,19 +276,21 @@ if (!jobDescription.trim()) {
     const authHeader = request.headers.get("Authorization");
 
 let userId: string | null = null;
+let userObject: any = null;
 
 if (authHeader?.startsWith("Bearer ")) {
   const token = authHeader.replace("Bearer ", "");
 
-const {
-  data: { user },
-  error,
-} = await admin.auth.getUser(token);
+  const {
+    data: { user },
+    error,
+  } = await admin.auth.getUser(token);
 
-console.log("AUTH USER:", user);
-console.log("AUTH ERROR:", error);
+  console.log("AUTH USER:", user);
+  console.log("AUTH ERROR:", error);
 
-userId = user?.id ?? null;
+  userId = user?.id ?? null;
+  userObject = user;
 }
 console.log("USER ID BEFORE INSERT:", userId);
 await admin.from("analysis_history").insert({
@@ -300,6 +302,16 @@ await admin.from("analysis_history").insert({
   feedback: analysis.recruiterFeedback,
   result: analysis,
 });
+
+if (userObject && userObject.email) {
+  const emailReportsEnabled = userObject.user_metadata?.email_reports === true;
+  if (emailReportsEnabled) {
+    const fullName = userObject.user_metadata?.full_name || userObject.user_metadata?.name || "";
+    sendReportEmail(userObject.email, fullName, analysis).catch((err) =>
+      console.error("[Email Pipeline] Trigger error:", err)
+    );
+  }
+}
 
 return NextResponse.json({
   success: true,
@@ -322,5 +334,123 @@ return NextResponse.json({
         status: 500,
       }
     );
+  }
+}
+
+async function sendReportEmail(
+  email: string,
+  fullName: string,
+  analysis: any
+) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn("[Email Pipeline] RESEND_API_KEY is not defined. Email reports will not be sent.");
+    return;
+  }
+
+  const atsColor = analysis.atsScore >= 80 ? "#10b981" : analysis.atsScore >= 50 ? "#f59e0b" : "#f43f5e";
+  const matchColor = analysis.jobMatchScore >= 80 ? "#10b981" : analysis.jobMatchScore >= 50 ? "#f59e0b" : "#f43f5e";
+
+  const strengthsList = (analysis.strengths || []).map((s: string) => `<li>${s}</li>`).join("");
+  const weaknessesList = (analysis.weaknesses || []).map((w: string) => `<li>${w}</li>`).join("");
+  const missingList = (analysis.missingKeywords || []).map((k: string) => `<span style="background-color:rgba(244,63,94,0.1); border:1px solid rgba(244,63,94,0.2); color:#f43f5e; padding:3px 8px; margin:4px; border-radius:4px; display:inline-block; font-size:11px;">${k}</span>`).join("");
+  const matchedList = (analysis.matchedKeywords || []).map((k: string) => `<span style="background-color:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.2); color:#10b981; padding:3px 8px; margin:4px; border-radius:4px; display:inline-block; font-size:11px;">${k}</span>`).join("");
+
+  const emailHtml = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="utf-8">
+      <title>RecruitFlow AI - Assessment Report</title>
+      <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #05070f; color: #e2e8f0; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: 0 auto; background-color: #0b0f19; border: 1px solid #1e293b; border-radius: 16px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .header { text-align: center; border-bottom: 1px solid #1e293b; padding-bottom: 24px; margin-bottom: 24px; }
+        .title { color: #ffffff; font-size: 24px; font-weight: 800; margin: 0 0 8px 0; }
+        .subtitle { color: #94a3b8; font-size: 14px; margin: 0; }
+        .stats-grid { display: table; width: 100%; margin-bottom: 24px; }
+        .stat-col { display: table-cell; width: 50%; text-align: center; padding: 12px; background-color: #05070f; border: 1px solid #1e293b; border-radius: 8px; }
+        .stat-label { font-size: 10px; text-transform: uppercase; color: #94a3b8; letter-spacing: 1px; font-weight: bold; }
+        .stat-value { font-size: 32px; font-weight: 900; margin-top: 4px; font-family: monospace; }
+        .section-title { font-size: 16px; font-weight: bold; color: #ffffff; margin-top: 24px; margin-bottom: 12px; border-left: 3px solid #06b6d4; padding-left: 8px; }
+        .feedback { background-color: #05070f; border: 1px dashed #1e293b; border-radius: 8px; padding: 16px; font-size: 13px; line-height: 1.6; color: #cbd5e1; }
+        ul { padding-left: 20px; margin: 8px 0; font-size: 13px; line-height: 1.6; color: #cbd5e1; }
+        li { margin-bottom: 6px; }
+        .keyword-container { margin: 8px 0; }
+        .footer { text-align: center; font-size: 11px; color: #64748b; margin-top: 32px; border-top: 1px solid #1e293b; padding-top: 20px; }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1 class="title">RecruitFlow AI</h1>
+          <p class="subtitle">Personal Resume Analysis &amp; Placement Report</p>
+        </div>
+
+        <p style="font-size: 14px; color: #cbd5e1; margin-bottom: 20px;">
+          Hello <strong>${fullName || "Candidate"}</strong>,
+        </p>
+        <p style="font-size: 13px; color: #94a3b8; line-height: 1.5; margin-bottom: 24px;">
+          Your resume scan is complete. We compared your experience profile against modern ATS parsing engines and verified keyword alignments. Here are your assessment scores and recommendations:
+        </p>
+
+        <div class="stats-grid">
+          <div class="stat-col" style="border-right: 6px solid #05070f;">
+            <div class="stat-label">ATS Score</div>
+            <div class="stat-value" style="color: ${atsColor};">${analysis.atsScore}%</div>
+          </div>
+          <div class="stat-col" style="border-left: 6px solid #05070f;">
+            <div class="stat-label">Job Match Rate</div>
+            <div class="stat-value" style="color: ${matchColor};">${analysis.jobMatchScore}%</div>
+          </div>
+        </div>
+
+        <div class="section-title">Recruiter Assessment Feedback</div>
+        <div class="feedback">${analysis.recruiterFeedback}</div>
+
+        <div class="section-title">Key Strengths</div>
+        <ul>${strengthsList}</ul>
+
+        <div class="section-title">Optimization Areas (Gaps)</div>
+        <ul>${weaknessesList}</ul>
+
+        <div class="section-title">Missing Target Keywords</div>
+        <div class="keyword-container">${missingList}</div>
+
+        <div class="section-title">Detected Keywords</div>
+        <div class="keyword-container">${matchedList}</div>
+
+        <div class="footer">
+          This is an automated report dispatched because you enabled "Email Reports" in your RecruitFlow AI Dashboard settings.
+          <br>&copy; 2026 RecruitFlow AI. All rights reserved.
+        </div>
+      </div>
+    </body>
+    </html>
+  `;
+
+  try {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: "RecruitFlow AI <onboarding@resend.dev>",
+        to: email.toLowerCase(),
+        subject: `RecruitFlow AI - Resume Analysis Report (Score: ${analysis.atsScore}%)`,
+        html: emailHtml,
+      }),
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("[Email Pipeline] Resend API Error:", errorData);
+    } else {
+      console.log(`[Email Pipeline] Assessment report dispatched successfully to ${email}`);
+    }
+  } catch (err) {
+    console.error("[Email Pipeline] Failed to send report email:", err);
   }
 }

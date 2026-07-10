@@ -1,13 +1,29 @@
+type ContactInfo = {
+  email: string;
+  phone: string;
+  location: string;
+  linkedin: string;
+};
+
 type ExperienceItem = {
   title: string;
-  company: string;
-  duration: string;
+  organization: string;
+  location: string;
+  start_date: string;
+  end_date: string;
   bullets: string[];
 };
 
-type ProjectItem = {
-  name: string;
-  description: string;
+type EducationItem = {
+  degree: string;
+  institution: string;
+  location: string;
+  year: string;
+};
+
+type AdditionalSection = {
+  heading: string;
+  items: string[];
 };
 
 type Props = {
@@ -18,15 +34,20 @@ type Props = {
     skills: string;
     education: string;
     experience: string;
+    targetRole?: string;
+    location?: string;
+    linkedin?: string;
   };
   aiResume: {
-    summary: string;
+    full_name: string;
+    target_role: string;
+    contact: ContactInfo;
+    professional_summary: string;
+    core_skills: string[];
     experience: ExperienceItem[];
-    projects: ProjectItem[];
+    education: EducationItem[];
     certifications: string[];
-    languages: string[];
-    strengths?: string[];
-    competencies?: string[];
+    additional_sections: AdditionalSection[];
   };
 };
 
@@ -34,14 +55,16 @@ export default function TemplateCorporate({
   formData,
   aiResume,
 }: Props) {
-  // Parse skills robustly (handles commas, newlines, and lists like "1. Skill A 2 Skill B")
-  let skillsList: string[] = [];
-  if (formData.skills) {
+  // Parse skills fallback robustly if aiResume.core_skills is empty
+  let skillsList: string[] = aiResume.core_skills && aiResume.core_skills.length > 0
+    ? aiResume.core_skills
+    : [];
+
+  if (skillsList.length === 0 && formData.skills) {
     const rawSkills = formData.skills.trim();
     if (rawSkills.includes("\n")) {
       skillsList = rawSkills.split("\n").map(s => s.trim().replace(/^[-•*✔▪●]\s*/, "")).filter(Boolean);
     } else if (rawSkills.match(/\d+[.)]?\s+/)) {
-      // Split on digits that serve as delimiters (e.g., " 2 ", " 3. ")
       const parts = rawSkills.split(/\s+(?=\d+\b)/);
       skillsList = parts.map(s => s.replace(/^\d+[.)]?\s*/, "").trim()).filter(Boolean);
     } else if (rawSkills.includes(",")) {
@@ -51,12 +74,11 @@ export default function TemplateCorporate({
     }
   }
 
-  // Parse education string into structured items for the table
+  // Parse education string fallback if aiResume.education is empty
   const eduLines = formData.education
     ? formData.education.split("\n").map((line) => line.trim()).filter(Boolean)
     : [];
 
-  // Helper to format single passing years into logical academic ranges
   const formatYearRange = (yearStr: string, qualText: string) => {
     const clean = yearStr.trim();
     if (clean === "—" || clean.includes("-") || clean.includes("–")) {
@@ -70,7 +92,7 @@ export default function TemplateCorporate({
       return `${yearNum - 2} - ${yearNum}`;
     }
     if (qualLower.includes("bachelors") || qualLower.includes("b.a.") || qualLower.includes("b.sc") || qualLower.includes("b.tech") || qualLower.includes("degree") || qualLower.includes("graduation")) {
-      return `${yearNum - 3} - ${yearNum}`; // standard 3-year BA
+      return `${yearNum - 3} - ${yearNum}`;
     }
     if (qualLower.includes("intermediate") || qualLower.includes("class xii") || qualLower.includes("12th") || qualLower.includes("senior secondary") || qualLower.includes("public school")) {
       return `${yearNum - 2} - ${yearNum}`;
@@ -78,42 +100,63 @@ export default function TemplateCorporate({
     if (qualLower.includes("class x") || qualLower.includes("10th") || qualLower.includes("secondary")) {
       return `${yearNum - 1} - ${yearNum}`;
     }
-    return `${yearNum - 2} - ${yearNum}`; // Default fallback range duration
+    return `${yearNum - 2} - ${yearNum}`;
   };
 
   const parsedEducation = eduLines.map((line) => {
-    // Extract A4 single 4-digit year or range (e.g. 2023 - 2025, 2021) without matching marks/percentages
     const yearMatch = line.match(/\b\d{4}\s*[-–]\s*\d{4}\b|\b\d{4}\b/);
     let year = yearMatch ? yearMatch[0] : "—";
-
-    // Try to extract score percentage or CGPA (e.g., 85% or 7.8 CGPA)
     const scoreMatch = line.match(/\d+(?:\.\d+)?\s*(?:%|CGPA)/i);
     const score = scoreMatch ? scoreMatch[0] : "—";
 
-    // Remove parsed year/score to clean the qualification text
     let qualification = line;
     if (yearMatch) qualification = qualification.replace(yearMatch[0], "");
     if (scoreMatch) qualification = qualification.replace(scoreMatch[0], "");
     
     qualification = qualification
       .trim()
-      .replace(/^[-•*✔▪●]\s*/, "") // Remove bullet symbols
-      .replace(/,\s*$/, "") // Remove trailing comma
+      .replace(/^[-•*✔▪●]\s*/, "")
+      .replace(/,\s*$/, "")
       .trim();
 
-    // Format single years into ranges dynamically
     year = formatYearRange(year, qualification);
-
     return { qualification, year, score };
   });
 
-  // Dynamic Fallbacks based on candidate metadata instead of hardcoding another user's content
-  const languagesList = aiResume.languages && aiResume.languages.length > 0 
-    ? aiResume.languages 
+  const educationList = aiResume.education && aiResume.education.length > 0
+    ? aiResume.education.map(edu => ({
+        qualification: edu.degree,
+        institution: edu.institution,
+        location: edu.location,
+        year: edu.year,
+        score: "—"
+      }))
+    : parsedEducation.map(edu => ({
+        qualification: edu.qualification,
+        institution: "",
+        location: "",
+        year: edu.year,
+        score: edu.score
+      }));
+
+  // Helper variables for sidebar filtering
+  const additionalSections = aiResume.additional_sections || [];
+  const sidebarSectionKeywords = ["language", "lang", "strength", "competenc", "interest", "hobb", "skill"];
+  
+  const sidebarSections = additionalSections.filter(sec => 
+    sidebarSectionKeywords.some(keyword => sec.heading.toLowerCase().includes(keyword))
+  );
+  const mainSections = additionalSections.filter(sec => 
+    !sidebarSectionKeywords.some(keyword => sec.heading.toLowerCase().includes(keyword))
+  );
+
+  // Fallback lists for legacy compatibility
+  const languagesList = (aiResume as any).languages && (aiResume as any).languages.length > 0 
+    ? (aiResume as any).languages 
     : ["English (Fluent)", "Hindi (Fluent)"];
 
-  const strengthsList = aiResume.strengths && aiResume.strengths.length > 0
-    ? aiResume.strengths
+  const strengthsList = (aiResume as any).strengths && (aiResume as any).strengths.length > 0
+    ? (aiResume as any).strengths
     : ["Clear Communicator", "Analytical Thinker", "Quick Learner", "Team Player", "Detail-Oriented", "Time Management"];
 
   const defaultCompetencies = [
@@ -122,11 +165,21 @@ export default function TemplateCorporate({
     "Collaboration: Supportive contributor focused on positive group outcomes."
   ];
 
-  const competenciesList = aiResume.competencies && aiResume.competencies.length > 0
-    ? aiResume.competencies
+  const competenciesList = (aiResume as any).competencies && (aiResume as any).competencies.length > 0
+    ? (aiResume as any).competencies
     : (aiResume.experience && aiResume.experience.length > 0
-        ? aiResume.experience.map(exp => `${exp.title}: Driving growth and success at ${exp.company || "relevant projects"}.`)
+        ? aiResume.experience.map(exp => `${exp.title}: Driving growth and success at ${exp.organization || (exp as any).company || "relevant projects"}.`)
         : defaultCompetencies);
+
+  // Dynamic Skill Heading
+  const isTechnical = (aiResume.target_role || formData.skills || "").toLowerCase().match(/software|developer|engineer|programmer|coder|tech/i);
+  const skillsHeading = isTechnical ? "TECHNICAL SKILLS" : "CORE SKILLS";
+
+  // Contact Info Resolution
+  const emailVal = aiResume.contact?.email || formData.email;
+  const phoneVal = aiResume.contact?.phone || formData.phone;
+  const locationVal = aiResume.contact?.location || formData.location || "Meerut, UP, India";
+  const linkedinVal = aiResume.contact?.linkedin || formData.linkedin;
 
   return (
     <div className="max-w-[794px] w-full min-h-[1123px] print:h-[297mm] print:w-[210mm] bg-white shadow-2xl mx-auto overflow-hidden print:shadow-none print:max-w-[210mm] print:max-h-[297mm] flex flex-col font-sans text-slate-800">
@@ -134,10 +187,10 @@ export default function TemplateCorporate({
       {/* ── Header Banner (Centered, Dark Blue Background) ── */}
       <div className="bg-[#0f1e36] text-white py-7 px-10 text-center select-none border-b-4 border-cyan-500 print:py-6">
         <h1 className="text-3.5xl font-black tracking-widest uppercase text-white leading-none">
-          {formData.name || "CANDIDATE NAME"}
+          {aiResume.full_name || formData.name || "CANDIDATE NAME"}
         </h1>
         <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest mt-2">
-          Professional Resume
+          {aiResume.target_role || "Professional Resume"}
         </p>
       </div>
 
@@ -152,26 +205,17 @@ export default function TemplateCorporate({
               CONTACT
             </h2>
             <div className="space-y-2 text-[11px] font-medium text-slate-700 leading-relaxed">
-              {formData.phone && <p className="flex items-center gap-1.5">📞 {formData.phone}</p>}
-              {formData.email && <p className="flex items-center gap-1.5 break-all">✉ {formData.email}</p>}
-              <p className="flex items-center gap-1.5">📍 Meerut, UP, India</p>
+              {phoneVal && <p className="flex items-center gap-1.5">📞 {phoneVal}</p>}
+              {emailVal && <p className="flex items-center gap-1.5 break-all">✉ {emailVal}</p>}
+              {locationVal && <p className="flex items-center gap-1.5">📍 {locationVal}</p>}
+              {linkedinVal && <p className="flex items-center gap-1.5 break-all">🔗 {linkedinVal}</p>}
             </div>
           </div>
 
-          {/* Languages */}
+          {/* Core/Technical Skills */}
           <div>
             <h2 className="text-xs font-bold tracking-widest text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase mb-2.5">
-              LANGUAGES
-            </h2>
-            <div className="space-y-1.5 text-[11px] text-slate-700 font-medium">
-              {languagesList.map((lang, index) => <p key={index}>• {lang}</p>)}
-            </div>
-          </div>
-
-          {/* Technical Skills */}
-          <div>
-            <h2 className="text-xs font-bold tracking-widest text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase mb-2.5">
-              TECHNICAL SKILLS
+              {skillsHeading}
             </h2>
             <div className="space-y-1.5 text-[11px] text-slate-700 font-medium">
               {skillsList.length > 0 ? (
@@ -182,36 +226,62 @@ export default function TemplateCorporate({
             </div>
           </div>
 
-          {/* Strengths */}
-          <div>
-            <h2 className="text-xs font-bold tracking-widest text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase mb-2.5">
-              STRENGTHS
-            </h2>
-            <div className="space-y-1.5 text-[11px] text-slate-700 font-medium">
-              {strengthsList.map((str, index) => (
-                <p key={index}>● {str}</p>
-              ))}
-            </div>
-          </div>
+          {/* Dynamic Sidebar Sections */}
+          {sidebarSections.length > 0 ? (
+            sidebarSections.map((sec, index) => (
+              <div key={index}>
+                <h2 className="text-xs font-bold tracking-widest text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase mb-2.5">
+                  {sec.heading}
+                </h2>
+                <div className="space-y-1.5 text-[11px] text-slate-700 font-medium">
+                  {sec.items.map((item, idx) => (
+                    <p key={idx}>• {item}</p>
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <>
+              {/* Fallback legacy sections */}
+              <div>
+                <h2 className="text-xs font-bold tracking-widest text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase mb-2.5">
+                  LANGUAGES
+                </h2>
+                <div className="space-y-1.5 text-[11px] text-slate-700 font-medium">
+                  {languagesList.map((lang: string, index: number) => <p key={index}>• {lang}</p>)}
+                </div>
+              </div>
+              <div>
+                <h2 className="text-xs font-bold tracking-widest text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase mb-2.5">
+                  STRENGTHS
+                </h2>
+                <div className="space-y-1.5 text-[11px] text-slate-700 font-medium">
+                  {strengthsList.map((str: string, index: number) => (
+                    <p key={index}>● {str}</p>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
 
         </div>
 
         {/* ── Right Content Area (White background) ── */}
         <div className="flex-1 p-8 print:p-5 print:py-5.5 space-y-4.5">
 
-          {/* Professional Profile */}
-          {aiResume.summary && (
+          {/* Professional Summary */}
+          {(aiResume.professional_summary || aiResume.professional_summary === "" || (aiResume as any).summary) && (
             <div>
               <h2 className="text-xs font-bold text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase tracking-wide mb-2">
-                PROFESSIONAL PROFILE
+                PROFESSIONAL SUMMARY
               </h2>
               <p className="text-[11px] leading-5 text-slate-700 text-justify">
-                {aiResume.summary}
+                {aiResume.professional_summary || (aiResume as any).summary}
               </p>
             </div>
           )}
 
-          {/* Education Table */}
+          {/* Education */}
           <div>
             <h2 className="text-xs font-bold text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase tracking-wide mb-2">
               EDUCATION
@@ -220,16 +290,23 @@ export default function TemplateCorporate({
               <table className="w-full text-left text-[11px] border-collapse">
                 <thead>
                   <tr className="bg-[#0f1e36] text-white text-[10px] uppercase tracking-wider">
-                    <th className="py-1.5 px-3 font-bold">Qualification</th>
+                    <th className="py-1.5 px-3 font-bold">Qualification / Institution</th>
                     <th className="py-1.5 px-3 font-bold w-24 text-center">Year</th>
                     <th className="py-1.5 px-3 font-bold w-20 text-center">Score</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {parsedEducation.length > 0 ? (
-                    parsedEducation.map((edu, index) => (
+                  {educationList.length > 0 ? (
+                    educationList.map((edu, index) => (
                       <tr key={index} className="border-b border-[#cbd5e0] last:border-b-0 hover:bg-slate-50/50">
-                        <td className="py-2 px-3 font-semibold text-slate-800">{edu.qualification}</td>
+                        <td className="py-2 px-3 font-semibold text-slate-800">
+                          {edu.qualification}
+                          {(edu.institution || edu.location) && (
+                            <span className="block text-[10px] font-normal text-slate-500">
+                              {edu.institution || ""}{edu.location ? `, ${edu.location}` : ""}
+                            </span>
+                          )}
+                        </td>
                         <td className="py-2 px-3 text-slate-600 text-center">{edu.year}</td>
                         <td className="py-2 px-3 font-bold text-slate-700 text-center">{edu.score}</td>
                       </tr>
@@ -244,51 +321,104 @@ export default function TemplateCorporate({
             </div>
           </div>
 
-          {/* Core Competencies */}
-          <div>
-            <h2 className="text-xs font-bold text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase tracking-wide mb-2.5">
-              CORE COMPETENCIES
-            </h2>
-            <div className="space-y-1.5 text-[11px] text-slate-700 leading-4">
-              {competenciesList.map((comp, index) => {
-                const parts = comp.split(":");
-                const title = parts[0];
-                const desc = parts.slice(1).join(":");
-                return (
-                  <p key={index}>
-                    <strong className="text-slate-800 font-bold">▸ {title}:</strong>{desc}
-                  </p>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Academic Projects & Engagements */}
+          {/* Professional Experience */}
           {aiResume.experience && aiResume.experience.length > 0 && (
             <div>
               <h2 className="text-xs font-bold text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase tracking-wide mb-2.5">
-                ACADEMIC PROJECTS & ENGAGEMENTS
+                PROFESSIONAL EXPERIENCE
+              </h2>
+              <div className="space-y-3">
+                {aiResume.experience.map((exp, index) => {
+                  const orgName = exp.organization || (exp as any).company || "";
+                  const loc = exp.location || "";
+                  const duration = (exp.start_date && exp.end_date)
+                    ? `${exp.start_date} - ${exp.end_date}`
+                    : ((exp as any).duration || "");
+
+                  return (
+                    <div key={index} className="text-[11px] text-slate-700">
+                      <div className="flex justify-between items-baseline font-bold text-slate-800">
+                        <span>▸ {exp.title}</span>
+                        <span className="text-slate-500 font-medium text-[10px]">{duration}</span>
+                      </div>
+                      {orgName && (
+                        <p className="text-cyan-700 font-semibold mb-0.5">
+                          {orgName}{loc ? ` (${loc})` : ""}
+                        </p>
+                      )}
+                      {exp.bullets && exp.bullets.length > 0 ? (
+                        <ul className="list-disc pl-4.5 mt-1 space-y-1 text-slate-600">
+                          {exp.bullets.map((bullet, idx) => (
+                            <li key={idx} className="leading-4 text-justify">{bullet}</li>
+                          ))}
+                        </ul>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Dynamic Main Sections (Awards, Volunteer, Projects, etc.) */}
+          {mainSections.map((sec, index) => (
+            <div key={index}>
+              <h2 className="text-xs font-bold text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase tracking-wide mb-2.5">
+                {sec.heading}
+              </h2>
+              <ul className="list-disc pl-4.5 mt-1 space-y-1 text-[11px] text-slate-700">
+                {sec.items.map((item, idx) => (
+                  <li key={idx} className="leading-relaxed">{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+
+          {/* Legacy Key Projects Fallback */}
+          {(!aiResume.additional_sections || aiResume.additional_sections.length === 0) && (aiResume as any).projects && (aiResume as any).projects.length > 0 && (
+            <div>
+              <h2 className="text-xs font-bold text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase tracking-wide mb-2.5">
+                KEY PROJECTS & ENGAGEMENTS
               </h2>
               <div className="space-y-2">
-                {aiResume.experience.map((exp, index) => (
+                {((aiResume as any).projects as any[]).map((proj, index) => (
                   <div key={index} className="text-[11px] text-slate-700">
-                    <div className="flex justify-between items-baseline font-bold text-slate-800">
-                      <span>▸ {exp.title}</span>
-                      <span className="text-slate-500 font-medium text-[10px]">{exp.duration}</span>
+                    <div className="font-bold text-slate-800">
+                      <span>▸ {proj.name}</span>
                     </div>
-                    {exp.company && <p className="text-cyan-700 font-semibold mb-0.5">{exp.company}</p>}
-                    {exp.bullets && exp.bullets.length > 0 ? (
+                    {proj.description && (
                       <p className="text-slate-600 pl-4.5 mt-0.5 leading-4 text-justify">
-                        {exp.bullets.join(" ")}
+                        {proj.description}
                       </p>
-                    ) : null}
+                    )}
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Certifications (Positioned properly to fit) */}
+          {/* Legacy Competencies Fallback */}
+          {(!aiResume.additional_sections || aiResume.additional_sections.length === 0) && competenciesList && competenciesList.length > 0 && (
+            <div>
+              <h2 className="text-xs font-bold text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase tracking-wide mb-2.5">
+                CORE COMPETENCIES
+              </h2>
+              <div className="space-y-1.5 text-[11px] text-slate-700 leading-4">
+                {competenciesList.map((comp: string, index: number) => {
+                  const parts = comp.split(":");
+                  const title = parts[0];
+                  const desc = parts.slice(1).join(":");
+                  return (
+                    <p key={index}>
+                      <strong className="text-slate-800 font-bold">▸ {title}:</strong>{desc}
+                    </p>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Certifications */}
           {aiResume.certifications && aiResume.certifications.length > 0 && (
             <div>
               <h2 className="text-xs font-bold text-[#0f1e36] border-b border-[#cbd5e0] pb-1 uppercase tracking-wide mb-2">

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useTheme } from "@/app/context/ThemeContext";
 import {
@@ -20,6 +20,37 @@ export default function SettingsPage() {
   const [notifications, setNotifications] = useState(true);
   const [loading, setLoading] = useState(false);
   const { theme, toggleTheme } = useTheme();
+
+  // Load notification setting from Supabase user metadata on mount
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (user && active) {
+        const metadata = user.user_metadata;
+        if (metadata && typeof metadata.email_reports !== "undefined") {
+          setNotifications(metadata.email_reports);
+        }
+      }
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Update notification setting in Supabase
+  async function handleToggleNotifications() {
+    const nextVal = !notifications;
+    setNotifications(nextVal);
+    try {
+      await supabase.auth.updateUser({
+        data: {
+          email_reports: nextVal,
+        },
+      });
+    } catch (err) {
+      console.error("Failed to save notification preference:", err);
+    }
+  }
 
   // ── Change Password state ──
   const [showPasswordForm, setShowPasswordForm] = useState(false);
@@ -262,7 +293,7 @@ export default function SettingsPage() {
             </div>
 
             <button
-              onClick={() => setNotifications(!notifications)}
+              onClick={handleToggleNotifications}
               className={`
                 relative inline-flex h-8 w-16 items-center rounded-full
                 transition-colors duration-300 ease-in-out

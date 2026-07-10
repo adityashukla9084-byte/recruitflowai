@@ -40,6 +40,8 @@ export default function ProfilePage() {
     phone: "",
     education: "",
     university: "",
+    linkedin: "",
+    github: "",
     bio: "",
     email: "",
     avatar_url: "",
@@ -79,6 +81,7 @@ export default function ProfilePage() {
 
   async function loadProfile() {
     try {
+      
       const { data: { user } } = await supabase.auth.getUser();
       if (!user) return;
 
@@ -109,6 +112,8 @@ export default function ProfilePage() {
         phone: profileData.phone || "",
         education: profileData.education || "",
         university: profileData.university || "",
+        linkedin: profileData.linkedin || "",
+        github: profileData.github || "",
         bio: profileData.bio || "",
         email: user.email || "",
         avatar_url: profileData.avatar_url || "",
@@ -222,6 +227,8 @@ export default function ProfilePage() {
             phone: profile.phone || "",
             education: profile.education || "",
             university: profile.university || "",
+            linkedin: profile.linkedin || "",
+            github: profile.github || "",
             bio: profile.bio || ""
           });
         dbError = error;
@@ -275,14 +282,36 @@ export default function ProfilePage() {
       console.warn(err);
     }
   }
+async function sendTestEmail() {
+  try {
+    const response = await fetch("/api/send-email", {
+      method: "POST",
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      triggerToast("success", "Test email sent successfully.");
+    } else {
+      triggerToast("error", data.error || "Failed to send email.");
+    }
+  } catch (error) {
+    triggerToast("error", "Something went wrong.");
+  }
+}
+
 
   async function saveProfile() {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
+
+      
+     const { data: { user } } = await supabase.auth.getUser();
       if (!user) {
         triggerToast("error", "User session not found.");
         return;
       }
+      
+
 
       setSaving(true);
 
@@ -291,6 +320,8 @@ export default function ProfilePage() {
         phone: profile.phone || "",
         education: profile.education || "",
         university: profile.university || "",
+        linkedin: profile.linkedin || "",
+        github: profile.github || "",
         bio: profile.bio || "",
         avatar_url: profile.avatar_url || ""
       };
@@ -982,12 +1013,20 @@ export default function ProfilePage() {
               </AnimatePresence>
 
               {/* Action Buttons row */}
+              
               <div className="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-white/5">
+              <button
+  onClick={sendTestEmail}
+  className="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 font-bold"
+>
+  Send Test Email
+</button>
                 <button
                   onClick={saveProfile}
                   disabled={saving}
                   className="rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] text-white px-8 py-3.5 font-bold disabled:opacity-50 transition-all flex items-center gap-2 self-end shrink-0 cursor-pointer"
                 >
+               
                   {saving ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />

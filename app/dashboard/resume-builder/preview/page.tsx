@@ -1,18 +1,35 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Sparkles } from "lucide-react";
 import TemplateCorporate from "../components/TemplateCorporate";
+
+type ContactInfo = {
+  email: string;
+  phone: string;
+  location: string;
+  linkedin: string;
+};
 
 type ExperienceItem = {
   title: string;
-  company: string;
-  duration: string;
+  organization: string;
+  location: string;
+  start_date: string;
+  end_date: string;
   bullets: string[];
 };
 
-type ProjectItem = {
-  name: string;
-  description: string;
+type EducationItem = {
+  degree: string;
+  institution: string;
+  location: string;
+  year: string;
+};
+
+type AdditionalSection = {
+  heading: string;
+  items: string[];
 };
 
 type ResumeData = {
@@ -23,13 +40,20 @@ type ResumeData = {
     skills: string;
     education: string;
     experience: string;
+    targetRole?: string;
+    location?: string;
+    linkedin?: string;
   };
   aiResume: {
-    summary: string;
+    full_name: string;
+    target_role: string;
+    contact: ContactInfo;
+    professional_summary: string;
+    core_skills: string[];
     experience: ExperienceItem[];
-    projects: ProjectItem[];
+    education: EducationItem[];
     certifications: string[];
-    languages: string[];
+    additional_sections: AdditionalSection[];
   };
 };
 
@@ -57,11 +81,15 @@ export default function ResumePreview() {
               experience: "",
             },
             aiResume: {
-              summary: parsed,
+              full_name: "Your Name",
+              target_role: "",
+              contact: { email: "", phone: "", location: "", linkedin: "" },
+              professional_summary: parsed,
+              core_skills: [],
               experience: [],
-              projects: [],
+              education: [],
               certifications: [],
-              languages: ["English"],
+              additional_sections: [],
             },
           });
         } else {
@@ -79,11 +107,15 @@ export default function ResumePreview() {
             experience: "",
           },
           aiResume: {
-            summary: data,
+            full_name: "Your Name",
+            target_role: "",
+            contact: { email: "", phone: "", location: "", linkedin: "" },
+            professional_summary: data,
+            core_skills: [],
             experience: [],
-            projects: [],
+            education: [],
             certifications: [],
-            languages: ["English"],
+            additional_sections: [],
           },
         });
       }
@@ -111,31 +143,44 @@ export default function ResumePreview() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 p-10">
-      <div className="max-w-5xl mx-auto print-container">
+    <main className="min-h-screen bg-slate-950 p-6 md:p-12 relative overflow-hidden">
+      {/* Background blobs for premium space-dark look */}
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
 
-        <div className="flex items-center justify-between mb-8 no-print">
-          <h1 className="text-4xl font-bold text-white">
-            AI Resume Preview
-          </h1>
+      <div className="max-w-5xl mx-auto print-container relative z-10 space-y-8">
 
-          <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print border-b border-slate-900 pb-6">
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-wider">
+              <Sparkles className="h-3 w-3" />
+              <span>ATS Score Optimized</span>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-black text-white leading-none">
+              AI Resume Preview
+            </h1>
+            <p className="text-xs text-slate-400 font-medium">
+              Review your polished resume. Click Download PDF to save or print the document.
+            </p>
+          </div>
+
+          <div className="flex gap-3">
             <a
               href="/dashboard/resume-builder"
-              className="rounded-xl border border-slate-600 hover:border-cyan-500 px-6 py-3 font-bold text-white transition"
+              className="rounded-xl border border-slate-800 hover:border-slate-700 px-5 py-3.5 font-bold text-sm text-slate-300 hover:text-white transition flex items-center gap-2 cursor-pointer bg-slate-950/20 backdrop-blur"
             >
-              ← Edit
+              <span>← Edit Details</span>
             </a>
             <button
               onClick={() => window.print()}
-              className="rounded-xl bg-cyan-500 hover:bg-cyan-600 px-6 py-3 font-bold text-white transition"
+              className="rounded-xl bg-cyan-500 hover:bg-cyan-600 text-slate-950 px-6 py-3.5 font-bold text-sm transition flex items-center gap-2 cursor-pointer shadow-lg shadow-cyan-500/10"
             >
-              Download PDF
+              <span>Download PDF</span>
             </button>
           </div>
         </div>
 
-        <div className="resume-template">
+        <div className="resume-template shadow-2xl rounded-2xl overflow-hidden print:rounded-none">
           <TemplateCorporate
             formData={resumeData.formData}
             aiResume={resumeData.aiResume}

@@ -14,55 +14,62 @@ export async function POST(request: Request) {
     });
 
     const prompt = `
-You are a world-class ATS Resume Writer.
+You are an expert resume writer with deep experience across every industry — education, healthcare, sales, hospitality, skilled trades, government, engineering, software, and more.
 
-Create a professional one-page resume for the following candidate.
+You will be given raw information about a real person: their work history, education, certifications, skills, and achievements, written in their own words.
 
-Candidate Details:
-Name: ${body.name}
-Email: ${body.email}
-Phone: ${body.phone}
-Skills: ${body.skills}
-Education: ${body.education}
-Experience: ${body.experience}
+Raw Candidate Information:
+- Full Name: ${body.name || ""}
+- Contact Email: ${body.email || ""}
+- Contact Phone: ${body.phone || ""}
+- Location: ${body.location || ""}
+- LinkedIn: ${body.linkedin || ""}
+- Target Role / Job Description (if any): ${body.targetRole || ""}
+- Skills: ${body.skills || ""}
+- Education: ${body.education || ""}
+- Experience / Work History / Achievements: ${body.experience || ""}
 
-IMPORTANT: You MUST respond with valid JSON only. No markdown, no code fences, no extra text.
-
-Return this exact JSON structure:
-{
-  "summary": "A strong 3-4 sentence professional summary",
-  "experience": [
-    {
-      "title": "Job Title",
-      "company": "Company Name",
-      "duration": "Start - End",
-      "bullets": ["achievement 1", "achievement 2", "achievement 3"]
-    }
-  ],
-  "projects": [
-    {
-      "name": "Project Name",
-      "description": "Brief description of the project and technologies used"
-    }
-  ],
-  "certifications": ["Certification 1", "Certification 2"],
-  "languages": ["Language 1", "Language 2"],
-  "strengths": ["Soft Strength 1", "Soft Strength 2", "Soft Strength 3", "Soft Strength 4", "Soft Strength 5"],
-  "competencies": [
-    "Competency 1: Brief description of candidate's capacity",
-    "Competency 2: Brief description of candidate's capacity",
-    "Competency 3: Brief description of candidate's capacity"
-  ]
-}
+Before writing anything, work out what field this person is actually in from the information given. Let that determine every choice below — do not default to a generic template.
 
 Rules:
-- Generate realistic, ATS-friendly content based on the candidate's details.
-- "strengths" MUST be soft/personal skills (e.g. "Clear Communicator", "Analytical Thinker", "Detail-Oriented", "Time Management") and must not repeat the candidate's technical skills.
-- If candidate didn't provide experience, create relevant experience entries based on their skills.
-- If candidate didn't provide specific info for a section, generate suitable recommendations.
-- Keep language professional and action-oriented.
-- Use strong action verbs in experience bullets.
-- Return ONLY the JSON object, nothing else.
+- Rewrite everything in polished, professional resume language. Never copy the input word-for-word.
+- Start every bullet with a strong action verb (Led, Designed, Managed, Taught, Reduced, Increased, Coordinated).
+- Include numbers and results wherever the input supports them (students taught, revenue, percentage, team size, time saved). Never invent numbers that aren't in the input.
+- Choose skills and section headings that fit THIS person's actual field. Do not add a "Technical Skills" section listing programming languages or software tools unless the person's background genuinely involves them. For non-technical fields, label the section "Core Skills" or "Key Competencies" and only include skills the input actually supports.
+- Never invent employers, dates, job titles, certifications, or skills that aren't in the input. If something is missing, leave it out rather than guessing.
+- If a target role or job description is provided, lean the professional summary and skills toward its language and priorities — but only where the person's real background actually supports it.
+
+Output ONLY valid JSON, exactly in this structure, with nothing before or after it — no markdown, no explanation:
+
+{
+  "full_name": "${body.name || ""}",
+  "target_role": "${body.targetRole || ""}",
+  "contact": { 
+    "email": "${body.email || ""}", 
+    "phone": "${body.phone || ""}", 
+    "location": "${body.location || ""}", 
+    "linkedin": "${body.linkedin || ""}" 
+  },
+  "professional_summary": "2-3 sentences, tailored to this person's field and experience level",
+  "core_skills": ["field-relevant, evidence-based skills only"],
+  "experience": [
+    {
+      "title": "",
+      "organization": "",
+      "location": "",
+      "start_date": "",
+      "end_date": "",
+      "bullets": ["one-line, achievement-focused bullet"]
+    }
+  ],
+  "education": [
+    { "degree": "", "institution": "", "location": "", "year": "" }
+  ],
+  "certifications": [""],
+  "additional_sections": [
+    { "heading": "e.g. Awards, Publications, Volunteer Work", "items": [""] }
+  ]
+}
 `;
 
     const result = await model.generateContent(prompt);
@@ -88,11 +95,20 @@ Rules:
       // If JSON parsing fails, return the raw text as a fallback summary
       return NextResponse.json({
         resume: {
-          summary: cleanedText,
+          full_name: body.name || "",
+          target_role: body.targetRole || "",
+          contact: {
+            email: body.email || "",
+            phone: body.phone || "",
+            location: body.location || "",
+            linkedin: body.linkedin || ""
+          },
+          professional_summary: cleanedText,
+          core_skills: [],
           experience: [],
-          projects: [],
+          education: [],
           certifications: [],
-          languages: ["English"],
+          additional_sections: []
         },
       });
     }
