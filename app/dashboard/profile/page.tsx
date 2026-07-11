@@ -1015,12 +1015,6 @@ async function sendTestEmail() {
               {/* Action Buttons row */}
               
               <div className="flex items-center justify-end gap-3 mt-8 pt-6 border-t border-white/5">
-              <button
-  onClick={sendTestEmail}
-  className="rounded-xl bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 font-bold"
->
-  Send Test Email
-</button>
                 <button
                   onClick={saveProfile}
                   disabled={saving}
