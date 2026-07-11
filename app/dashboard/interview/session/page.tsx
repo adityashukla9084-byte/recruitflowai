@@ -35,7 +35,7 @@ function InterviewSessionContent() {
   const [cameraEnabled, setCameraEnabled] = useState(true);
 
   // Timer state
-  const [timeLeft, setTimeLeft] = useState(90);
+  const [timeLeft, setTimeLeft] = useState(120);
 
   // Speech Recognition states
   const [isListening, setIsListening] = useState(false);
@@ -59,7 +59,7 @@ function InterviewSessionContent() {
           }
         })
         .catch((err) => {
-          console.error("Camera access denied or unavailable:", err);
+          console.warn("Camera access denied or unavailable:", err);
           setCameraEnabled(false);
         });
     } else {
@@ -96,7 +96,7 @@ function InterviewSessionContent() {
 
       rec.onresult = (event: any) => {
         let currentTranscript = "";
-        for (let i = event.resultIndex; i < event.results.length; i++) {
+        for (let i = 0; i < event.results.length; i++) {
           currentTranscript += event.results[i][0].transcript;
         }
         if (currentTranscript.trim()) {
@@ -109,7 +109,7 @@ function InterviewSessionContent() {
       };
 
       rec.onerror = (e: any) => {
-        console.error("Speech Recognition Error:", e);
+        console.warn("Speech Recognition Error:", e.error, e.message);
         if (e.error === "not-allowed") {
           setPermissionError(true);
         }
@@ -220,7 +220,7 @@ function InterviewSessionContent() {
         if (prev <= 1) {
           clearInterval(interval);
           submitAnswer();
-          return 90;
+          return 120;
         }
         return prev - 1;
       });
@@ -232,7 +232,7 @@ function InterviewSessionContent() {
 
   // Reset timer on new question
   useEffect(() => {
-    setTimeLeft(90);
+    setTimeLeft(120);
   }, [questionCount]);
 
   // Auto-submit logic after 4 seconds of silence when user stops talking
@@ -261,7 +261,7 @@ function InterviewSessionContent() {
         setAnswer("");
         recognitionRef.current.start();
       } catch (err) {
-        console.error("Failed to start speech recognition:", err);
+        console.warn("Failed to start speech recognition:", err);
       }
     }
   };
@@ -271,7 +271,7 @@ function InterviewSessionContent() {
       try {
         recognitionRef.current.stop();
       } catch (err) {
-        console.error("Failed to stop speech recognition:", err);
+        console.warn("Failed to stop speech recognition:", err);
       }
     }
   };
@@ -332,6 +332,22 @@ function InterviewSessionContent() {
       console.error("Submission failed:", err);
       setLoading(false);
       setInterviewerStatus("listening");
+    }
+  }
+
+  function handleEndInterview() {
+    if (confirm("Are you sure you want to end the interview now? Your progress will be saved, and you will be redirected to the performance scorecard.")) {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch (e) {}
+      }
+      if (stream) {
+        try {
+          stream.getTracks().forEach((track) => track.stop());
+        } catch (e) {}
+      }
+      window.location.href = "/dashboard/interview/report";
     }
   }
 
@@ -479,11 +495,20 @@ function InterviewSessionContent() {
               <h1 className="text-3xl font-black tracking-tight leading-none text-white">AI Assessment</h1>
               <p className="text-xs text-theme-text-secondary mt-1.5 font-bold uppercase tracking-widest">{role}</p>
             </div>
-            {hasResume !== null && (
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md border bg-indigo-500/10 border-indigo-500/20 text-indigo-400">
-                {hasResume ? "Tailored to your resume" : "General profile interview"}
-              </span>
-            )}
+            <div className="flex items-center gap-3">
+              {hasResume !== null && (
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md border bg-indigo-500/10 border-indigo-500/20 text-indigo-400">
+                  {hasResume ? "Tailored to your resume" : "General profile interview"}
+                </span>
+              )}
+              <button
+                onClick={handleEndInterview}
+                className="rounded-xl border border-red-500/30 hover:border-red-500 hover:bg-red-500/10 text-red-400 px-4 py-2 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-slate-950/20 backdrop-blur"
+              >
+                <X size={14} />
+                <span>End Interview</span>
+              </button>
+            </div>
           </div>
 
           {/* Micro-Notification Banner */}
