@@ -29,7 +29,7 @@ import SalaryCard from "./components/SalaryCard";
 import CoverLetterCard from "./components/CoverLetterCard";
 import DownloadReportButton from "./components/DownloadReportButton";
 import StatsCards from "./components/StatsCards";
-import Header from "./components/header";
+
 import Hero from "./components/hero";
 import KeywordComparison from "./components/KeywordComparison";
 import QuickActions from "./components/QuickActions";
@@ -279,7 +279,7 @@ export default function Dashboard() {
       <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-blue-500/5 to-cyan-500/5 blur-[120px] pointer-events-none animate-float-slow" />
       <div className="absolute bottom-[10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-cyan-500/5 via-blue-500/10 to-cyan-500/5 blur-[100px] pointer-events-none animate-float-medium" />
 
-      <Header />
+
 
       <div className="mx-auto max-w-7xl px-6 sm:px-10 py-4 pb-10 space-y-4 relative z-10">
         {/* Page context */}

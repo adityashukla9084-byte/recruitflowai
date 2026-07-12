@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { Sun, Moon, Bell, Check, Sparkles, Clock, User, Settings, LogOut } from "lucide-react";
+import { Sun, Moon, Bell, Check, Sparkles, Clock, User, Settings, LogOut, Menu } from "lucide-react";
 import { useTheme } from "../../context/ThemeContext";
 
 interface NotificationItem {
@@ -73,9 +73,18 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-30 h-[60px] flex items-center justify-between border-b border-theme-border/40 bg-theme-bg/75 backdrop-blur-md px-6 sm:px-10">
-      <h1 className="text-sm font-bold text-theme-text tracking-wider uppercase opacity-85 select-none">
-        Workspace
-      </h1>
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => window.dispatchEvent(new CustomEvent("toggle-sidebar"))}
+          className="md:hidden p-2 rounded-lg text-theme-text-muted hover:text-theme-text hover:bg-theme-card-hover transition-all duration-200 cursor-pointer"
+          aria-label="Toggle navigation menu"
+        >
+          <Menu size={16} />
+        </button>
+        <h1 className="text-sm font-bold text-theme-text tracking-wider uppercase opacity-85 select-none">
+          Workspace
+        </h1>
+      </div>
 
       <div className="flex items-center gap-1 relative" ref={dropdownRef}>
         {/* Theme toggle */}
