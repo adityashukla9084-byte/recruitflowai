@@ -105,7 +105,7 @@ export default function Home() {
             </Link>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link 
-                href="/signup" 
+                href="/login" 
                 className="text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-xl transition-all duration-200 border border-indigo-500/30 shadow-[0_4px_12px_rgba(99,102,241,0.2)]"
               >
                 Sign Up
@@ -158,7 +158,7 @@ export default function Home() {
             className="w-full sm:w-auto"
           >
             <Link 
-              href="/signup" 
+              href="/login" 
               className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:shadow-[0_0_24px_rgba(99,102,241,0.45)] text-white px-8 py-4 font-bold text-sm transition-all"
             >
               <span>Scan Your Resume Free</span>
@@ -185,7 +185,7 @@ export default function Home() {
             className="w-full sm:w-auto"
           >
             <Link 
-              href="/signup" 
+              href="/login" 
               className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl border border-indigo-500/20 bg-indigo-500/5 hover:bg-indigo-500/10 text-indigo-300 px-8 py-4 font-bold text-sm transition-all shadow-[0_4px_12px_rgba(99,102,241,0.05)]"
             >
               <span>Sign Up</span>
@@ -471,7 +471,7 @@ export default function Home() {
               whileTap={{ scale: 0.95 }}
             >
               <Link 
-                href="/signup" 
+                href="/login" 
                 className="flex items-center gap-2 rounded-xl bg-white hover:bg-slate-200 text-slate-950 px-8 py-4 font-bold text-sm shadow-xl transition-all"
               >
                 <span>Sign Up Free</span>
