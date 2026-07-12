@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-black text-theme-text">
@@ -8,7 +10,7 @@ export default function Home() {
           RecruitFlow AI
         </h1>
 
-        <div className="space-x-6">
+        <div className="space-x-6 flex items-center">
           <button className="hover:text-cyan-400 transition">
             Features
           </button>
@@ -17,9 +19,9 @@ export default function Home() {
             Pricing
           </button>
 
-          <button className="hover:text-cyan-400 transition">
+          <Link href="/login" className="hover:text-cyan-400 transition">
             Login
-          </button>
+          </Link>
         </div>
       </nav>
 
@@ -38,9 +40,9 @@ export default function Home() {
         </p>
 
         <div className="mt-10 flex gap-5">
-          <button className="bg-cyan-500 hover:bg-cyan-600 px-8 py-4 rounded-xl text-lg font-semibold transition">
+          <Link href="/login" className="bg-cyan-500 hover:bg-cyan-600 px-8 py-4 rounded-xl text-lg font-semibold transition">
             Get Started
-          </button>
+          </Link>
 
           <button className="border border-cyan-500 hover:bg-cyan-500 px-8 py-4 rounded-xl transition">
             Live Demo
