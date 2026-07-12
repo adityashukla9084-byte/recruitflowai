@@ -101,7 +101,7 @@ export default function Home() {
 
           <div className="flex items-center gap-4">
             <Link href="/login" className="text-xs font-semibold text-slate-300 hover:text-slate-100 transition-colors">
-              Sign In
+              Log In
             </Link>
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link 
@@ -175,7 +175,7 @@ export default function Home() {
               href="/login" 
               className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 text-slate-100 px-8 py-4 font-bold text-sm transition-all shadow-[0_4px_12px_rgba(0,0,0,0.1)]"
             >
-              <span>Sign In to Account</span>
+              <span>Log In</span>
             </Link>
           </motion.div>
 
