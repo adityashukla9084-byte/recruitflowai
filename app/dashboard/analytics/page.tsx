@@ -140,7 +140,7 @@ export default function AnalyticsPage() {
     <main className="min-h-screen bg-theme-bg text-theme-text p-6 md:p-12 relative overflow-hidden flex justify-center items-start">
       {/* Background blurred glow elements */}
       <div className="absolute top-0 left-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-6xl w-full space-y-10 relative z-10 animate-[fadeIn_0.5s]">
         
@@ -190,9 +190,9 @@ export default function AnalyticsPage() {
           <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-5 flex items-center justify-between shadow-[var(--shadow-card)] hover:border-cyan-500/20 transition-all duration-300">
             <div className="space-y-1.5">
               <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest block">Average Score</span>
-              <h3 className="text-3xl font-black text-indigo-400 font-mono leading-none">{stats.avgScore}%</h3>
+              <h3 className="text-3xl font-black text-teal-400 font-mono leading-none">{stats.avgScore}%</h3>
             </div>
-            <div className="h-10 w-10 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center border border-indigo-500/20">
+            <div className="h-10 w-10 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center border border-teal-500/20">
               <TrendingUp size={18} />
             </div>
           </div>
@@ -240,7 +240,7 @@ export default function AnalyticsPage() {
               <div>
                 <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">Progress History</p>
                 <h3 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Activity size={13} className="text-indigo-400" />
+                  <Activity size={13} className="text-teal-400" />
                   <span>ATS Evaluation Timeline</span>
                 </h3>
               </div>

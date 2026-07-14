@@ -183,7 +183,7 @@ export default function ResumeBuilder() {
     <main className="min-h-screen bg-slate-950 text-white p-4 md:p-8 relative overflow-hidden flex items-center justify-center">
       {/* Decorative Background Glowing Blobs */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl w-full grid lg:grid-cols-5 gap-8 items-start relative z-10">
         

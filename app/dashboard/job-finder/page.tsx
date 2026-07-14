@@ -132,7 +132,7 @@ export default function JobFinderPage() {
     <main className="min-h-screen bg-theme-bg text-theme-text p-6 md:p-12 relative overflow-hidden flex justify-center items-start">
       {/* Background blurred glow elements */}
       <div className="absolute top-0 left-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-6xl w-full space-y-10 relative z-10 animate-[fadeIn_0.5s]">
         
@@ -281,7 +281,7 @@ export default function JobFinderPage() {
                         </div>
 
                         <div className="flex items-center gap-1.5 bg-slate-950/60 border border-slate-900 px-3 py-1.5 rounded-xl">
-                          <MapPin size={13} className="text-indigo-400" />
+                          <MapPin size={13} className="text-teal-400" />
                           <span>{job.location}</span>
                         </div>
 

@@ -146,7 +146,7 @@ export default function ResumePreview() {
     <main className="min-h-screen bg-slate-950 p-6 md:p-12 relative overflow-hidden">
       {/* Background blobs for premium space-dark look */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto print-container relative z-10 space-y-8">
 

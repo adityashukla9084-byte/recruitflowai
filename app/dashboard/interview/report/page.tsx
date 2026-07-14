@@ -89,7 +89,7 @@ export default function InterviewReportPage() {
   // Determine score status levels
   const getScoreDetails = (score: number) => {
     if (score >= 80) return { color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", label: "Excellent Performance" };
-    if (score >= 60) return { color: "text-indigo-400", bg: "bg-indigo-500/10", border: "border-indigo-500/20", label: "Meeting Expectations" };
+    if (score >= 60) return { color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20", label: "Meeting Expectations" };
     return { color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", label: "Needs Focused Preparation" };
   };
 
@@ -112,7 +112,7 @@ export default function InterviewReportPage() {
       
       {/* Decorative blurred background blobs */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-4xl w-full space-y-8 relative z-10">
         
@@ -191,20 +191,20 @@ export default function InterviewReportPage() {
 
           {/* Job Target Card */}
           <div className="md:col-span-2 rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 flex flex-col justify-between shadow-xl relative overflow-hidden group">
-            <div className="absolute -right-6 -bottom-6 w-32 h-32 bg-indigo-500/5 rounded-full blur-2xl group-hover:bg-indigo-500/10 transition duration-500" />
+            <div className="absolute -right-6 -bottom-6 w-32 h-32 bg-teal-500/5 rounded-full blur-2xl group-hover:bg-teal-500/10 transition duration-500" />
             <div className="space-y-4 relative z-10">
-              <div className="inline-flex p-2.5 rounded-xl bg-indigo-500/10 text-indigo-400">
+              <div className="inline-flex p-2.5 rounded-xl bg-teal-500/10 text-teal-400">
                 <Award className="h-5.5 w-5.5" />
               </div>
               <div>
-                <span className="text-[10px] text-indigo-400 font-bold uppercase tracking-widest">Job Classification</span>
+                <span className="text-[10px] text-teal-400 font-bold uppercase tracking-widest">Job Classification</span>
                 <h3 className="text-2xl font-black tracking-tight text-white mt-1 leading-snug">{report.job_role}</h3>
               </div>
             </div>
             
             <div className="pt-4 border-t border-theme-border/60 flex items-center justify-between text-xs text-theme-text-secondary font-medium mt-4">
               <span>Evaluation Criteria</span>
-              <span className="text-indigo-400 font-bold">Standard AI-Rubric v2</span>
+              <span className="text-teal-400 font-bold">Standard AI-Rubric v2</span>
             </div>
           </div>
 
@@ -227,7 +227,7 @@ export default function InterviewReportPage() {
           {/* Improvement Checklist Card */}
           <div className="rounded-2xl border border-theme-border bg-theme-card/25 backdrop-blur-xl p-6 md:p-8 space-y-5 shadow-xl flex flex-col">
             <h3 className="text-lg font-black tracking-tight text-white flex items-center gap-2 border-b border-theme-border/60 pb-3">
-              <BookOpen className="h-5 w-5 text-indigo-400" />
+              <BookOpen className="h-5 w-5 text-teal-400" />
               <span>Personalized Action Plan</span>
             </h3>
 

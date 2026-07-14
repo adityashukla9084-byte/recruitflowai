@@ -43,7 +43,9 @@ export default function ReportPage() {
       .single()
       .then(({ data, error }) => {
         if (active) {
-          if (!error && data) {
+          if (error) {
+            console.error("Error loading report:", error);
+          } else if (data) {
             setReport(data.result as unknown as AnalysisResult);
           }
           setLoading(false);
@@ -135,7 +137,7 @@ export default function ReportPage() {
           </div>
 
           {/* Metrics summary cards */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {/* ATS Score */}
             <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-4 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 relative overflow-hidden group">
               <span className="absolute left-0 top-0 bottom-0 w-[3px]" style={{ backgroundColor: scoreColor }} />

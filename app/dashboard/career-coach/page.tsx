@@ -104,7 +104,7 @@ export default function CareerCoachPage() {
     <main className="min-h-screen bg-theme-bg text-theme-text p-6 md:p-12 relative overflow-hidden flex justify-center items-start">
       {/* Background blobs */}
       <div className="absolute top-0 right-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 left-1/4 w-80 h-80 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-4xl w-full space-y-8 relative z-10 animate-[fadeIn_0.5s]">
         
@@ -143,7 +143,7 @@ export default function CareerCoachPage() {
                   {/* Avatar Icons */}
                   <div className={`h-8.5 w-8.5 rounded-full flex items-center justify-center shrink-0 border shadow-inner ${
                     isUser 
-                      ? "bg-indigo-500/10 border-indigo-500/20 text-indigo-400" 
+                      ? "bg-teal-500/10 border-teal-500/20 text-teal-400" 
                       : "bg-cyan-500/10 border-cyan-500/20 text-cyan-400"
                   }`}>
                     {isUser ? <User size={15} /> : <Sparkles size={14} />}
@@ -160,8 +160,8 @@ export default function CareerCoachPage() {
                     <div
                       className={`rounded-2xl p-4.5 text-sm leading-relaxed text-justify shadow-md ${
                         isUser
-                          ? "bg-gradient-to-tr from-indigo-600 to-indigo-500 text-white font-medium whitespace-pre-wrap"
-                          : "bg-slate-950/60 border border-slate-900 text-slate-100 font-medium"
+                          ? "bg-gradient-to-tr from-teal-600 to-cyan-500 text-white font-medium whitespace-pre-wrap"
+                          : "bg-slate-950/60 border border-slate-900 text-[#F5F5F4] font-medium"
                       }`}
                     >
                       {isUser ? (
@@ -306,7 +306,7 @@ function MarkdownRenderer({ content }: { content: string }) {
         if (numMatch) {
           return (
             <div key={index} className="flex items-start gap-2 pl-3">
-              <span className="text-indigo-400 font-bold shrink-0 select-none text-xs">{numMatch[1]}.</span>
+              <span className="text-teal-400 font-bold shrink-0 select-none text-xs">{numMatch[1]}.</span>
               <div className="flex-1">{parseBold(numMatch[2])}</div>
             </div>
           );
@@ -345,7 +345,7 @@ function parseBold(text: string) {
     return italicParts.map((subPart, j) => {
       if (subPart.startsWith("*") && subPart.endsWith("*")) {
         return (
-          <em key={j} className="text-slate-100 font-semibold italic">
+          <em key={j} className="text-[#F5F5F4] font-semibold italic">
             {subPart.slice(1, -1)}
           </em>
         );

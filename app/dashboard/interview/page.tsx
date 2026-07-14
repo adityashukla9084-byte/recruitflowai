@@ -82,7 +82,7 @@ export default function InterviewHome() {
   return (
     <main className="min-h-screen bg-theme-bg text-theme-text p-6 md:p-12 relative overflow-hidden">
       {/* Decorative blurred background blobs */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-teal-500/10 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto space-y-12 relative z-10">
@@ -105,13 +105,13 @@ export default function InterviewHome() {
         {hasResume !== null && (
           <div className={`rounded-2xl p-5 border backdrop-blur-xl shadow-[var(--shadow-card)] transition-all duration-300 ${
             hasResume 
-              ? "bg-indigo-500/5 border-indigo-500/20 text-indigo-300 hover:bg-indigo-500/10" 
+              ? "bg-teal-500/5 border-teal-500/20 text-teal-300 hover:bg-teal-500/10" 
               : "bg-amber-500/5 border-amber-500/20 text-amber-300 hover:bg-amber-500/10"
           }`}>
             <div className="flex items-start gap-4">
-              <div className={`p-2.5 rounded-xl shrink-0 ${hasResume ? "bg-indigo-500/10" : "bg-amber-500/10"}`}>
+              <div className={`p-2.5 rounded-xl shrink-0 ${hasResume ? "bg-teal-500/10" : "bg-amber-500/10"}`}>
                 {hasResume ? (
-                  <CheckCircle2 className="h-6 w-6 text-indigo-400" />
+                  <CheckCircle2 className="h-6 w-6 text-teal-400" />
                 ) : (
                   <AlertCircle className="h-6 w-6 text-amber-400" />
                 )}
@@ -168,9 +168,9 @@ export default function InterviewHome() {
           </div>
 
           {/* Custom Role Card */}
-          <div className="rounded-3xl border border-cyan-500/20 bg-gradient-to-br from-theme-card/30 to-indigo-950/20 backdrop-blur-xl p-6 md:p-8 flex flex-col justify-between space-y-6 shadow-xl hover:border-cyan-500/40 transition-all duration-300 relative group">
+          <div className="rounded-3xl border border-cyan-500/20 bg-gradient-to-br from-theme-card/30 to-teal-950/10 backdrop-blur-xl p-6 md:p-8 flex flex-col justify-between space-y-6 shadow-xl hover:border-cyan-500/40 transition-all duration-300 relative group">
             <div className="space-y-4">
-              <div className="inline-flex p-3 rounded-2xl bg-indigo-500/10 text-indigo-400">
+              <div className="inline-flex p-3 rounded-2xl bg-teal-500/10 text-teal-400">
                 <Sliders className="h-6 w-6" />
               </div>
               <h2 className="text-2xl font-bold tracking-tight">Configure Custom Role</h2>
@@ -180,7 +180,7 @@ export default function InterviewHome() {
             </div>
             <button
               onClick={() => router.push("/dashboard/interview/custom")}
-              className="w-full rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-4.5 text-center shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 transition cursor-pointer flex items-center justify-center gap-2"
+              className="w-full rounded-2xl bg-teal-600 hover:bg-indigo-700 text-white font-bold py-4.5 text-center shadow-lg shadow-teal-600/10 hover:shadow-teal-600/20 transition cursor-pointer flex items-center justify-center gap-2"
             >
               <span>Setup Custom Job Parameters</span>
               <Sliders className="h-4.5 w-4.5" />

@@ -43,7 +43,9 @@ export default function HistoryPage() {
       .eq("user_id", user.id)
       .order("created_at", { ascending: false });
 
-    if (!error && data) {
+    if (error) {
+      console.error("Error loading history:", error);
+    } else if (data) {
       setHistory(data);
     }
 
@@ -61,7 +63,9 @@ export default function HistoryPage() {
           .order("created_at", { ascending: false })
           .then(({ data, error }) => {
             if (active) {
-              if (!error && data) {
+              if (error) {
+                console.error("Error loading history in useEffect:", error);
+              } else if (data) {
                 setHistory(data);
               }
               setLoading(false);

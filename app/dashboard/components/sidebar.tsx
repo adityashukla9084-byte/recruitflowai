@@ -36,7 +36,7 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
       href={item.href}
       className={`relative flex items-center gap-2.5 px-3.5 py-2.5 text-sm rounded-xl transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 ${
         isActive
-          ? "text-theme-text bg-indigo-500/10 border border-indigo-500/20 font-semibold shadow-[0_4px_12px_rgba(99,102,241,0.08)]"
+          ? "text-theme-text bg-teal-500/10 border border-teal-500/20 font-semibold shadow-[0_4px_12px_rgba(20,184,166,0.08)]"
           : "text-theme-text-secondary hover:text-theme-text hover:bg-theme-card-hover/70 hover:translate-x-0.5 font-normal"
       }`}
     >
@@ -51,7 +51,7 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
       <Icon
         size={14}
         strokeWidth={isActive ? 2 : 1.75}
-        className={`shrink-0 transition-colors duration-200 ${isActive ? "text-indigo-500" : "text-theme-text-muted group-hover:text-theme-text-secondary"}`}
+        className={`shrink-0 transition-colors duration-200 ${isActive ? "text-teal-500" : "text-theme-text-muted group-hover:text-theme-text-secondary"}`}
       />
       <span>{item.name}</span>
     </Link>
@@ -105,13 +105,13 @@ export default function Sidebar() {
           <div className="flex items-center gap-2.5 px-3.5 pb-2 select-none">
             <div className="relative w-6 h-6 flex items-center justify-center shrink-0">
               <span
-                className="absolute w-4.5 h-4.5 rotate-45 border border-indigo-500/50 bg-indigo-500/10 rounded-[3px] animate-pulse"
+                className="absolute w-4.5 h-4.5 rotate-45 border border-teal-500/50 bg-teal-500/10 rounded-[3px] animate-pulse"
               />
               <span
-                className="absolute w-2 h-2 rotate-45 bg-gradient-to-tr from-violet-500 to-indigo-500 rounded-[1.5px]"
+                className="absolute w-2 h-2 rotate-45 bg-gradient-to-tr from-teal-500 to-cyan-500 rounded-[1.5px]"
               />
             </div>
-            <span className="text-sm font-bold bg-gradient-to-r from-violet-600 via-indigo-600 to-cyan-600 dark:from-violet-400 dark:via-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent tracking-tight">
+            <span className="text-sm font-bold bg-gradient-to-r from-teal-600 via-indigo-600 to-cyan-600 dark:from-teal-400 dark:via-indigo-400 dark:to-cyan-400 bg-clip-text text-transparent tracking-tight">
               RecruitFlow AI
             </span>
           </div>

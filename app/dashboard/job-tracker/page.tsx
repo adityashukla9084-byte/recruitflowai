@@ -132,10 +132,10 @@ export default function JobTracker() {
     switch (statusName.toLowerCase()) {
       case "applied":
         return {
-          glow: "bg-indigo-500",
-          text: "text-indigo-400",
-          border: "border-indigo-500/20",
-          pill: "bg-indigo-500/10 border-indigo-500/25 text-indigo-400",
+          glow: "bg-teal-500",
+          text: "text-teal-400",
+          border: "border-teal-500/20",
+          pill: "bg-teal-500/10 border-teal-500/25 text-teal-400",
         };
       case "interview":
         return {
@@ -172,7 +172,7 @@ export default function JobTracker() {
     <main className="min-h-screen bg-theme-bg text-theme-text p-6 md:p-12 relative overflow-hidden flex justify-center items-start">
       {/* Decorative blurred background blobs */}
       <div className="absolute top-0 left-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl w-full space-y-10 relative z-10 animate-[fadeIn_0.5s]">
         

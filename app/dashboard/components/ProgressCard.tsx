@@ -43,7 +43,7 @@ export default function ProgressCard({ title, value }: ProgressCardProps) {
         style={{ backgroundColor: `color-mix(in srgb, ${color} 10%, var(--bg-card-hover))` }}
       >
         <div
-          className="h-full rounded-full transition-all duration-1000 ease-out shadow-[0_0_8px_rgba(99,102,241,0.2)]"
+          className="h-full rounded-full transition-all duration-1000 ease-out shadow-[0_0_8px_rgba(20,184,166,0.2)]"
           style={{ 
             width: `${value}%`, 
             backgroundColor: color,

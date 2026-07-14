@@ -380,7 +380,7 @@ function InterviewSessionContent() {
       `}</style>
 
       {/* Background blobs */}
-      <div className="absolute top-0 left-1/4 w-80 h-80 bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-80 h-80 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-6xl w-full grid md:grid-cols-5 gap-6 relative z-10">
@@ -406,13 +406,13 @@ function InterviewSessionContent() {
             <div className="relative z-10 flex flex-col items-center gap-4 text-center">
               <div className={`h-24 w-24 rounded-full bg-gradient-to-br border-2 flex items-center justify-center shadow-2xl transition-all duration-500 ${
                 interviewerStatus === "speaking" 
-                  ? "from-cyan-500/20 to-indigo-500/20 border-cyan-500 scale-105" 
+                  ? "from-cyan-500/20 to-cyan-500/20 border-cyan-500 scale-105" 
                   : interviewerStatus === "thinking" 
-                  ? "from-indigo-500/20 to-purple-500/20 border-indigo-400 animate-pulse"
+                  ? "from-indigo-500/20 to-purple-500/20 border-teal-400 animate-pulse"
                   : "from-slate-800 to-slate-900 border-slate-700"
               }`}>
                 {interviewerStatus === "thinking" ? (
-                  <Brain className="h-10 w-10 text-indigo-400 animate-spin" />
+                  <Brain className="h-10 w-10 text-teal-400 animate-spin" />
                 ) : (
                   <Sparkles className={`h-10 w-10 ${interviewerStatus === "speaking" ? "text-cyan-400" : "text-slate-400"}`} />
                 )}
@@ -497,7 +497,7 @@ function InterviewSessionContent() {
             </div>
             <div className="flex items-center gap-3">
               {hasResume !== null && (
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md border bg-indigo-500/10 border-indigo-500/20 text-indigo-400">
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md border bg-teal-500/10 border-teal-500/20 text-teal-400">
                   {hasResume ? "Tailored to your resume" : "General profile interview"}
                 </span>
               )}
@@ -618,7 +618,7 @@ function InterviewSessionContent() {
                 <button
                   onClick={submitAnswer}
                   disabled={loading || !answer.trim() || interviewerStatus === "thinking"}
-                  className="rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed px-6 py-3.5 font-bold text-white transition shadow-md shadow-indigo-600/10 flex items-center gap-2 cursor-pointer text-sm"
+                  className="rounded-xl bg-teal-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed px-6 py-3.5 font-bold text-white transition shadow-md shadow-teal-600/10 flex items-center gap-2 cursor-pointer text-sm"
                 >
                   {loading ? (
                     <>
@@ -641,7 +641,7 @@ function InterviewSessionContent() {
                     key={num}
                     className={`h-2.5 rounded-full transition-all duration-300 ${
                       num < questionCount
-                        ? "bg-indigo-500 w-2.5"
+                        ? "bg-teal-500 w-2.5"
                         : num === questionCount
                         ? "bg-cyan-400 w-6 shadow-[0_0_8px_var(--color-theme-accent)]"
                         : "bg-slate-800 w-2.5"

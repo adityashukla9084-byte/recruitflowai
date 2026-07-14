@@ -234,17 +234,17 @@ export default function ProfilePage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-[#05070F] text-slate-100 p-6 md:p-12 relative overflow-hidden">
+    <main className="min-h-screen bg-[#0A0E1A] text-[#F5F5F4] p-6 md:p-12 relative overflow-hidden">
       
       {/* Ambient background glows */}
-      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-indigo-600/10 blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-cyan-600/10 blur-[120px] pointer-events-none" />
+      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] rounded-full bg-cyan-600/5 blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-teal-600/5 blur-[120px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto relative z-10 space-y-8">
         
         {/* Banner Hero Card */}
         <div className="relative rounded-3xl overflow-hidden border border-white/5 bg-slate-900/10 backdrop-blur-xl shadow-2xl">
-          <div className="absolute inset-0 bg-gradient-to-r from-violet-600/10 via-indigo-600/10 to-cyan-500/10 z-0" />
+          <div className="absolute inset-0 bg-gradient-to-r from-teal-600/10 via-indigo-600/10 to-cyan-500/10 z-0" />
           
           {/* Header mesh banner */}
           <div className="h-32 bg-gradient-to-r from-slate-900 to-slate-950 border-b border-white/5 relative overflow-hidden">
@@ -274,7 +274,7 @@ export default function ProfilePage() {
                 <h1 className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-400">
                   {profile.full_name || "Profile Name"}
                 </h1>
-                <span className="mx-auto md:mx-0 w-fit text-xs font-bold text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-3 py-1 rounded-full uppercase tracking-wider">
+                <span className="mx-auto md:mx-0 w-fit text-xs font-bold text-teal-400 bg-teal-500/10 border border-teal-500/20 px-3 py-1 rounded-full uppercase tracking-wider">
                   {profile.job_title}
                 </span>
               </div>
@@ -295,7 +295,7 @@ export default function ProfilePage() {
               <div className="text-center px-2">
                 <span className="block text-xs text-slate-400 uppercase font-semibold">Timezone</span>
                 <span className="text-sm font-semibold flex items-center justify-center gap-1 text-slate-200 mt-1">
-                  <Clock className="w-3.5 h-3.5 text-violet-400" /> {profile.timezone?.split("/").pop()?.replace("_", " ")}
+                  <Clock className="w-3.5 h-3.5 text-teal-400" /> {profile.timezone?.split("/").pop()?.replace("_", " ")}
                 </span>
               </div>
             </div>
@@ -322,14 +322,14 @@ export default function ProfilePage() {
                     onClick={() => setActiveTab(tab.id)}
                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-all duration-200 text-left cursor-pointer ${
                       isSelected
-                        ? "bg-indigo-600/10 text-indigo-400 border border-indigo-500/20"
+                        ? "bg-cyan-600/5 text-teal-400 border border-teal-500/20"
                         : "text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent"
                     }`}
                   >
-                    <Icon className={`w-4 h-4 ${isSelected ? "text-indigo-400" : "text-slate-400"}`} />
+                    <Icon className={`w-4 h-4 ${isSelected ? "text-teal-400" : "text-slate-400"}`} />
                     <span>{tab.label}</span>
                     {isSelected && (
-                      <ChevronRight className="w-4 h-4 ml-auto text-indigo-400" />
+                      <ChevronRight className="w-4 h-4 ml-auto text-teal-400" />
                     )}
                   </button>
                 );
@@ -371,7 +371,7 @@ export default function ProfilePage() {
                     <div className="space-y-6">
                       <div>
                         <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                          <User className="w-5 h-5 text-indigo-400" /> General Information
+                          <User className="w-5 h-5 text-teal-400" /> General Information
                         </h2>
                         <p className="text-xs text-slate-400">Manage basic identity parameters and directory contacts.</p>
                       </div>
@@ -479,7 +479,7 @@ export default function ProfilePage() {
                     <div className="space-y-6">
                       <div>
                         <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                          <Globe className="w-5 h-5 text-indigo-400" /> Professional Socials & Education
+                          <Globe className="w-5 h-5 text-teal-400" /> Professional Socials & Education
                         </h2>
                         <p className="text-xs text-slate-400">Share academic details and online profile coordinates.</p>
                       </div>
@@ -548,7 +548,7 @@ export default function ProfilePage() {
                       <div className="space-y-4">
                         <div>
                           <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                            <Database className="w-5 h-5 text-indigo-400" /> Connected Integrations
+                            <Database className="w-5 h-5 text-teal-400" /> Connected Integrations
                           </h2>
                           <p className="text-xs text-slate-400">Synchronize candidate data streams with external cloud endpoints.</p>
                         </div>
@@ -567,7 +567,7 @@ export default function ProfilePage() {
                                 onClick={() => toggleIntegration(item.key)}
                                 className={`p-4 rounded-xl border transition-all cursor-pointer flex justify-between items-center ${
                                   isChecked 
-                                    ? "bg-slate-900/50 border-indigo-500/30" 
+                                    ? "bg-slate-900/50 border-teal-500/30" 
                                     : "bg-slate-950/30 border-white/5 hover:border-white/10"
                                 }`}
                               >
@@ -581,7 +581,7 @@ export default function ProfilePage() {
                                   </div>
                                 </div>
                                 {/* Modern switch */}
-                                <div className={`w-9 h-5 rounded-full relative transition-colors duration-200 ${isChecked ? "bg-indigo-600" : "bg-slate-800"}`}>
+                                <div className={`w-9 h-5 rounded-full relative transition-colors duration-200 ${isChecked ? "bg-teal-600" : "bg-slate-800"}`}>
                                   <div className={`w-3.5 h-3.5 bg-white rounded-full absolute top-[3px] left-[3px] transition-transform duration-200 ${isChecked ? "transform translate-x-4" : ""}`} />
                                 </div>
                               </div>
@@ -594,7 +594,7 @@ export default function ProfilePage() {
                       <div className="space-y-4 pt-4 border-t border-white/5">
                         <div>
                           <h3 className="text-md font-bold text-white flex items-center gap-2">
-                            <Key className="w-4.5 h-4.5 text-indigo-400" /> API Orchestrator Key
+                            <Key className="w-4.5 h-4.5 text-teal-400" /> API Orchestrator Key
                           </h3>
                           <p className="text-xs text-slate-400">Rotatable credentials for authentication using CLI terminals.</p>
                         </div>
@@ -613,7 +613,7 @@ export default function ProfilePage() {
                             </button>
                             <button
                               onClick={rotateApiKey}
-                              className="px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-lg transition-colors cursor-pointer"
+                              className="px-3 py-1.5 bg-teal-600 hover:bg-teal-500 text-white font-bold text-xs rounded-lg transition-colors cursor-pointer"
                             >
                               Rotate Key
                             </button>
@@ -631,7 +631,7 @@ export default function ProfilePage() {
                       <div className="space-y-3">
                         <div>
                           <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                            <Activity className="w-5 h-5 text-indigo-400" /> Active Console Map
+                            <Activity className="w-5 h-5 text-teal-400" /> Active Console Map
                           </h2>
                           <p className="text-xs text-slate-400">Consolidated activity triggers and code reviews over the last 14 days.</p>
                         </div>
@@ -643,9 +643,9 @@ export default function ProfilePage() {
                                 key={idx}
                                 className={`h-10 rounded-lg flex flex-col justify-between p-1.5 transition-all hover:scale-105 duration-200 cursor-help relative group ${
                                   day.level === 0 ? "bg-slate-900/40" :
-                                  day.level === 1 ? "bg-indigo-500/20 border border-indigo-500/20" :
-                                  day.level === 2 ? "bg-indigo-500/50 border border-indigo-400/40 shadow-[0_0_8px_rgba(99,102,241,0.2)]" :
-                                  "bg-indigo-600 border border-indigo-400 shadow-[0_0_12px_rgba(99,102,241,0.4)]"
+                                  day.level === 1 ? "bg-teal-500/20 border border-teal-500/20" :
+                                  day.level === 2 ? "bg-teal-500/50 border border-teal-400/40 shadow-[0_0_8px_rgba(20,184,166,0.2)]" :
+                                  "bg-teal-600 border border-teal-400 shadow-[0_0_12px_rgba(20,184,166,0.4)]"
                                 }`}
                               >
                                 <span className="text-[8px] block font-mono text-slate-400">{day.date}</span>
@@ -662,9 +662,9 @@ export default function ProfilePage() {
                           <div className="flex justify-end gap-4 text-[10px] text-slate-400 items-center">
                             <span>Fewer</span>
                             <span className="w-2.5 h-2.5 rounded bg-slate-900/40" />
-                            <span className="w-2.5 h-2.5 rounded bg-indigo-500/20" />
-                            <span className="w-2.5 h-2.5 rounded bg-indigo-500/50" />
-                            <span className="w-2.5 h-2.5 rounded bg-indigo-600" />
+                            <span className="w-2.5 h-2.5 rounded bg-teal-500/20" />
+                            <span className="w-2.5 h-2.5 rounded bg-teal-500/50" />
+                            <span className="w-2.5 h-2.5 rounded bg-teal-600" />
                             <span>More</span>
                           </div>
                         </div>
@@ -674,7 +674,7 @@ export default function ProfilePage() {
                       <div className="space-y-4 pt-4 border-t border-white/5">
                         <div>
                           <h3 className="text-md font-bold text-white flex items-center gap-2">
-                            <Shield className="w-4.5 h-4.5 text-indigo-400" /> Active Session Handshakes
+                            <Shield className="w-4.5 h-4.5 text-teal-400" /> Active Session Handshakes
                           </h3>
                           <p className="text-xs text-slate-400">Connected sessions authorized using your developer profile tokens.</p>
                         </div>
@@ -739,7 +739,7 @@ export default function ProfilePage() {
                         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-4 bg-slate-950/40 border border-white/5 rounded-xl">
                           <div>
                             <span className="block text-sm font-bold text-white flex items-center gap-1.5">
-                              <Lock className="w-4 h-4 text-indigo-400" /> Multi-Factor Authentication (MFA)
+                              <Lock className="w-4 h-4 text-teal-400" /> Multi-Factor Authentication (MFA)
                             </span>
                             <span className="text-[10px] text-slate-400 mt-1 block">
                               Enforce double authorization validate handshake credentials.
@@ -775,7 +775,7 @@ export default function ProfilePage() {
                 <button
                   onClick={saveProfile}
                   disabled={loading}
-                  className="rounded-xl bg-gradient-to-r from-indigo-600 to-cyan-500 hover:shadow-[0_0_20px_rgba(99,102,241,0.4)] text-white px-8 py-3.5 font-bold disabled:opacity-50 transition-all flex items-center gap-2 self-end shrink-0 cursor-pointer"
+                  className="rounded-xl bg-gradient-to-r from-teal-600 to-cyan-500 hover:shadow-[0_0_20px_rgba(20,184,166,0.4)] text-white px-8 py-3.5 font-bold disabled:opacity-50 transition-all flex items-center gap-2 self-end shrink-0 cursor-pointer"
                 >
                   {loading ? (
                     <>

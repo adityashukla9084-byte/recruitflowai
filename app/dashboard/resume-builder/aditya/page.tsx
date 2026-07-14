@@ -150,7 +150,7 @@ export default function AdityaResumePage() {
         </Link>
         <button
           onClick={() => window.print()}
-          className="flex items-center gap-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 px-5 py-2.5 font-bold text-white transition-all duration-200 shadow-lg shadow-indigo-500/20"
+          className="flex items-center gap-2 rounded-xl bg-teal-600 hover:bg-indigo-700 active:scale-95 px-5 py-2.5 font-bold text-white transition-all duration-200 shadow-lg shadow-indigo-500/20"
         >
           <Printer size={15} />
           Print / Save A4 PDF
