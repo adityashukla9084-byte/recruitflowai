@@ -87,20 +87,6 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-1 relative" ref={dropdownRef}>
-        {/* Theme toggle */}
-        <button
-          onClick={toggleTheme}
-          className="p-2 rounded-lg text-theme-text-muted hover:text-theme-text hover:bg-theme-card-hover hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer focus-visible:outline-2"
-          title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-          aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-        >
-          {theme === "dark" ? (
-            <Sun size={15} strokeWidth={2} />
-          ) : (
-            <Moon size={15} strokeWidth={2} />
-          )}
-        </button>
-
         {/* Notifications */}
         <button
           onClick={() => {

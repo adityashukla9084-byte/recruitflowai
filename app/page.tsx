@@ -17,9 +17,12 @@ import {
   Brain, 
   Award,
   ArrowUpRight,
-  Info
+  Info,
+  Menu,
+  X
 } from "lucide-react";
-import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -183,15 +186,6 @@ const roleData = {
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const { clientX, clientY } = e;
-    mouseX.set(clientX - window.innerWidth / 2);
-    mouseY.set(clientY - window.innerHeight / 2);
-  };
-
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -240,6 +234,17 @@ export default function Home() {
   
   // Interactive keyword gap advisor state
   const [activeAdviceKeyword, setActiveAdviceKeyword] = useState<string | null>(null);
+
+  // Premium Navigation Hover State
+  const [hoveredNavIndex, setHoveredNavIndex] = useState<number | null>(null);
+  const navItems = [
+    { name: "Features", href: "#features" },
+    { name: "Interactive Demo", href: "#demo" },
+    { name: "Pricing", href: "#pricing" },
+    { name: "FAQ", href: "#faq" }
+  ];
+
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 
 
@@ -408,18 +413,35 @@ export default function Home() {
             </span>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8 text-xs font-semibold text-slate-400">
-            <a href="#features" className="hover:text-[#F5F5F4] transition-colors">Features</a>
-            <a href="#demo" className="hover:text-[#F5F5F4] transition-colors">Interactive Demo</a>
-            <a href="#pricing" className="hover:text-[#F5F5F4] transition-colors">Pricing</a>
-            <a href="#faq" className="hover:text-[#F5F5F4] transition-colors">FAQ</a>
+          <nav className="hidden md:flex items-center gap-1.5 p-1 bg-white/[0.02] border border-white/[0.06] rounded-full backdrop-blur-md relative">
+            {navItems.map((item, index) => (
+              <a
+                key={item.name}
+                href={item.href}
+                className="relative px-4 py-2 text-xs font-bold tracking-wide text-slate-400 hover:text-white transition-colors duration-300 rounded-full"
+                onMouseEnter={() => setHoveredNavIndex(index)}
+                onMouseLeave={() => setHoveredNavIndex(null)}
+              >
+                <span className="relative z-10">{item.name}</span>
+                {hoveredNavIndex === index && (
+                  <motion.span
+                    layoutId="navbar-hover-glow"
+                    className="absolute inset-0 bg-gradient-to-r from-teal-500/15 to-cyan-500/15 border border-teal-500/20 rounded-full -z-0 shadow-[0_0_12px_rgba(20,184,166,0.2)]"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 28 }}
+                  />
+                )}
+              </a>
+            ))}
           </nav>
 
           <div className="flex items-center gap-4">
-            <Link href="/login" className="text-xs font-semibold text-slate-300 hover:text-[#F5F5F4] transition-colors">
+            <Link href="/login" className="text-xs font-bold text-slate-300 hover:text-[#F5F5F4] transition-colors">
               Log In
             </Link>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="hidden sm:block">
               <Link 
                 href="/login" 
                 className="text-xs font-bold bg-[#14B8A6] text-[#0A0E1A] hover:bg-[#14B8A6]/90 px-4 py-2 rounded-xl transition-all duration-200 border border-[#14B8A6]/20 shadow-[0_4px_12px_rgba(20,184,166,0.25)]"
@@ -427,54 +449,76 @@ export default function Home() {
                 Sign Up
               </Link>
             </motion.div>
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.04] transition-all duration-200 cursor-pointer"
+              aria-label="Toggle mobile menu"
+            >
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
           </div>
         </div>
       </motion.header>
 
+      {/* Mobile Navigation Dropdown Menu Drawer */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="md:hidden w-full border-b border-white/[0.08] bg-[#0A0E1A]/95 backdrop-blur-lg px-6 py-5 flex flex-col gap-4 absolute top-[68px] left-0 z-40 shadow-xl"
+          >
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.href}
+                onClick={() => setMobileMenuOpen(false)}
+                className="text-sm font-semibold text-slate-300 hover:text-white transition-colors py-2 border-b border-white/[0.03]"
+              >
+                {item.name}
+              </a>
+            ))}
+            <Link
+              href="/login"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-full text-center py-3 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 text-white font-bold text-xs shadow-md border border-[#14B8A6]/20 mt-2"
+            >
+              Sign Up Free
+            </Link>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+
       {/* Hero section */}
-      <section onMouseMove={handleMouseMove} className="relative w-full py-12 sm:py-16 md:py-20 lg:py-24 border-b border-white/[0.08] overflow-hidden flex flex-col items-center">
-        {/* Background Image with Overlay */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-[0.025] mix-blend-overlay z-0" 
-          style={{ backgroundImage: "url('/hero_background.jpg')" }}
-        />
-        
-        {/* Giant Left Glowing Orb (Royal Blue) */}
-        <motion.div 
-          style={{ x: useTransform(mouseX, [-500, 500], [-30, 30]), y: useTransform(mouseY, [-500, 500], [-30, 30]) }}
-          className="absolute top-[40%] left-[25%] -translate-x-1/2 -translate-y-1/2 w-[900px] h-[650px] bg-[radial-gradient(ellipse,rgba(37,99,235,0.15)_0%,transparent_70%)] pointer-events-none z-0 mix-blend-screen will-change-gpu" 
-        />
-
-        {/* Giant Right Glowing Orb (Orange) */}
-        <motion.div 
-          style={{ x: useTransform(mouseX, [-500, 500], [30, -30]), y: useTransform(mouseY, [-500, 500], [30, -30]) }}
-          className="absolute top-[30%] left-[75%] -translate-x-1/2 -translate-y-1/2 w-[850px] h-[600px] bg-[radial-gradient(ellipse,rgba(234,88,12,0.1)_0%,transparent_70%)] pointer-events-none z-0 mix-blend-screen will-change-gpu" 
-        />
-
-        {/* Floating dust particles */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute top-[20%] left-[15%] w-1.5 h-1.5 rounded-full bg-blue-500/20 blur-[1px] animate-float-slow" />
-          <div className="absolute top-[50%] left-[80%] w-2 h-2 rounded-full bg-teal-500/20 blur-[1px] animate-float-medium" />
-          <div className="absolute top-[75%] left-[25%] w-1 h-1 rounded-full bg-orange-500/20 blur-[1.5px] animate-float-slow" style={{ animationDelay: "3s" }} />
-          <div className="absolute top-[30%] left-[65%] w-2 h-2 rounded-full bg-indigo-500/15 blur-[1px] animate-float-medium" style={{ animationDelay: "5s" }} />
+      <section className="relative w-full min-h-[720px] border-b border-white/[0.08] overflow-hidden flex items-center">
+        {/* Exact generated 3D hero artwork */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="/recruitflow-3d-hero.png"
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[68%_center]"
+          />
         </div>
-
-        {/* 3D Perspective Grid Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 perspective-container">
-          <div className="absolute bottom-0 left-[-50%] right-[-50%] h-[500px] perspective-grid" />
-        </div>
+        <div className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(7,11,22,0.96)_0%,rgba(7,11,22,0.89)_35%,rgba(7,11,22,0.42)_58%,rgba(7,11,22,0.08)_100%)] pointer-events-none" />
+        <div className="absolute inset-x-0 bottom-0 z-[1] h-40 bg-gradient-to-t from-[#0A0E1A]/85 to-transparent pointer-events-none" />
 
         <motion.div 
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 lg:px-12 flex flex-col items-center text-center"
+          className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20 sm:px-8 md:py-24 lg:px-12"
         >
-          <div className="w-full max-w-5xl mx-auto flex flex-col items-center z-10 relative">
+          <div className="w-full max-w-xl rounded-3xl border border-white/[0.12] bg-[#0A0E1A]/55 p-7 text-left shadow-[0_24px_80px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-10 lg:p-12">
             {/* Pill Badge */}
             <motion.div 
               variants={fadeInUp}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-300 text-[10px] font-bold uppercase tracking-wider mb-8"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-teal-400/25 bg-teal-400/10 text-teal-200 text-[10px] font-bold uppercase tracking-[0.14em] mb-7"
             >
               <Sparkles size={11} className="animate-pulse" />
               <span>AI-Powered ATS Scanner</span>
@@ -482,21 +526,21 @@ export default function Home() {
 
             <motion.h1 
               variants={fadeInUp}
-              className="font-display text-5xl sm:text-7xl lg:text-[64px] font-black tracking-[-0.02em] leading-[1.1] text-[#F5F5F4] max-w-3xl"
+              className="font-display text-4xl sm:text-5xl lg:text-6xl font-black tracking-[-0.04em] leading-[1.04] text-[#F8FAFC]"
             >
-              Beat the ATS. Land the <span className="bg-gradient-to-r from-orange-400 to-yellow-500 bg-clip-text text-transparent">Interview.</span>
+              Beat the ATS. Land the <span className="bg-gradient-to-r from-teal-300 via-cyan-300 to-cyan-400 bg-clip-text text-transparent">Interview.</span>
             </motion.h1>
 
             <motion.p 
               variants={fadeInUp}
-              className="font-sans text-base text-[#9CA3AF] max-w-2xl mt-8 font-normal leading-[1.6]"
+              className="font-sans text-base sm:text-[17px] text-slate-200 max-w-lg mt-7 font-normal leading-[1.65]"
             >
               Scan your resume for ATS compatibility, identify missing keywords, and simulate recruiter screenings in seconds.
             </motion.p>
 
             <motion.div 
               variants={fadeInUp}
-              className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto z-10"
+              className="mt-9 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full z-10"
             >
               <motion.div 
                 whileHover={{ scale: 1.02, y: -1 }}
@@ -505,7 +549,7 @@ export default function Home() {
               >
                 <Link 
                   href="/login" 
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-[#14B8A6] text-[#0A0E1A] hover:bg-[#14B8A6]/90 hover:shadow-[0_0_24px_rgba(20,184,166,0.35)] text-white px-8 py-4 font-bold text-sm transition-all duration-300 border border-blue-500/20 shadow-md shadow-[#14B8A6]/10 cursor-pointer"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-teal-400 to-cyan-400 px-6 py-3.5 font-bold text-sm text-[#06111A] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(34,211,238,0.28)] border border-cyan-200/30 cursor-pointer"
                 >
                   <span>Scan Resume Free</span>
                   <ArrowRight size={14} />
@@ -519,118 +563,80 @@ export default function Home() {
               >
                 <a 
                   href="#demo" 
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/5 hover:bg-white/[0.08] hover:border-white/20 text-[#F5F5F4] px-8 py-4 font-bold text-sm transition-all duration-300 shadow-[0_4px_12px_rgba(0,0,0,0.15)] cursor-pointer"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl border border-white/[0.18] bg-white/[0.06] px-6 py-3.5 font-bold text-sm text-slate-100 transition-all duration-300 hover:-translate-y-0.5 hover:border-teal-300/45 hover:bg-white/[0.11] cursor-pointer"
                 >
                   <span>Interactive Demo</span>
                 </a>
               </motion.div>
             </motion.div>
 
-            {/* Browser Mockup Visual Container */}
-            <motion.div 
-              variants={fadeInUp}
-              className="mt-16 sm:mt-20 w-full max-w-4xl mx-auto rounded-2xl border border-white/[0.08] bg-[#111827] p-2 shadow-[0_0_50px_rgba(20,184,166,0.15)] backdrop-blur-xl transition-all duration-500 hover:border-[#14B8A6]/30 overflow-hidden relative z-10"
-            >
-              <style dangerouslySetInnerHTML={{ __html: `
-                @keyframes dash {
-                  from { stroke-dashoffset: 251.2; }
-                  to { stroke-dashoffset: 15.1; }
-                }
-              `}} />
-              <div className="rounded-xl border border-white/[0.08] bg-[#111827] overflow-hidden relative">
-                {/* Mock Browser Header */}
-                <div className="h-11 bg-[#111827] border-b border-white/[0.08] flex items-center px-4 justify-between select-none">
-                  <div className="flex gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500/40" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-amber-500/40" />
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/40" />
-                  </div>
-                  <div className="flex items-center gap-1.5 bg-[#111827]/80 px-4 py-1 rounded-md border border-white/[0.08] text-[9px] text-slate-400 font-mono w-48 sm:w-64 justify-center">
-                    <Shield size={10} className="text-[#14B8A6]" />
-                    <span>recruitflow-ai.com/dashboard/scan</span>
-                  </div>
-                  <div className="w-8" />
-                </div>
-
-                {/* Mock Dashboard App Content */}
-                <div className="p-4 sm:p-6 bg-[#111827] grid gap-6 md:grid-cols-12 text-left">
-                  {/* Left Column: Parsed Structure Tree (3 cols) */}
-                  <div className="md:col-span-3 space-y-4 border-r border-white/[0.08] pr-4 hidden md:block">
-                    <p className="text-[10px] font-bold text-[#6B7280] uppercase tracking-widest">Document Audit</p>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-slate-400">Margins (1.0")</span>
-                        <CheckCircle2 size={12} className="text-[#4ADE80]" />
-                      </div>
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-slate-400">Standard Fonts</span>
-                        <CheckCircle2 size={12} className="text-[#4ADE80]" />
-                      </div>
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-slate-400">No Hidden Text</span>
-                        <CheckCircle2 size={12} className="text-[#4ADE80]" />
-                      </div>
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-slate-400">Header Structure</span>
-                        <CheckCircle2 size={12} className="text-[#4ADE80]" />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Center Column: ATS Match Score & Radial Chart (5 cols) */}
-                  <div className="md:col-span-5 flex flex-col items-center justify-center py-4 border-b md:border-b-0 md:border-r border-white/[0.08] pr-0 md:pr-4">
-                    <p className="text-[10px] font-bold text-[#6B7280] uppercase tracking-widest mb-4 self-center md:self-start">ATS Score Summary</p>
-                    <div className="relative w-32 h-32 flex items-center justify-center">
-                      {/* Radial Score Indicator */}
-                      <svg className="absolute w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                        <circle cx="50" cy="50" r="40" stroke="rgba(255,255,255,0.03)" strokeWidth="8" fill="transparent" />
-                        <circle cx="50" cy="50" r="40" stroke="url(#blueGradient)" strokeWidth="8" fill="transparent" strokeDasharray="251.2" strokeDashoffset="251.2" className="animate-[dash_1.5s_ease-out_forwards]" style={{ strokeDashoffset: '15.1' }} />
-                        <defs>
-                          <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stopColor="#3B82F6" />
-                            <stop offset="100%" stopColor="#60A5FA" />
-                          </linearGradient>
-                        </defs>
-                      </svg>
-                      <div className="flex flex-col items-center">
-                        <span className="text-3xl font-black text-[#F5F5F4] tracking-tight">94%</span>
-                        <span className="text-[8px] font-bold text-[#14B8A6] uppercase tracking-wider">Matched</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right Column: Key Skills Checklist (4 cols) */}
-                  <div className="md:col-span-4 space-y-4 pl-0 md:pl-4">
-                    <p className="text-[10px] font-bold text-[#6B7280] uppercase tracking-widest">Keyword Alignment</p>
-                    <div className="space-y-3">
-                      <div>
-                        <div className="flex justify-between items-center text-[10px] mb-1">
-                          <span className="text-slate-300 font-bold">Matched Keywords (6)</span>
-                          <span className="text-[#4ADE80] font-bold">92%</span>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5">
-                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#4ADE80]/10 text-[#4ADE80] border border-[#4ADE80]/20">Next.js</span>
-                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#4ADE80]/10 text-[#4ADE80] border border-[#4ADE80]/20">TypeScript</span>
-                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-[#4ADE80]/10 text-[#4ADE80] border border-[#4ADE80]/20">TailwindCSS</span>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="flex justify-between items-center text-[10px] mb-1">
-                          <span className="text-slate-300 font-bold">Missing Requisites (2)</span>
-                          <span className="text-rose-400 font-bold">Action Needed</span>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5">
-                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">Docker</span>
-                          <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20">CI/CD</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
           </div>
         </motion.div>
+      </section>
+
+      {/* Career intelligence engine */}
+      <section className="relative overflow-hidden border-b border-white/[0.08] bg-[#080D18] py-20 sm:py-24">
+        <div className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-teal-400/[0.08] blur-[120px] pointer-events-none" />
+        <div className="absolute -right-24 top-0 h-80 w-80 rounded-full bg-cyan-400/[0.07] blur-[100px] pointer-events-none" />
+        <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 sm:px-8 lg:grid-cols-[0.86fr_1.14fr] lg:gap-16 lg:px-12">
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.65, ease: "easeOut" }}
+          >
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-teal-400/25 bg-teal-400/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.14em] text-teal-200">
+              <Sparkles size={12} />
+              Career intelligence engine
+            </div>
+            <h2 className="font-display max-w-xl text-4xl font-black leading-[1.08] tracking-[-0.04em] text-slate-50 sm:text-5xl">
+              Every signal, working toward your <span className="bg-gradient-to-r from-teal-300 to-cyan-300 bg-clip-text text-transparent">next yes.</span>
+            </h2>
+            <p className="mt-6 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">
+              RecruitFlow connects resume quality, role-fit signals, and interview preparation into one focused career workflow.
+            </p>
+
+            <div className="mt-8 grid gap-3">
+              {[
+                [FileSearch, "Resume intelligence", "Find the gaps that hold your application back."],
+                [TrendingUp, "Role-fit signals", "Prioritize the skills recruiters are actually looking for."],
+                [GraduationCap, "Interview readiness", "Turn insights into confident, targeted preparation."],
+              ].map(([Icon, title, description]) => {
+                const FeatureIcon = Icon as typeof FileSearch;
+                return (
+                  <div key={title as string} className="flex gap-4 rounded-2xl border border-white/[0.08] bg-white/[0.035] p-4 backdrop-blur-sm">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-teal-300/20 bg-teal-400/10 text-teal-300">
+                      <FeatureIcon size={18} />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-bold text-slate-100">{title as string}</h3>
+                      <p className="mt-1 text-sm leading-5 text-slate-400">{description as string}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, x: 24, scale: 0.97 }}
+            whileInView={{ opacity: 1, x: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.75, ease: "easeOut" }}
+            className="relative"
+          >
+            <div className="absolute -inset-3 rounded-[28px] bg-gradient-to-r from-teal-400/20 via-cyan-400/10 to-indigo-400/15 blur-2xl" />
+            <div className="relative overflow-hidden rounded-3xl border border-white/[0.12] bg-[#0A0E1A] p-1 shadow-[0_24px_80px_rgba(0,0,0,0.4)]">
+              <Image
+                src="/recruitflow-career-engine-3d.png"
+                alt="Three-dimensional RecruitFlow career intelligence engine"
+                width={1792}
+                height={1024}
+                className="h-auto w-full rounded-[21px]"
+              />
+            </div>
+          </motion.div>
+        </div>
       </section>
 
       {/* Infinite Logo Marquee (Social Proof) */}
@@ -666,14 +672,36 @@ export default function Home() {
 
       {/* Interactive Demo Resume Parser Sandbox Section */}
       <section id="demo" className="w-full overflow-hidden border-b border-white/[0.08] bg-[#0A0E1A] py-[64px] md:py-[96px] lg:py-[120px] relative z-10">
-        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
-          <div className="text-center space-y-4 mb-14">
-            <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#14B8A6] bg-[#14B8A6]/10 px-3 py-1 rounded-full border border-[#14B8A6]/15">
-              Test Drive RecruitFlow
-            </span>
-            <h2 className="font-display text-4xl sm:text-5xl font-black tracking-tight text-[#F5F5F4]">Interactive Scanner Sandbox</h2>
-            <p className="font-sans text-xs sm:text-sm text-[#9CA3AF] max-w-xl mx-auto font-normal leading-relaxed">
-              Choose a mock candidate target requisition below and click to run a simulated ATS analysis.
+        {/* 3D Scanner Demo Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <Image
+            src="/scanner-demo-3d.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-[80%_center] opacity-20"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,14,26,0.98)_0%,rgba(10,14,26,0.80)_55%,rgba(10,14,26,0.50)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0E1A] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0A0E1A] to-transparent" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
+          <div className="text-center space-y-5 mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-teal-400/30 bg-gradient-to-r from-teal-400/10 to-cyan-400/10 backdrop-blur-sm shadow-[0_0_20px_rgba(20,184,166,0.12)]">
+              <Zap size={11} className="text-teal-300 animate-pulse" />
+              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-teal-300">Live Demo — Try It Now</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-ping" />
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black tracking-[-0.03em] leading-[1.06] text-[#F8FAFC]">
+              See the{" "}
+              <span className="relative inline-block">
+                <span className="bg-gradient-to-r from-teal-300 via-cyan-300 to-cyan-400 bg-clip-text text-transparent">AI Scanner</span>
+                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-teal-400/60 to-cyan-400/0 rounded-full" />
+              </span>
+              {" "}in Action
+            </h2>
+            <p className="font-sans text-sm sm:text-base text-slate-400 max-w-lg mx-auto font-normal leading-relaxed">
+              Pick a real-world role, run a simulated ATS audit, and watch our engine surface exactly what's holding your resume back.
             </p>
           </div>
 
@@ -904,14 +932,32 @@ export default function Home() {
 
       {/* Interactive Tabs / Features Grid Section */}
       <section id="features" className="w-full overflow-hidden border-b border-white/[0.08] bg-[#0A0E1A] py-[64px] md:py-[96px] lg:py-[120px] relative z-10">
-        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
-          <div className="text-center space-y-4 mb-14">
-            <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#14B8A6] bg-[#14B8A6]/10 px-3 py-1 rounded-full border border-[#14B8A6]/15">
-              Core Architecture
-            </span>
-            <h2 className="font-display text-4xl sm:text-5xl font-black tracking-tight text-[#F5F5F4]">Everything You Need to Beat the ATS</h2>
-            <p className="font-sans text-xs sm:text-sm text-[#9CA3AF] max-w-xl mx-auto font-normal leading-relaxed">
-              Our platform evaluates resumes using semantic matching algorithms similar to those deployed by top Fortune 500 hiring teams.
+        {/* 3D Features Architecture Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <Image
+            src="/features-3d.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-[20%_center] opacity-20"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,14,26,0.50)_0%,rgba(10,14,26,0.85)_50%,rgba(10,14,26,0.98)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0E1A] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0A0E1A] to-transparent" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
+          <div className="text-center space-y-5 mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-indigo-400/30 bg-gradient-to-r from-indigo-400/10 to-cyan-400/10 backdrop-blur-sm shadow-[0_0_20px_rgba(99,102,241,0.12)]">
+              <Shield size={11} className="text-indigo-300" />
+              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-indigo-300">Core Architecture</span>
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black tracking-[-0.03em] leading-[1.06] text-[#F8FAFC]">
+              Every Tool You Need to{" "}
+              <br className="hidden sm:block" />
+              <span className="bg-gradient-to-r from-indigo-300 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Outsmart the ATS</span>
+            </h2>
+            <p className="font-sans text-sm sm:text-base text-slate-400 max-w-lg mx-auto font-normal leading-relaxed">
+              Powered by the same semantic-matching algorithms used by Fortune 500 recruiting teams — now working for <em className="text-slate-300 not-italic font-semibold">you</em>.
             </p>
           </div>
 
@@ -1018,7 +1064,20 @@ export default function Home() {
         variants={fadeInUp}
         className="w-full overflow-hidden border-b border-white/[0.08] bg-[#0A0E1A] py-[64px] md:py-[96px] lg:py-[120px] relative z-10"
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
+        {/* 3D Statistics Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <Image
+            src="/statistics-3d.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-center opacity-25"
+          />
+          <div className="absolute inset-0 bg-[rgba(10,14,26,0.72)]" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0E1A] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0A0E1A] to-transparent" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
           <div className="bg-gradient-to-r from-teal-600/10 via-cyan-600/5 to-cyan-500/10 border border-[#14B8A6]/15 rounded-2xl p-8 sm:p-12 backdrop-blur-xl shadow-lg">
             <div className="grid gap-6 sm:grid-cols-3 text-center">
               <div className="space-y-1">
@@ -1052,7 +1111,20 @@ export default function Home() {
         variants={staggerContainer}
         className="w-full overflow-hidden border-b border-white/[0.08] bg-[#0A0E1A] py-[64px] md:py-[96px] lg:py-[120px] relative z-10"
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
+        {/* 3D Testimonials Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <Image
+            src="/testimonials-3d.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-center opacity-20"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(10,14,26,0.95)_0%,rgba(10,14,26,0.75)_50%,rgba(10,14,26,0.95)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0E1A] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0A0E1A] to-transparent" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
           <motion.div variants={fadeInUp} className="text-center space-y-4 mb-14">
             <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#14B8A6] bg-[#14B8A6]/10 px-3 py-1 rounded-full border border-[#14B8A6]/15">
               Success Stories
@@ -1110,14 +1182,31 @@ export default function Home() {
         variants={staggerContainer}
         className="w-full overflow-hidden border-b border-white/[0.08] bg-[#0A0E1A] py-[64px] md:py-[96px] lg:py-[120px] relative z-10"
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
-          <motion.div variants={fadeInUp} className="text-center space-y-4 mb-12">
-            <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#14B8A6] bg-[#14B8A6]/10 px-3 py-1 rounded-full border border-[#14B8A6]/15">
-              Subscription Plans
-            </span>
-            <h2 className="font-display text-4xl sm:text-5xl font-black tracking-tight text-[#F5F5F4] max-w-2xl mx-auto">Flexible SaaS Pricing</h2>
-            <p className="font-sans text-xs sm:text-sm text-[#9CA3AF] max-w-xl mx-auto font-normal leading-relaxed">
-              Unlock your full ATS matching score capacity and practice mock recruiter panel reviews.
+        {/* 3D Pricing Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <Image
+            src="/pricing-3d.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-[75%_center] opacity-20"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,14,26,0.98)_0%,rgba(10,14,26,0.80)_60%,rgba(10,14,26,0.60)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0E1A] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0A0E1A] to-transparent" />
+        </div>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
+          <motion.div variants={fadeInUp} className="text-center space-y-5 mb-12">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-cyan-400/30 bg-gradient-to-r from-cyan-400/10 to-teal-400/10 backdrop-blur-sm shadow-[0_0_20px_rgba(34,211,238,0.12)]">
+              <TrendingUp size={11} className="text-cyan-300" />
+              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-cyan-300">Simple, Transparent Pricing</span>
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black tracking-[-0.03em] leading-[1.06] text-[#F8FAFC] max-w-3xl mx-auto">
+              Invest in Your{" "}
+              <span className="bg-gradient-to-r from-cyan-300 via-teal-300 to-emerald-400 bg-clip-text text-transparent">Career Breakthrough</span>
+            </h2>
+            <p className="font-sans text-sm sm:text-base text-slate-400 max-w-lg mx-auto font-normal leading-relaxed">
+              Start free. Upgrade when you're ready. Cancel anytime — no commitments, no hidden fees.
             </p>
           </motion.div>
 
@@ -1210,9 +1299,11 @@ export default function Home() {
               </div>
               <Link 
                 href="/login" 
-                className="w-full text-center py-3.5 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 hover:shadow-[0_0_24px_rgba(20,184,166,0.35)] text-white font-bold text-xs mt-8 border border-[#14B8A6]/20 shadow-md shadow-teal-500/10 transition-all duration-300 cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-gradient-to-r from-teal-400 to-cyan-400 hover:from-teal-300 hover:to-cyan-300 text-[#06111A] font-extrabold text-sm mt-8 border border-cyan-200/40 shadow-[0_0_24px_rgba(20,184,166,0.45)] hover:shadow-[0_0_36px_rgba(20,184,166,0.65)] transition-all duration-300 cursor-pointer"
               >
+                <Sparkles size={14} className="shrink-0" />
                 Start 7-Day Free Trial
+                <ArrowRight size={14} className="shrink-0" />
               </Link>
             </motion.div>
 
@@ -1258,14 +1349,31 @@ export default function Home() {
       
       {/* Accordion FAQ Section */}
       <section id="faq" className="w-full overflow-hidden border-b border-white/[0.08] bg-[#0A0E1A] py-[64px] md:py-[96px] lg:py-[120px] relative z-10">
-        <div className="max-w-4xl mx-auto px-6">
-          <div className="text-center space-y-4 mb-14">
-            <span className="inline-block text-[10px] font-bold uppercase tracking-widest text-[#14B8A6] bg-[#14B8A6]/10 px-3 py-1 rounded-full border border-[#14B8A6]/15">
-              Common Questions
-            </span>
-            <h2 className="font-display text-4xl sm:text-5xl font-black tracking-tight text-[#F5F5F4]">Frequently Asked Questions</h2>
-            <p className="font-sans text-xs sm:text-sm text-[#9CA3AF] max-w-xl mx-auto font-normal leading-relaxed">
-              Learn more about ATS scanning systems, resume processing rules, and workspace settings.
+        {/* 3D FAQ Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <Image
+            src="/faq-3d.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-[15%_center] opacity-20"
+          />
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(10,14,26,0.45)_0%,rgba(10,14,26,0.88)_40%,rgba(10,14,26,0.98)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0E1A] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0A0E1A] to-transparent" />
+        </div>
+        <div className="relative z-10 max-w-4xl mx-auto px-6">
+          <div className="text-center space-y-5 mb-14">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-violet-400/30 bg-gradient-to-r from-violet-400/10 to-teal-400/10 backdrop-blur-sm shadow-[0_0_20px_rgba(167,139,250,0.12)]">
+              <Sparkles size={11} className="text-violet-300" />
+              <span className="text-[10px] font-black uppercase tracking-[0.18em] text-violet-300">Got Questions? We've Got Answers</span>
+            </div>
+            <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black tracking-[-0.03em] leading-[1.06] text-[#F8FAFC]">
+              Everything You{" "}
+              <span className="bg-gradient-to-r from-violet-300 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Need to Know</span>
+            </h2>
+            <p className="font-sans text-sm sm:text-base text-slate-400 max-w-lg mx-auto font-normal leading-relaxed">
+              From how our ATS engine works to data privacy — every question answered, clearly.
             </p>
           </div>
 
@@ -1317,7 +1425,20 @@ export default function Home() {
         variants={staggerContainer}
         className="w-full overflow-hidden border-b border-white/[0.08] bg-[#0A0E1A] py-[64px] md:py-[96px] lg:py-[120px] relative z-10"
       >
-        <div className="max-w-4xl mx-auto px-6 text-center">
+        {/* 3D CTA Launch Background */}
+        <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+          <Image
+            src="/cta-3d.jpg"
+            alt=""
+            fill
+            sizes="100vw"
+            className="object-cover object-center opacity-28"
+          />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(10,14,26,0.60)_0%,rgba(10,14,26,0.92)_70%,rgba(10,14,26,0.98)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0A0E1A] to-transparent" />
+          <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0A0E1A] to-transparent" />
+        </div>
+        <div className="relative z-10 max-w-4xl mx-auto px-6 text-center">
           <motion.div variants={fadeInUp} className="space-y-6">
             <h2 className="font-display text-4xl sm:text-5xl font-black tracking-tight text-[#F5F5F4] leading-tight">
               Stop Guessing. Audit Your Resume Today.

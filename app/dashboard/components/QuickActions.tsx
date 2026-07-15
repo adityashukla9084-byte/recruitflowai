@@ -54,7 +54,7 @@ const compactTools = [
   {
     title: "Application Tracker",
     description: "Pipeline view of active submissions and interview stage progress.",
-    href: "/dashboard/jobs",
+    href: "/dashboard/job-tracker",
     icon: ListChecks,
     color: "#6366F1", // Indigo
   },

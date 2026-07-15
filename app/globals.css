@@ -2,49 +2,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-/* ── Light theme (default) ── */
+/* ── Dark theme (Default and permanent) ── */
 :root {
-  /* Surfaces */
-  --bg-primary: #F8FAFC;
-  --bg-secondary: #FFFFFF;
-  --bg-card: rgba(255, 255, 255, 0.7);
-  --bg-card-hover: rgba(241, 245, 249, 0.85);
-  --bg-sidebar: #FFFFFF;
-  --bg-input: #FFFFFF;
-  --bg-gradient-from: #F8FAFC;
-  --bg-gradient-via: #F8FAFC;
-  --bg-gradient-to: #F8FAFC;
-
-  /* Text scale - High Contrast slate colors */
-  --text-primary: #0F172A;     /* Very dark slate for headings */
-  --text-secondary: #334155;   /* Dark slate for body and labels */
-  --text-muted: #64748B;       /* Medium slate for helper text/placeholders */
-  --text-accent: #2563EB;
-
-  /* Borders */
-  --border-primary: rgba(226, 232, 240, 0.8);
-  --border-card: rgba(226, 232, 240, 0.8);
-  --border-input: #CBD5E1;     /* Darker border for light inputs */
-
-  /* Action */
-  --accent: #2563EB;
-  --accent-hover: #1D4ED8;
-
-  /* Dot pattern background */
-  --dot-pattern: rgba(79, 70, 229, 0.03);
-
-  /* Shadows */
-  --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.03), 0 0 0 1px var(--border-primary);
-  --shadow-card-hover: 0 10px 30px -10px rgba(79, 70, 229, 0.15), 0 0 0 1px var(--accent);
-
-  /* Match score semantic colors */
-  --rf-match-high: #10B981;
-  --rf-match-mid: #D97706;
-  --rf-match-low: #DC2626;
-}
-
-/* ── Dark theme (forced active theme) ── */
-.dark {
   /* Surfaces */
   --bg-primary: #060B18;
   --bg-secondary: #080D21; /* Sidebar background */
@@ -82,6 +41,40 @@
   --rf-match-high: #4ADE80; /* Soft Green Success */
   --rf-match-mid: #F79009; /* Warning */
   --rf-match-low: #F04438; /* Error */
+}
+
+.dark {
+  /* Inherit variables from root since root is now permanently dark */
+  --bg-primary: #060B18;
+  --bg-secondary: #080D21;
+  --bg-card: rgba(15, 23, 42, 0.7);
+  --bg-card-hover: rgba(20, 30, 54, 0.85);
+  --bg-sidebar: #080D21;
+  --bg-input: #060B18;
+  --bg-gradient-from: #060B18;
+  --bg-gradient-via: #060B18;
+  --bg-gradient-to: #060B18;
+
+  --text-primary: #F5F5F4;
+  --text-secondary: #9CA3AF;
+  --text-muted: #6B7280;
+  --text-accent: #F97316;
+
+  --border-primary: rgba(255, 255, 255, 0.06);
+  --border-card: rgba(255, 255, 255, 0.06);
+  --border-input: rgba(255, 255, 255, 0.08);
+
+  --accent: #3B82F6;
+  --accent-hover: #2563EB;
+
+  --dot-pattern: rgba(59, 130, 246, 0.025);
+
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  --shadow-card-hover: 0 12px 28px rgba(0, 0, 0, 0.5), 0 0 20px rgba(59, 130, 246, 0.1), inset 0 0 0 1px rgba(59, 130, 246, 0.25);
+
+  --rf-match-high: #4ADE80;
+  --rf-match-mid: #F79009;
+  --rf-match-low: #F04438;
 }
 
 @theme inline {

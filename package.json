@@ -10,7 +10,11 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.1",
+    "@react-three/postprocessing": "^3.0.4",
     "@supabase/supabase-js": "^2.108.2",
+    "@types/three": "^0.185.1",
     "framer-motion": "^12.42.2",
     "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.8",
@@ -24,6 +28,7 @@
     "react-speech-recognition": "^4.0.1",
     "recharts": "^3.9.2",
     "resend": "^6.17.2",
+    "three": "^0.185.1",
     "unpdf": "^1.6.2",
     "uuid": "^14.0.1"
   },

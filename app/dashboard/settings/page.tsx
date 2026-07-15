@@ -268,56 +268,26 @@ export default function SettingsPage() {
 
         <div className="space-y-6">
 
-          {/* ── Appearance Toggle ── */}
+          {/* ── Appearance Toggle (Forced Dark Mode) ── */}
           <div className="rounded-2xl border border-theme-border-card bg-theme-card p-6 flex items-center justify-between shadow-[var(--shadow-card)]">
             <div className="flex items-center gap-4">
-              {theme === "dark" ? (
-                <Moon className="text-theme-accent" />
-              ) : (
-                <Sun className="text-amber-500" />
-              )}
+              <Moon className="text-cyan-400" />
               <div>
                 <h2 className="text-xl font-bold">
                   Appearance
                 </h2>
-
                 <p className="text-theme-text-secondary">
-                  {theme === "dark" ? "Dark Mode" : "Light Mode"}
+                  Permanent Dark Mode
                 </p>
               </div>
             </div>
 
-            {/* Premium animated toggle switch */}
-            <button
-              id="theme-toggle"
-              onClick={toggleTheme}
-              className={`
-                relative inline-flex h-8 w-16 items-center rounded-full
-                transition-colors duration-300 ease-in-out
-                focus:outline-none focus:ring-2 focus:ring-offset-2
-                ${theme === "dark"
-                  ? "bg-cyan-500 focus:ring-cyan-400"
-                  : "bg-amber-400 focus:ring-amber-300"
-                }
-              `}
-              aria-label="Toggle theme"
-            >
-              <span
-                className={`
-                  inline-flex h-6 w-6 items-center justify-center
-                  rounded-full bg-white shadow-md
-                  transform transition-transform duration-300 ease-in-out
-                  ${theme === "dark" ? "translate-x-9" : "translate-x-1"}
-                `}
-              >
-                {theme === "dark" ? (
-                  <Moon size={14} className="text-cyan-600" />
-                ) : (
-                  <Sun size={14} className="text-amber-500" />
-                )}
-              </span>
-            </button>
+            {/* Non-interactive status badge */}
+            <span className="px-3 py-1.5 rounded-full border border-cyan-400/25 bg-cyan-400/10 text-cyan-300 text-xs font-bold uppercase tracking-wider">
+              Always Active
+            </span>
           </div>
+
 
           {/* ── Email Notifications ── */}
           <div className="rounded-2xl border border-theme-border-card bg-theme-card p-6 flex items-center justify-between shadow-[var(--shadow-card)]">
