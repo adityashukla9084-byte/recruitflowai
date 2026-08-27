@@ -29,6 +29,8 @@ import SalaryCard from "./components/SalaryCard";
 import CoverLetterCard from "./components/CoverLetterCard";
 import DownloadReportButton from "./components/DownloadReportButton";
 import StatsCards from "./components/StatsCards";
+import PullToRefresh from "../components/PullToRefresh";
+
 
 import Hero from "./components/hero";
 import KeywordComparison from "./components/KeywordComparison";
@@ -273,8 +275,14 @@ export default function Dashboard() {
     }
   };
 
+  const handleRefresh = async () => {
+    router.refresh();
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+  };
+
   return (
-    <div className="flex-1 min-h-screen bg-theme-bg text-theme-text relative overflow-hidden">
+    <PullToRefresh onRefresh={handleRefresh}>
+      <div className="flex-1 min-h-screen bg-theme-bg text-theme-text relative overflow-hidden">
       {/* Premium Background Ambient Glows */}
       <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-blue-500/5 to-cyan-500/5 blur-[120px] pointer-events-none animate-float-slow" />
       <div className="absolute bottom-[10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-cyan-500/5 via-blue-500/10 to-cyan-500/5 blur-[100px] pointer-events-none animate-float-medium" />
@@ -935,6 +943,7 @@ export default function Dashboard() {
           </span>
         </div>
       </footer>
-    </div>
+      </div>
+    </PullToRefresh>
   );
 }

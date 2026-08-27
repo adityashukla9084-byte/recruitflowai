@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Logo from "../../components/Logo";
 import { usePathname, useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import {
@@ -128,15 +129,7 @@ export default function Sidebar() {
         <div className="space-y-7 relative z-10">
           {/* Brand wordmark with dynamic glow */}
           <div className="flex flex-col gap-1 px-3.5 pb-3 border-b border-white/[0.04] select-none">
-            <div className="flex items-center gap-2.5">
-              <div className="relative w-6 h-6 flex items-center justify-center shrink-0">
-                <span className="absolute w-4.5 h-4.5 rotate-45 border border-teal-500/50 bg-teal-500/10 rounded-[3px] animate-pulse" />
-                <span className="absolute w-2 h-2 rotate-45 bg-gradient-to-tr from-teal-500 to-cyan-500 rounded-[1.5px]" />
-              </div>
-              <span className="text-sm font-black bg-gradient-to-r from-teal-400 via-cyan-300 to-cyan-400 bg-clip-text text-transparent tracking-tight">
-                RecruitFlow AI
-              </span>
-            </div>
+            <Logo size={24} fontWeight="font-black" />
             <div className="flex items-center gap-1.5 mt-2">
               <span className="text-[9px] font-black uppercase tracking-[0.15em] bg-teal-400/10 text-teal-300 px-1.5 py-0.5 rounded border border-teal-500/25">
                 PRO PLATFORM

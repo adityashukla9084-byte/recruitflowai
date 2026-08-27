@@ -76,11 +76,12 @@ export default function Header() {
       <div className="flex items-center gap-3">
         <button
           onClick={() => window.dispatchEvent(new CustomEvent("toggle-sidebar"))}
-          className="md:hidden p-2 rounded-lg text-theme-text-muted hover:text-theme-text hover:bg-theme-card-hover transition-all duration-200 cursor-pointer"
+          className="hidden p-2 rounded-lg text-theme-text-muted hover:text-theme-text hover:bg-theme-card-hover transition-all duration-200 cursor-pointer"
           aria-label="Toggle navigation menu"
         >
           <Menu size={16} />
         </button>
+
         <h1 className="text-sm font-bold text-theme-text tracking-wider uppercase opacity-85 select-none">
           Workspace
         </h1>

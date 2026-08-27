@@ -2,6 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "./context/ThemeContext";
+import MobileNativeManager from "./components/MobileNativeManager";
+import PageTransition from "./components/PageTransition";
+import BottomNavigation from "./components/BottomNavigation";
+import NativeLoader from "./components/NativeLoader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -55,8 +59,16 @@ export default function RootLayout({
         </div>
         <div className="grid-overlay" />
 
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>
+          <MobileNativeManager />
+          <NativeLoader />
+          <PageTransition>{children}</PageTransition>
+          <BottomNavigation />
+        </ThemeProvider>
       </body>
     </html>
   );
 }
+
+
+

@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import Logo from "../components/Logo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -498,16 +499,9 @@ export default function LoginPage() {
           {/* Form & Header Column */}
           <div className="w-full max-w-md flex flex-col justify-end">
             
-            {/* Brand/Logo Header */}
             <div className="text-center md:text-left mb-6">
-              <Link href="/" className="inline-flex items-center gap-2.5 mb-3 group cursor-pointer">
-                <div className="relative w-8 h-8 flex items-center justify-center shrink-0">
-                  <span className="absolute w-6 h-6 rotate-45 border border-teal-500/50 bg-teal-500/10 rounded-[4px] group-hover:scale-105 transition-all" />
-                  <span className="absolute w-2.5 h-2.5 rotate-45 bg-gradient-to-tr from-teal-500 to-cyan-500 rounded-[2px]" />
-                </div>
-                <span className="text-lg font-bold bg-gradient-to-r from-teal-400 via-cyan-300 to-cyan-400 bg-clip-text text-transparent tracking-tight">
-                  RecruitFlow AI
-                </span>
+              <Link href="/" className="inline-flex items-center mb-3 group cursor-pointer">
+                <Logo size={32} textSize="text-lg" />
               </Link>
             </div>
 
