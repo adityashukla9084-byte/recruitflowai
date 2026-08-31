@@ -114,12 +114,12 @@ export default function Sidebar() {
       {isOpen && (
         <div
           onClick={() => setIsOpen(false)}
-          className="fixed inset-0 bg-black/10 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300"
+          className="fixed inset-0 bg-black/10  z-40 md:hidden transition-opacity duration-300"
         />
       )}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-60 h-screen bg-theme-sidebar backdrop-blur-md border-r border-theme-border flex flex-col justify-between py-6 px-4 transition-transform duration-300 ease-in-out md:sticky md:top-0 md:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-50 w-60 h-screen bg-theme-sidebar  border-r border-theme-border flex flex-col justify-between py-6 px-4 transition-transform duration-300 ease-in-out md:sticky md:top-0 md:translate-x-0 ${
           isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         } shadow-[var(--shadow-card)]`}
       >

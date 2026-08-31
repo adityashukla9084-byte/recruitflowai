@@ -283,9 +283,9 @@ export default function Dashboard() {
   return (
     <PullToRefresh onRefresh={handleRefresh}>
       <div className="flex-1 min-h-screen bg-theme-bg text-theme-text relative overflow-hidden">
-      {/* Premium Background Ambient Glows */}
-      <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[#1E293B]/40 to-[#0F172A]/0 blur-[120px] pointer-events-none animate-float-slow" />
-      <div className="absolute bottom-[10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-[#D4AF37]/10 via-[#1E293B]/20 to-transparent blur-[100px] pointer-events-none animate-float-medium" />
+      {/* Premium Background Ambient Glows (Optimized for Mobile Performance) */}
+      <div className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(30,41,59,0.4)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute bottom-0 left-[-10%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.08)_0%,transparent_70%)] pointer-events-none" />
 
 
 
@@ -308,7 +308,7 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <div className="bg-theme-card border border-theme-border rounded-2xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+              <div className="bg-theme-card border border-theme-border rounded-2xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 ">
                 {/* Dropzone */}
                 <div
                   onDragEnter={handleDrag}
@@ -510,7 +510,7 @@ export default function Dashboard() {
 
                   {/* Tab row - capsule style */}
                   <div
-                    className="flex gap-1.5 p-1 bg-theme-bg-secondary/40 border border-theme-border rounded-xl overflow-x-auto max-w-max mb-2 backdrop-blur-sm shadow-[var(--shadow-card)]"
+                    className="flex gap-1.5 p-1 bg-theme-bg-secondary/40 border border-theme-border rounded-xl overflow-x-auto max-w-max mb-2  shadow-[var(--shadow-card)]"
                     role="tablist"
                     aria-label="Result sections"
                   >
@@ -582,7 +582,7 @@ export default function Dashboard() {
                           />
                           <div className="grid gap-4 md:grid-cols-2">
                             {/* Strengths */}
-                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 ">
                               <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted mb-4">
                                 Strengths
                               </h3>
@@ -603,7 +603,7 @@ export default function Dashboard() {
                               </ul>
                             </div>
                             {/* Gaps */}
-                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 ">
                               <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted mb-4">
                                 Gaps
                               </h3>
@@ -630,7 +630,7 @@ export default function Dashboard() {
                       {activeTab === "enhancements" && (
                         <div className="space-y-4">
                           {/* Optimized Summary */}
-                          <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                          <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 ">
                             <div className="flex items-center justify-between mb-4">
                               <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted">
                                 Optimized Summary
@@ -660,7 +660,7 @@ export default function Dashboard() {
 
                           <div className="grid gap-4 md:grid-cols-2">
                             {/* Layout suggestions */}
-                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 ">
                               <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted mb-4">
                                 Layout Suggestions
                               </h3>
@@ -684,7 +684,7 @@ export default function Dashboard() {
                             </div>
 
                             {/* Export */}
-                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 flex flex-col shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                            <div className="bg-theme-card border border-theme-border rounded-lg p-5 flex flex-col shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 ">
                               <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted mb-2">
                                 Export Report
                               </h3>
@@ -702,7 +702,7 @@ export default function Dashboard() {
                       {activeTab === "coach" && (
                         <div className="space-y-4">
                           {/* Cover letter */}
-                          <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+                          <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 ">
                             <div className="flex items-center justify-between mb-4">
                               <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted">
                                 Cover Letter Draft
@@ -806,7 +806,7 @@ export default function Dashboard() {
 
                 <div className="grid grid-cols-3 gap-2">
                   {/* Best score */}
-                  <div className="bg-theme-card border border-theme-border rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                  <div className="bg-theme-card border border-theme-border rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 ">
                     <span className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
                       Best
                     </span>
@@ -825,7 +825,7 @@ export default function Dashboard() {
                   </div>
 
                   {/* Average */}
-                  <div className="bg-theme-card border border-theme-border rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                  <div className="bg-theme-card border border-theme-border rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 ">
                     <span className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
                       Avg
                     </span>
@@ -845,7 +845,7 @@ export default function Dashboard() {
                   </div>
 
                   {/* Total runs */}
-                  <div className="bg-theme-card border border-theme-border rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                  <div className="bg-theme-card border border-theme-border rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 ">
                     <span className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
                       Runs
                     </span>

@@ -231,7 +231,7 @@ export default function ResumeBuilder() {
           </div>
 
           {/* Stepped Wizard Form Card */}
-          <div className="rounded-2xl border border-zinc-900 bg-theme-bg-secondary/40 backdrop-blur-xl p-6 shadow-2xl space-y-6">
+          <div className="rounded-2xl border border-zinc-900 bg-theme-bg-secondary/40  p-6 shadow-2xl space-y-6">
             
             {/* Step 1: Personal Details */}
             {step === 1 && (

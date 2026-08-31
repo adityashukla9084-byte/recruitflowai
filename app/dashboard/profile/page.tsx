@@ -458,7 +458,7 @@ async function sendTestEmail() {
       <div className="max-w-5xl mx-auto relative z-10 space-y-8">
         
         {/* Banner Hero Card */}
-        <div className="relative rounded-3xl overflow-hidden border border-theme-border bg-theme-bg-secondary/10 backdrop-blur-xl shadow-2xl">
+        <div className="relative rounded-3xl overflow-hidden border border-theme-border bg-theme-bg-secondary/10  shadow-2xl">
           <div className="absolute inset-0 bg-gradient-to-r bg-[#] via- to-[#]/10 z-0" />
           
           {/* Header mesh banner */}
@@ -550,7 +550,7 @@ async function sendTestEmail() {
           
           {/* Left column navigation */}
           <div className="lg:col-span-1 space-y-4">
-            <div className="rounded-2xl border border-theme-border bg-theme-bg-secondary/10 backdrop-blur-xl p-4 space-y-1">
+            <div className="rounded-2xl border border-theme-border bg-theme-bg-secondary/10  p-4 space-y-1">
               {[
                 { id: "general", label: "General", icon: User },
                 { id: "socials", label: "Socials & Edu", icon: Globe },
@@ -580,7 +580,7 @@ async function sendTestEmail() {
             </div>
 
             {/* Profile Health Widget */}
-            <div className="rounded-2xl border border-theme-border bg-theme-bg-secondary/10 backdrop-blur-xl p-6 space-y-4 text-center">
+            <div className="rounded-2xl border border-theme-border bg-theme-bg-secondary/10  p-6 space-y-4 text-center">
               <span className="text-xs uppercase font-bold text-theme-text tracking-wider">Console Health</span>
               <div className="relative w-24 h-24 mx-auto flex items-center justify-center">
                 <svg className="w-full h-full transform -rotate-90">
@@ -598,7 +598,7 @@ async function sendTestEmail() {
 
           {/* Right column forms */}
           <div className="lg:col-span-3">
-            <div className="rounded-2xl border border-theme-border bg-theme-bg-secondary/10 backdrop-blur-xl p-6 md:p-8 min-h-[420px] flex flex-col justify-between">
+            <div className="rounded-2xl border border-theme-border bg-theme-bg-secondary/10  p-6 md:p-8 min-h-[420px] flex flex-col justify-between">
               
               <AnimatePresence mode="wait">
                 <motion.div

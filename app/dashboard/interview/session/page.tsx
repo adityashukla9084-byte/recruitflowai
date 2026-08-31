@@ -466,7 +466,7 @@ function InterviewSessionContent() {
             <div className="absolute bottom-4 right-4 z-20 flex gap-2">
               <button
                 onClick={() => setCameraEnabled(!cameraEnabled)}
-                className={`p-2.5 rounded-xl border backdrop-blur-md transition cursor-pointer hover:scale-105 active:scale-95 ${
+                className={`p-2.5 rounded-xl border  transition cursor-pointer hover:scale-105 active:scale-95 ${
                   cameraEnabled 
                     ? "bg-theme-bg-secondary/60 border-zinc-800 text-[#FFFFF0] hover:bg-theme-bg-secondary" 
                     : "bg-red-500/20 border-red-500/30 text-red-400 hover:bg-red-500/30"
@@ -478,7 +478,7 @@ function InterviewSessionContent() {
             </div>
 
             <div className="absolute top-4 left-4 z-20">
-              <span className="text-xs text-white/ font-bold uppercase tracking-wider bg-theme-bg-secondary/60 backdrop-blur-md px-2 py-0.5 rounded-md border border-white/10">
+              <span className="text-xs text-white/ font-bold uppercase tracking-wider bg-theme-bg-secondary/60  px-2 py-0.5 rounded-md border border-white/10">
                 Candidate Feed
               </span>
             </div>
@@ -503,7 +503,7 @@ function InterviewSessionContent() {
               )}
               <button
                 onClick={handleEndInterview}
-                className="rounded-xl border border-red-500/30 hover:border-red-500 hover:bg-red-500/10 text-red-400 px-4 py-2 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-zinc-950/20 backdrop-blur"
+                className="rounded-xl border border-red-500/30 hover:border-red-500 hover:bg-red-500/10 text-red-400 px-4 py-2 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-zinc-950/20 "
               >
                 <X size={14} />
                 <span>End Interview</span>
@@ -513,7 +513,7 @@ function InterviewSessionContent() {
 
           {/* Micro-Notification Banner */}
           {permissionError && (
-            <div className="rounded-xl border border-red-500/20 bg-red-500/5 backdrop-blur-xl p-4 shadow-lg flex items-start gap-3">
+            <div className="rounded-xl border border-red-500/20 bg-red-500/5  p-4 shadow-lg flex items-start gap-3">
               <AlertTriangle className="h-5 w-5 text-red-500 shrink-0 mt-0.5" />
               <div className="flex-1">
                 <h3 className="font-bold text-red-500 text-sm">Microphone Access Denied</h3>
@@ -531,7 +531,7 @@ function InterviewSessionContent() {
           )}
 
           {/* Question Box Card */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 shadow-xl space-y-4">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/30  p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-theme-border/60 pb-3">
               <h2 className="text-sm font-bold text-theme-text flex items-center gap-2 uppercase tracking-widest">
                 <Brain className="h-4 w-4 text-[#D4AF37]" />
@@ -667,7 +667,7 @@ function InterviewSessionContent() {
 
           {/* Feedback Overlay inside Session (If available from previous questions) */}
           {result && (
-            <div className="rounded-2xl border border-theme-border bg-theme-card/25 backdrop-blur-xl p-5 space-y-4 shadow-lg animate-[fadeIn_0.5s]">
+            <div className="rounded-2xl border border-theme-border bg-theme-card/25  p-5 space-y-4 shadow-lg animate-[fadeIn_0.5s]">
               <div className="flex items-center justify-between border-b border-theme-border/60 pb-3.5">
                 <h3 className="text-base font-extrabold text-[#FFFFF0] flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-emerald-400" />

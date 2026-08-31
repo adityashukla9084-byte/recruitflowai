@@ -105,7 +105,7 @@ export default function InterviewHome() {
 
         {/* Resume Detection Banner */}
         {hasResume !== null && (
-          <div className={`rounded-2xl p-5 border backdrop-blur-xl shadow-[var(--shadow-card)] transition-all duration-300 ${
+          <div className={`rounded-2xl p-5 border  shadow-[var(--shadow-card)] transition-all duration-300 ${
             hasResume 
               ? "bg-[#C5A028]/5 border-[#C5A028]/20 text-[#D4AF37] hover:bg-[#C5A028]/10" 
               : "bg-[#C5A028]/5 border-[#C5A028]/20 text-amber-300 hover:bg-[#C5A028]/10"
@@ -137,7 +137,7 @@ export default function InterviewHome() {
         <div className="grid gap-6 md:grid-cols-2">
           
           {/* Company Search Card */}
-          <div className="rounded-3xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 md:p-8 flex flex-col justify-between space-y-6 shadow-xl relative hover:border-theme-border/60 transition-all duration-300">
+          <div className="rounded-3xl border border-theme-border bg-theme-card/30  p-6 md:p-8 flex flex-col justify-between space-y-6 shadow-xl relative hover:border-theme-border/60 transition-all duration-300">
             <div className="space-y-4">
               <div className="inline-flex p-3 rounded-2xl bg-[#C5A028]/10 text-[#D4AF37]">
                 <Building2 className="h-6 w-6" />
@@ -170,7 +170,7 @@ export default function InterviewHome() {
           </div>
 
           {/* Custom Role Card */}
-          <div className="rounded-3xl border border-[#C5A028]/20 bg-gradient-to-br from-theme-card/30 to-teal-950/10 backdrop-blur-xl p-6 md:p-8 flex flex-col justify-between space-y-6 shadow-xl hover:border-[#C5A028]/40 transition-all duration-300 relative group">
+          <div className="rounded-3xl border border-[#C5A028]/20 bg-gradient-to-br from-theme-card/30 to-teal-950/10  p-6 md:p-8 flex flex-col justify-between space-y-6 shadow-xl hover:border-[#C5A028]/40 transition-all duration-300 relative group">
             <div className="space-y-4">
               <div className="inline-flex p-3 rounded-2xl bg-[#C5A028]/10 text-[#D4AF37]">
                 <Sliders className="h-6 w-6" />
@@ -203,7 +203,7 @@ export default function InterviewHome() {
               <button
                 key={item}
                 onClick={() => startInterview(item)}
-                className="text-left rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-6 hover:border-[#C5A028]/40 hover:bg-theme-card/45 hover:scale-[1.02] active:scale-[0.99] transition-all duration-300 shadow-[var(--shadow-card)] hover:shadow-md cursor-pointer flex flex-col justify-between min-h-[140px] relative group overflow-hidden"
+                className="text-left rounded-2xl border border-theme-border bg-theme-card/20  p-6 hover:border-[#C5A028]/40 hover:bg-theme-card/45 hover:scale-[1.02] active:scale-[0.99] transition-all duration-300 shadow-[var(--shadow-card)] hover:shadow-md cursor-pointer flex flex-col justify-between min-h-[140px] relative group overflow-hidden"
               >
                 <div className="absolute -right-3 -top-3 w-16 h-16 bg-[#C5A028]/5 rounded-full blur-xl group-hover:bg-[#C5A028]/15 transition-all duration-500" />
                 <div className="flex items-center justify-between">

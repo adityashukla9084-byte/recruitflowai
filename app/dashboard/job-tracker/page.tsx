@@ -194,7 +194,7 @@ export default function JobTracker() {
         </div>
 
         {/* Add Application Form Panel */}
-        <div className="rounded-3xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 shadow-2xl space-y-4">
+        <div className="rounded-3xl border border-theme-border bg-theme-card/30  p-6 shadow-2xl space-y-4">
           <h2 className="text-xs font-bold text-theme-text flex items-center gap-2 uppercase tracking-widest border-b border-zinc-900/60 pb-3 mb-1">
             <Plus className="h-4 w-4 text-[#D4AF37]" />
             <span>Track New Application</span>
@@ -262,7 +262,7 @@ export default function JobTracker() {
             return (
               <div
                 key={colStatus}
-                className="flex flex-col rounded-2xl border border-theme-border bg-zinc-950/30 backdrop-blur-md p-4 space-y-4 shadow-xl min-h-[500px]"
+                className="flex flex-col rounded-2xl border border-theme-border bg-zinc-950/30  p-4 space-y-4 shadow-xl min-h-[500px]"
               >
                 {/* Column Header */}
                 <div className="flex items-center justify-between border-b border-zinc-900 pb-3">

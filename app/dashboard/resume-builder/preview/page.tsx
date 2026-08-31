@@ -167,7 +167,7 @@ export default function ResumePreview() {
           <div className="flex gap-3">
             <a
               href="/dashboard/resume-builder"
-              className="rounded-xl border border-zinc-800 hover:border-slate-700 px-5 py-3.5 font-bold text-sm text-zinc-300 hover:text-[#FFFFF0] transition flex items-center gap-2 cursor-pointer bg-zinc-950/20 backdrop-blur"
+              className="rounded-xl border border-zinc-800 hover:border-slate-700 px-5 py-3.5 font-bold text-sm text-zinc-300 hover:text-[#FFFFF0] transition flex items-center gap-2 cursor-pointer bg-zinc-950/20 "
             >
               <span>← Edit Details</span>
             </a>

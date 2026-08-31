@@ -72,7 +72,7 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-theme-border bg-theme-bg/90 backdrop-blur-xl px-4 py-3 md:h-[60px] md:px-10 md:py-0 pt-safe-top shadow-[var(--shadow-card)]">
+    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-theme-border bg-theme-bg/90  px-4 py-3 md:h-[60px] md:px-10 md:py-0 pt-safe-top shadow-[var(--shadow-card)]">
       <div className="flex items-center gap-3">
         <button
           onClick={() => window.dispatchEvent(new CustomEvent("toggle-sidebar"))}
@@ -108,7 +108,7 @@ export default function Header() {
 
         {/* Notifications Dropdown Popover */}
         {isOpen && (
-          <div className="absolute right-12 top-11 w-80 bg-theme-card border border-theme-border/60 rounded-2xl shadow-xl overflow-hidden z-40 animate-fade-in backdrop-blur-md">
+          <div className="absolute right-12 top-11 w-80 bg-theme-card border border-theme-border/60 rounded-2xl shadow-xl overflow-hidden z-40 animate-fade-in ">
             {/* Header */}
             <div className="p-3.5 border-b border-theme-border/40 flex items-center justify-between bg-theme-bg-secondary/15 select-none">
               <div className="flex items-center gap-1.5">
@@ -208,7 +208,7 @@ export default function Header() {
 
         {/* User Profile Dropdown Popover */}
         {isUserOpen && (
-          <div className="absolute right-0 top-11 w-52 bg-theme-card border border-theme-border/60 rounded-2xl shadow-xl overflow-hidden z-40 animate-fade-in backdrop-blur-md">
+          <div className="absolute right-0 top-11 w-52 bg-theme-card border border-theme-border/60 rounded-2xl shadow-xl overflow-hidden z-40 animate-fade-in ">
             {/* Header info */}
             <div className="p-3 border-b border-theme-border/30 bg-theme-bg-secondary/15 select-none text-left">
               <p className="text-xs font-bold text-theme-text">Aditya</p>

@@ -13,10 +13,10 @@ export default function DashboardLayout({
         className="absolute inset-0 pointer-events-none z-0 opacity-[0.03] mix-blend-multiply"
         style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E\")" }}
       />
-      {/* Premium Light Ambient Glows */}
-      <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-theme-accent/5 blur-[120px] pointer-events-none z-0" />
-      <div className="absolute top-[20%] left-[-10%] w-[800px] h-[800px] rounded-full bg-theme-card/60 blur-[100px] pointer-events-none z-0" />
-      <div className="absolute bottom-[-15%] right-[10%] w-[500px] h-[500px] rounded-full bg-theme-accent/5 blur-[120px] pointer-events-none z-0" />
+      {/* Premium Light Ambient Glows (Optimized for Mobile) */}
+      <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.03)_0%,transparent_70%)] pointer-events-none z-0" />
+      <div className="absolute top-[20%] left-[-10%] w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,rgba(30,41,59,0.3)_0%,transparent_70%)] pointer-events-none z-0" />
+      <div className="absolute bottom-[-15%] right-[10%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.03)_0%,transparent_70%)] pointer-events-none z-0" />
       <Sidebar />
 
       <div className="flex-1 flex flex-col min-h-screen overflow-hidden relative z-10">
@@ -28,4 +28,4 @@ export default function DashboardLayout({
       </div>
     </div>
   );
-}
+}

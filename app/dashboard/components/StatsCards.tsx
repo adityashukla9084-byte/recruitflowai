@@ -67,8 +67,8 @@ export default function StatsCards({
         {/* Soft color bloom matching match status */}
         {hasAtsValue && (
           <div 
-            className="absolute -right-10 -top-10 w-28 h-28 rounded-full blur-[40px] opacity-15 transition-opacity duration-300 group-hover:opacity-25 pointer-events-none"
-            style={{ backgroundColor: atsColor }}
+            className="absolute -right-10 -top-10 w-28 h-28 rounded-full opacity-15 transition-opacity duration-300 group-hover:opacity-25 pointer-events-none"
+            style={{ background: `radial-gradient(circle, ${atsColor} 0%, transparent 70%)` }}
           />
         )}
 

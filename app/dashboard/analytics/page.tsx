@@ -165,7 +165,7 @@ export default function AnalyticsPage() {
         <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           
           {/* Total Scan runs */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/20  p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
             <div className="space-y-1.5">
               <span className="text-xs text-zinc-300 font-bold uppercase tracking-widest block">Scan Runs</span>
               <h3 className="text-2xl md:text-3xl font-black text-[#FFFFF0] font-mono leading-none">{stats.reportsCount}</h3>
@@ -176,7 +176,7 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Peak ATS Score */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/20  p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
             <div className="space-y-1.5">
               <span className="text-xs text-zinc-300 font-bold uppercase tracking-widest block">Peak ATS Score</span>
               <h3 className="text-2xl md:text-3xl font-black text-emerald-400 font-mono leading-none">{stats.bestScore}%</h3>
@@ -187,7 +187,7 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Average ATS Score */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/20  p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
             <div className="space-y-1.5">
               <span className="text-xs text-zinc-300 font-bold uppercase tracking-widest block">Average Score</span>
               <h3 className="text-2xl md:text-3xl font-black text-[#D4AF37] font-mono leading-none">{stats.avgScore}%</h3>
@@ -198,7 +198,7 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Active pipeline interviews */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/20  p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
             <div className="space-y-1.5">
               <span className="text-xs text-zinc-300 font-bold uppercase tracking-widest block">Interviews</span>
               <h3 className="text-2xl md:text-3xl font-black text-[#D4AF37] font-mono leading-none">{stats.interviewsCount}</h3>
@@ -254,7 +254,7 @@ export default function AnalyticsPage() {
           <div className="lg:col-span-1 space-y-6">
             
             {/* Pipeline conversion funnel card */}
-            <div className="rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-md p-6 shadow-xl space-y-6">
+            <div className="rounded-2xl border border-theme-border bg-theme-card/30  p-6 shadow-xl space-y-6">
               <div>
                 <h3 className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted select-none">
                   Conversion Funnel
@@ -309,7 +309,7 @@ export default function AnalyticsPage() {
             </div>
 
             {/* ATS Diagnostics Checklist Card */}
-            <div className="rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-md p-6 shadow-xl space-y-6">
+            <div className="rounded-2xl border border-theme-border bg-theme-card/30  p-6 shadow-xl space-y-6">
               <div>
                 <h3 className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted select-none">
                   AI Assessment

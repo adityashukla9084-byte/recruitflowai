@@ -46,7 +46,7 @@ export default function KeywordComparison({
       <div className="relative">
         {/* Empty state glass overlay */}
         {!isAnalyzed && (
-          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-theme-card/30 backdrop-blur-[2px] rounded-xl border border-dashed border-theme-border/30 p-4 text-center">
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-theme-card/30  rounded-xl border border-dashed border-theme-border/30 p-4 text-center">
             <div className="w-10 h-10 rounded-xl bg-theme-bg-secondary/60 flex items-center justify-center text-theme-text-muted mb-3 border border-theme-border">
               <FileSearch size={16} strokeWidth={1.5} className="animate-pulse" />
             </div>

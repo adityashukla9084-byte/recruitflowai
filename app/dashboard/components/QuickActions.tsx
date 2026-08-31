@@ -91,10 +91,10 @@ export default function QuickActions() {
               onClick={item.href.startsWith("#") ? (e) => handleScroll(e, item.href) : undefined}
               className="group flex flex-col justify-between p-4.5 bg-theme-card border border-theme-border hover:border-theme-accent/30 rounded-2xl transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] relative overflow-hidden cursor-pointer"
             >
-              {/* Glow bloom on hover */}
+              {/* Glow bloom on hover (Optimized) */}
               <div
-                className="absolute -right-8 -bottom-8 w-24 h-24 rounded-full blur-[32px] opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"
-                style={{ backgroundColor: item.color }}
+                className="absolute -right-8 -bottom-8 w-24 h-24 rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-300 pointer-events-none"
+                style={{ background: `radial-gradient(circle, ${item.color} 0%, transparent 70%)` }}
               />
 
               <div className="space-y-3">

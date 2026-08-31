@@ -154,7 +154,7 @@ export default function JobFinderPage() {
         </div>
 
         {/* Search Panel Card */}
-        <div className="rounded-3xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 shadow-2xl space-y-5">
+        <div className="rounded-3xl border border-theme-border bg-theme-card/30  p-6 shadow-2xl space-y-5">
           
           <div className="grid gap-4 md:grid-cols-3">
             {/* Query Input */}
@@ -235,7 +235,7 @@ export default function JobFinderPage() {
 
         {/* Empty State Banner */}
         {searched && !loading && jobs.length === 0 && !error && (
-          <div className="rounded-2xl border border-theme-border bg-theme-card/10 backdrop-blur p-12 text-center text-theme-text max-w-md mx-auto space-y-3">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/10  p-12 text-center text-theme-text max-w-md mx-auto space-y-3">
             <div className="h-12 w-12 rounded-full bg-theme-bg-secondary/40 border border-zinc-800 flex items-center justify-center mx-auto text-zinc-300">
               🔍
             </div>
@@ -256,7 +256,7 @@ export default function JobFinderPage() {
             return (
               <div
                 key={job.id}
-                className="rounded-3xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 md:p-8 flex flex-col justify-between hover:border-[#C5A028]/30 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-xl group relative overflow-hidden"
+                className="rounded-3xl border border-theme-border bg-theme-card/30  p-6 md:p-8 flex flex-col justify-between hover:border-[#C5A028]/30 hover:scale-[1.01] active:scale-[0.99] transition-all duration-300 shadow-xl group relative overflow-hidden"
               >
                 {/* Decorative blob on hover */}
                 <div className="absolute -right-12 -bottom-12 w-48 h-48 bg-[#C5A028]/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition duration-500" />

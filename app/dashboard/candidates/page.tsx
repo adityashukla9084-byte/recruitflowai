@@ -102,7 +102,7 @@ export default function CandidatesPage() {
       <div className="min-h-screen bg-[#050505] text-[#FFFFF0] pb-24 md:pb-8">
         
         {/* Sticky App Bar & Search */}
-        <div className="sticky top-0 z-30 bg-[#050505]/90 backdrop-blur-xl border-b border-white/[0.04] pt-safe-top">
+        <div className="sticky top-0 z-30 bg-[#050505]/90  border-b border-white/[0.04] pt-safe-top">
           <div className="px-4 py-4 flex items-center justify-between">
             <h1 className="text-xl font-bold tracking-tight text-[#FFFFF0]">Candidates</h1>
             <button className="p-2 rounded-full bg-white/[0.03] border border-white/[0.04] text-zinc-300">

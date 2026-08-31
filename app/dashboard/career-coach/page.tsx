@@ -127,7 +127,7 @@ export default function CareerCoachPage() {
         </div>
 
         {/* Chat Window Box */}
-        <div className="rounded-3xl border border-theme-border bg-theme-card/30 backdrop-blur-xl h-[650px] flex flex-col overflow-hidden shadow-2xl relative">
+        <div className="rounded-3xl border border-theme-border bg-theme-card/30  h-[650px] flex flex-col overflow-hidden shadow-2xl relative">
           
           {/* Message List Area */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
@@ -223,7 +223,7 @@ export default function CareerCoachPage() {
           </div>
 
           {/* Footer Input Bar */}
-          <div className="border-t border-zinc-900 p-4.5 flex gap-3 bg-zinc-950/40 backdrop-blur-md">
+          <div className="border-t border-zinc-900 p-4.5 flex gap-3 bg-zinc-950/40 ">
             <input
               value={question}
               onChange={(e) => setQuestion(e.target.value)}

@@ -21,7 +21,7 @@ const CustomTooltip = ({ active, payload }: { active?: boolean; payload?: { valu
   if (active && payload && payload.length) {
     return (
       <div
-        className="rounded-xl border border-theme-border bg-theme-card/90 backdrop-blur-md p-3 shadow-lg"
+        className="rounded-xl border border-theme-border bg-theme-card/90  p-3 shadow-lg"
         style={{ minWidth: 120 }}
       >
         <p

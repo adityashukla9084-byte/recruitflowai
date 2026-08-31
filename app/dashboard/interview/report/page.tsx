@@ -134,7 +134,7 @@ export default function InterviewReportPage() {
           <div className="flex gap-3">
             <button
               onClick={() => router.push("/dashboard/interview")}
-              className="rounded-xl border border-theme-border hover:border-[#C5A028]/40 px-5 py-3 font-bold text-sm text-zinc-300 hover:text-[#FFFFF0] transition flex items-center gap-2 cursor-pointer bg-zinc-950/20 backdrop-blur"
+              className="rounded-xl border border-theme-border hover:border-[#C5A028]/40 px-5 py-3 font-bold text-sm text-zinc-300 hover:text-[#FFFFF0] transition flex items-center gap-2 cursor-pointer bg-zinc-950/20 "
             >
               <RefreshCw size={14} />
               <span>Retake Session</span>
@@ -153,7 +153,7 @@ export default function InterviewReportPage() {
         <div className="grid md:grid-cols-3 gap-6">
           
           {/* Circular Score Gauge Card */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 flex flex-col items-center justify-center space-y-4 shadow-xl text-center">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/30  p-6 flex flex-col items-center justify-center space-y-4 shadow-xl text-center">
             <div className="relative flex items-center justify-center">
               <svg className="w-36 h-36 transform -rotate-90">
                 <circle
@@ -190,7 +190,7 @@ export default function InterviewReportPage() {
           </div>
 
           {/* Job Target Card */}
-          <div className="md:col-span-2 rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 flex flex-col justify-between shadow-xl relative overflow-hidden group">
+          <div className="md:col-span-2 rounded-2xl border border-theme-border bg-theme-card/30  p-6 flex flex-col justify-between shadow-xl relative overflow-hidden group">
             <div className="absolute -right-6 -bottom-6 w-32 h-32 bg-[#C5A028]/5 rounded-full blur-2xl group-hover:bg-[#C5A028]/10 transition duration-500" />
             <div className="space-y-4 relative z-10">
               <div className="inline-flex p-2.5 rounded-xl bg-[#C5A028]/10 text-[#D4AF37]">
@@ -214,7 +214,7 @@ export default function InterviewReportPage() {
         <div className="grid md:grid-cols-2 gap-6">
           
           {/* Detailed Feedback Card */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/25 backdrop-blur-xl p-6 md:p-8 space-y-5 shadow-xl">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/25  p-6 md:p-8 space-y-5 shadow-xl">
             <h3 className="text-lg font-black tracking-tight text-[#FFFFF0] flex items-center gap-2 border-b border-theme-border/60 pb-3">
               <BarChart2 className="h-5 w-5 text-[#D4AF37]" />
               <span>AI Evaluation Critique</span>
@@ -225,7 +225,7 @@ export default function InterviewReportPage() {
           </div>
 
           {/* Improvement Checklist Card */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/25 backdrop-blur-xl p-6 md:p-8 space-y-5 shadow-xl flex flex-col">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/25  p-6 md:p-8 space-y-5 shadow-xl flex flex-col">
             <h3 className="text-lg font-black tracking-tight text-[#FFFFF0] flex items-center gap-2 border-b border-theme-border/60 pb-3">
               <BookOpen className="h-5 w-5 text-[#D4AF37]" />
               <span>Personalized Action Plan</span>

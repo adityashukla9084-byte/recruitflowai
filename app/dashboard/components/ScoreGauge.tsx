@@ -80,7 +80,7 @@ export default function ScoreGauge({ score }: Props) {
             strokeWidth="5"
           />
 
-          {/* Underlay glow ring (soft neon glow) */}
+          {/* Underlay glow ring (soft neon glow) - Optimized for mobile */}
           {score > 0 && (
             <motion.circle
               cx="84"
@@ -94,7 +94,7 @@ export default function ScoreGauge({ score }: Props) {
               initial={{ strokeDashoffset: circumference }}
               animate={{ strokeDashoffset: offset }}
               transition={{ duration: 1.2, ease: [0.4, 0, 0.2, 1] }}
-              className="opacity-20 blur-[2px]"
+              className="opacity-20"
             />
           )}
 
@@ -127,7 +127,7 @@ export default function ScoreGauge({ score }: Props) {
                 cy={84}
                 r="6"
                 fill={stroke}
-                className="opacity-30 blur-[1.5px]"
+                className="opacity-30"
               />
               {/* Inner crisp indicator dot */}
               <circle
