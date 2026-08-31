@@ -137,22 +137,22 @@ export default function AnalyticsPage() {
   ];
 
   return (
-    <main className="min-h-screen bg-theme-bg text-theme-text p-6 md:p-12 relative overflow-hidden flex justify-center items-start">
+    <main className="min-h-screen bg-[#050505] text-[#FFFFF0] p-4 md:p-8 pb-24 relative overflow-hidden">
       {/* Background blurred glow elements */}
-      <div className="absolute top-0 left-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-80 h-80 bg-[#C5A028]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-[#C5A028]/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="max-w-6xl w-full space-y-10 relative z-10 animate-[fadeIn_0.5s]">
+      <div className="w-full space-y-6 relative z-10 animate-[fadeIn_0.5s] max-w-lg mx-auto md:max-w-6xl">
         
         {/* Header */}
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C5A028]/10 border border-[#C5A028]/20 text-[#D4AF37] text-xs font-bold uppercase tracking-wider">
             <Sparkles className="h-3 w-3 animate-pulse" />
             <span>Interactive Insights</span>
           </div>
           
           <div>
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-none text-white">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-none text-[#FFFFF0]">
               Analytics Dashboard
             </h1>
             <p className="text-sm text-theme-text-secondary mt-1.5 font-medium leading-relaxed max-w-2xl">
@@ -161,25 +161,25 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Top Summary Row (4 Columns Grid) */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Top Summary Row (2 Columns Grid on Mobile) */}
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
           
           {/* Total Scan runs */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-5 flex items-center justify-between shadow-[var(--shadow-card)] hover:border-cyan-500/20 transition-all duration-300">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
             <div className="space-y-1.5">
-              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest block">Scan Runs</span>
-              <h3 className="text-3xl font-black text-white font-mono leading-none">{stats.reportsCount}</h3>
+              <span className="text-xs text-zinc-300 font-bold uppercase tracking-widest block">Scan Runs</span>
+              <h3 className="text-2xl md:text-3xl font-black text-[#FFFFF0] font-mono leading-none">{stats.reportsCount}</h3>
             </div>
-            <div className="h-10 w-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center border border-cyan-500/20">
+            <div className="h-10 w-10 rounded-xl bg-[#C5A028]/10 text-[#D4AF37] flex items-center justify-center border border-[#C5A028]/20">
               <Activity size={18} />
             </div>
           </div>
 
           {/* Peak ATS Score */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-5 flex items-center justify-between shadow-[var(--shadow-card)] hover:border-cyan-500/20 transition-all duration-300">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
             <div className="space-y-1.5">
-              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest block">Peak ATS Score</span>
-              <h3 className="text-3xl font-black text-emerald-400 font-mono leading-none">{stats.bestScore}%</h3>
+              <span className="text-xs text-zinc-300 font-bold uppercase tracking-widest block">Peak ATS Score</span>
+              <h3 className="text-2xl md:text-3xl font-black text-emerald-400 font-mono leading-none">{stats.bestScore}%</h3>
             </div>
             <div className="h-10 w-10 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center border border-emerald-500/20">
               <Award size={18} />
@@ -187,23 +187,23 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Average ATS Score */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-5 flex items-center justify-between shadow-[var(--shadow-card)] hover:border-cyan-500/20 transition-all duration-300">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
             <div className="space-y-1.5">
-              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest block">Average Score</span>
-              <h3 className="text-3xl font-black text-teal-400 font-mono leading-none">{stats.avgScore}%</h3>
+              <span className="text-xs text-zinc-300 font-bold uppercase tracking-widest block">Average Score</span>
+              <h3 className="text-2xl md:text-3xl font-black text-[#D4AF37] font-mono leading-none">{stats.avgScore}%</h3>
             </div>
-            <div className="h-10 w-10 rounded-xl bg-teal-500/10 text-teal-400 flex items-center justify-center border border-teal-500/20">
+            <div className="h-10 w-10 rounded-xl bg-[#C5A028]/10 text-[#D4AF37] flex items-center justify-center border border-[#C5A028]/20">
               <TrendingUp size={18} />
             </div>
           </div>
 
           {/* Active pipeline interviews */}
-          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-5 flex items-center justify-between shadow-[var(--shadow-card)] hover:border-cyan-500/20 transition-all duration-300">
+          <div className="rounded-2xl border border-theme-border bg-theme-card/20 backdrop-blur-md p-3.5 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-0 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 transition-all duration-300">
             <div className="space-y-1.5">
-              <span className="text-[10px] text-slate-500 font-bold uppercase tracking-widest block">Interviews</span>
-              <h3 className="text-3xl font-black text-amber-400 font-mono leading-none">{stats.interviewsCount}</h3>
+              <span className="text-xs text-zinc-300 font-bold uppercase tracking-widest block">Interviews</span>
+              <h3 className="text-2xl md:text-3xl font-black text-[#D4AF37] font-mono leading-none">{stats.interviewsCount}</h3>
             </div>
-            <div className="h-10 w-10 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center border border-amber-500/20">
+            <div className="h-10 w-10 rounded-xl bg-[#C5A028]/10 text-[#D4AF37] flex items-center justify-center border border-[#C5A028]/20">
               <Clock size={18} />
             </div>
           </div>
@@ -211,7 +211,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Main Section split dashboard */}
-        <div className="grid gap-6 lg:grid-cols-3">
+        <div className="flex flex-col gap-5 lg:grid lg:grid-cols-3">
           
           {/* Left Column (2/3 width) - Charts & Scores */}
           <div className="lg:col-span-2 space-y-6">
@@ -219,9 +219,9 @@ export default function AnalyticsPage() {
             {/* Core statistics component wrapper */}
             <div className="space-y-4">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">Resume Scans</p>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Brain size={13} className="text-cyan-400" />
+                <p className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-0.5">Resume Scans</p>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[#FFFFF0] flex items-center gap-1.5">
+                  <Brain size={13} className="text-[#D4AF37]" />
                   <span>ATS Benchmarks</span>
                 </h3>
               </div>
@@ -238,9 +238,9 @@ export default function AnalyticsPage() {
             {/* Historical Score Trend chart wrapper */}
             <div className="space-y-4">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">Progress History</p>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-white flex items-center gap-1.5">
-                  <Activity size={13} className="text-teal-400" />
+                <p className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest text-zinc-400 mb-0.5">Progress History</p>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-[#FFFFF0] flex items-center gap-1.5">
+                  <Activity size={13} className="text-[#D4AF37]" />
                   <span>ATS Evaluation Timeline</span>
                 </h3>
               </div>
@@ -256,33 +256,33 @@ export default function AnalyticsPage() {
             {/* Pipeline conversion funnel card */}
             <div className="rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-md p-6 shadow-xl space-y-6">
               <div>
-                <h3 className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted select-none">
+                <h3 className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted select-none">
                   Conversion Funnel
                 </h3>
-                <h4 className="text-base font-extrabold text-white mt-1">Application Pipeline</h4>
+                <h4 className="text-base font-extrabold text-[#FFFFF0] mt-1">Application Pipeline</h4>
               </div>
 
               <div className="space-y-5">
                 {/* Stage 1: Submitted */}
                 <div className="space-y-1.5">
-                  <div className="flex justify-between text-xs font-bold text-slate-300">
+                  <div className="flex justify-between text-xs font-bold text-zinc-300">
                     <span>1. Tracked Submissions</span>
-                    <span className="font-mono text-cyan-400">{stats.totalJobs} jobs (100%)</span>
+                    <span className="font-mono text-[#D4AF37]">{stats.totalJobs} jobs (100%)</span>
                   </div>
-                  <div className="h-2 rounded-full bg-slate-950 border border-slate-900 overflow-hidden">
-                    <div className="h-full bg-cyan-500 rounded-full w-full shadow-[0_0_8px_var(--color-theme-accent)]" />
+                  <div className="h-2 rounded-full bg-zinc-950 border border-zinc-900 overflow-hidden">
+                    <div className="h-full bg-[#C5A028] rounded-full w-full shadow-[0_0_8px_var(--color-theme-accent)]" />
                   </div>
                 </div>
 
                 {/* Stage 2: Interview */}
                 <div className="space-y-1.5">
-                  <div className="flex justify-between text-xs font-bold text-slate-300">
+                  <div className="flex justify-between text-xs font-bold text-zinc-300">
                     <span>2. Interview Stage</span>
-                    <span className="font-mono text-amber-400">{stats.interviewsCount} calls ({interviewRate}%)</span>
+                    <span className="font-mono text-[#D4AF37]">{stats.interviewsCount} calls ({interviewRate}%)</span>
                   </div>
-                  <div className="h-2 rounded-full bg-slate-950 border border-slate-900 overflow-hidden">
+                  <div className="h-2 rounded-full bg-zinc-950 border border-zinc-900 overflow-hidden">
                     <div
-                      className="h-full bg-amber-500 rounded-full transition-all duration-1000"
+                      className="h-full bg-[#C5A028] rounded-full transition-all duration-1000"
                       style={{ width: `${interviewRate}%` }}
                     />
                   </div>
@@ -290,11 +290,11 @@ export default function AnalyticsPage() {
 
                 {/* Stage 3: Offer */}
                 <div className="space-y-1.5">
-                  <div className="flex justify-between text-xs font-bold text-slate-300">
+                  <div className="flex justify-between text-xs font-bold text-zinc-300">
                     <span>3. Offer Stage</span>
                     <span className="font-mono text-emerald-400">{stats.offersCount} landed ({offerRate}%)</span>
                   </div>
-                  <div className="h-2 rounded-full bg-slate-950 border border-slate-900 overflow-hidden">
+                  <div className="h-2 rounded-full bg-zinc-950 border border-zinc-900 overflow-hidden">
                     <div
                       className="h-full bg-emerald-500 rounded-full transition-all duration-1000"
                       style={{ width: `${offerRate}%` }}
@@ -303,7 +303,7 @@ export default function AnalyticsPage() {
                 </div>
               </div>
 
-              <p className="text-[10px] text-theme-text-muted leading-relaxed font-semibold">
+              <p className="text-xs text-theme-text-muted leading-relaxed font-semibold">
                 * Rates are calculated based on overall pipeline conversions in your [Job Tracker](file:///C:/Users/DELL/Desktop/recruitflowai/app/dashboard/job-tracker/page.tsx).
               </p>
             </div>
@@ -311,10 +311,10 @@ export default function AnalyticsPage() {
             {/* ATS Diagnostics Checklist Card */}
             <div className="rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-md p-6 shadow-xl space-y-6">
               <div>
-                <h3 className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted select-none">
+                <h3 className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted select-none">
                   AI Assessment
                 </h3>
-                <h4 className="text-base font-extrabold text-white mt-1">Diagnostic Checks</h4>
+                <h4 className="text-base font-extrabold text-[#FFFFF0] mt-1">Diagnostic Checks</h4>
               </div>
 
               <div className="space-y-4">
@@ -324,12 +324,12 @@ export default function AnalyticsPage() {
                       {diag.passed ? (
                         <CheckCircle2 className="h-4 w-4 text-emerald-400" />
                       ) : (
-                        <AlertCircle className="h-4 w-4 text-slate-600" />
+                        <AlertCircle className="h-4 w-4 text-theme-text" />
                       )}
                     </div>
                     <div className="space-y-0.5">
-                      <h5 className="font-extrabold text-white">{diag.label}</h5>
-                      <p className="text-[10px] text-slate-400 font-semibold">{diag.desc}</p>
+                      <h5 className="font-extrabold text-[#FFFFF0]">{diag.label}</h5>
+                      <p className="text-xs text-theme-text font-semibold">{diag.desc}</p>
                     </div>
                   </div>
                 ))}

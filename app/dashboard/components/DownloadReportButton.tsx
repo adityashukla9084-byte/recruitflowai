@@ -41,7 +41,7 @@ export default function DownloadReportButton({ result }: Props) {
   return (
     <button
       onClick={downloadPDF}
-      className="w-full flex items-center justify-center gap-2 rounded-xl py-2.5 px-4 text-sm font-semibold transition-all duration-200 hover:scale-[1.005] active:scale-[0.995] bg-theme-text text-theme-bg shadow-md hover:shadow-lg hover:opacity-90 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 border border-black/10 dark:border-white/5"
+      className="w-full flex items-center justify-center gap-2 rounded-xl py-2.5 px-4 text-sm font-semibold transition-all duration-200 hover:scale-[1.005] active:scale-[0.995] bg-theme-text text-theme-bg shadow-md hover:shadow-lg hover:opacity-90 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 border border-black/10 dark:border-theme-border"
     >
       <Download size={14} strokeWidth={2} aria-hidden="true" />
       Download PDF Report

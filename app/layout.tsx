@@ -48,17 +48,9 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased dark`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased light`}
     >
       <body className="min-h-full flex flex-col relative overflow-x-hidden">
-        {/* Tactical Noise & Premium Background Glows */}
-        <div className="noise-overlay" />
-        <div className="glow-container">
-          <div className="glow-blob glow-1" />
-          <div className="glow-blob glow-2" />
-        </div>
-        <div className="grid-overlay" />
-
         <ThemeProvider>
           <MobileNativeManager />
           <NativeLoader />

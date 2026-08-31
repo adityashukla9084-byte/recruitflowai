@@ -1,5 +1,6 @@
 "use client";
 
+import PullToRefresh from "@/app/components/PullToRefresh";
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase";
 import { useTheme } from "@/app/context/ThemeContext";
@@ -259,6 +260,7 @@ export default function SettingsPage() {
   }
 
   return (
+    <PullToRefresh onRefresh={async () => { await new Promise(r => setTimeout(r, 1000)) }}>
     <main className="min-h-screen bg-theme-bg text-theme-text p-10">
       <div className="max-w-4xl mx-auto">
 
@@ -271,7 +273,7 @@ export default function SettingsPage() {
           {/* ── Appearance Toggle (Forced Dark Mode) ── */}
           <div className="rounded-2xl border border-theme-border-card bg-theme-card p-6 flex items-center justify-between shadow-[var(--shadow-card)]">
             <div className="flex items-center gap-4">
-              <Moon className="text-cyan-400" />
+              <Moon className="text-[#D4AF37]" />
               <div>
                 <h2 className="text-xl font-bold">
                   Appearance
@@ -283,7 +285,7 @@ export default function SettingsPage() {
             </div>
 
             {/* Non-interactive status badge */}
-            <span className="px-3 py-1.5 rounded-full border border-cyan-400/25 bg-cyan-400/10 text-cyan-300 text-xs font-bold uppercase tracking-wider">
+            <span className="px-3 py-1.5 rounded-full border border-[#D4AF37]/25 bg-[#D4AF37]/10 text-[#] text-xs font-bold uppercase tracking-wider">
               Always Active
             </span>
           </div>
@@ -312,7 +314,7 @@ export default function SettingsPage() {
                 transition-colors duration-300 ease-in-out
                 focus:outline-none focus:ring-2 focus:ring-offset-2
                 ${notifications
-                  ? "bg-cyan-500 focus:ring-cyan-400"
+                  ? "bg-[#C5A028] focus:-[#C5A028]"
                   : "bg-slate-600 focus:ring-slate-400"
                 }
               `}
@@ -397,7 +399,7 @@ export default function SettingsPage() {
                       placeholder="Enter current password"
                       value={currentPassword}
                       onChange={(e) => setCurrentPassword(e.target.value)}
-                      className="w-full rounded-lg border border-theme-border-input bg-theme-input p-3 pr-11 text-theme-text focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50"
+                      className="w-full rounded-lg border border-theme-border-input bg-theme-input p-3 pr-11 text-theme-text focus:outline-none focus:ring-2 focus:-[#C5A028]/40 focus:border-[#C5A028]/50"
                     />
                     <button
                       type="button"
@@ -420,7 +422,7 @@ export default function SettingsPage() {
                       placeholder="Enter new password (min 6 chars)"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      className="w-full rounded-lg border border-theme-border-input bg-theme-input p-3 pr-11 text-theme-text focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50"
+                      className="w-full rounded-lg border border-theme-border-input bg-theme-input p-3 pr-11 text-theme-text focus:outline-none focus:ring-2 focus:-[#C5A028]/40 focus:border-[#C5A028]/50"
                     />
                     <button
                       type="button"
@@ -443,7 +445,7 @@ export default function SettingsPage() {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && handleChangePassword()}
-                    className={`w-full rounded-lg border bg-theme-input p-3 text-theme-text focus:outline-none focus:ring-2 focus:ring-cyan-500/40 focus:border-cyan-500/50 ${
+                    className={`w-full rounded-lg border bg-theme-input p-3 text-theme-text focus:outline-none focus:ring-2 focus:-[#C5A028]/40 focus:border-[#C5A028]/50 ${
                       confirmPassword && confirmPassword !== newPassword
                         ? "border-red-500/50"
                         : "border-theme-border-input"
@@ -459,7 +461,7 @@ export default function SettingsPage() {
                   <button
                     onClick={handleChangePassword}
                     disabled={passwordLoading}
-                    className="rounded-lg bg-cyan-500 px-6 py-2.5 font-semibold text-white hover:bg-cyan-600 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+                    className="rounded-lg bg-[#C5A028] px-6 py-2.5 font-semibold text-[#FFFFF0] hover:bg-[#B89020] disabled:opacity-70 disabled:cursor-not-allowed flex items-center gap-2"
                   >
                     {passwordLoading ? (
                       <>
@@ -514,7 +516,7 @@ export default function SettingsPage() {
             <button
               onClick={logout}
               disabled={loading}
-              className="rounded-lg bg-red-500 px-6 py-2 font-semibold text-white hover:bg-red-600"
+              className="rounded-lg bg-red-500 px-6 py-2 font-semibold text-[#FFFFF0] hover:bg-red-600"
             >
               {loading ? "Logging out..." : "Logout"}
             </button>
@@ -589,7 +591,7 @@ export default function SettingsPage() {
                   <button
                     onClick={handleDeleteAccount}
                     disabled={deleteLoading}
-                    className="rounded-lg bg-red-600 px-6 py-2.5 font-semibold text-white hover:bg-red-700 disabled:opacity-50 flex items-center gap-2"
+                    className="rounded-lg bg-red-600 px-6 py-2.5 font-semibold text-[#FFFFF0] hover:bg-red-700 disabled:opacity-70 flex items-center gap-2"
                   >
                     {deleteLoading ? (
                       <>
@@ -622,5 +624,6 @@ export default function SettingsPage() {
 
       </div>
     </main>
+    </PullToRefresh>
   );
 }

@@ -18,7 +18,7 @@ export default function Logo({
   return (
     <div className={`flex items-center gap-2.5 ${className}`}>
       <div 
-        className="relative overflow-hidden rounded-lg border border-white/[0.08] shadow-[0_0_12px_rgba(20,184,166,0.15)] flex items-center justify-center shrink-0 bg-slate-950"
+        className="relative overflow-hidden rounded-lg border border-white/[0.08] shadow-[0_0_12px_rgba(20,184,166,0.15)] flex items-center justify-center shrink-0 bg-zinc-950"
         style={{ width: size, height: size }}
       >
         <Image
@@ -30,7 +30,7 @@ export default function Logo({
         />
       </div>
       {showText && (
-        <span className={`${textSize} ${fontWeight} bg-gradient-to-r from-teal-400 via-cyan-300 to-cyan-400 bg-clip-text text-transparent tracking-tight`}>
+        <span className={`${textSize} ${fontWeight} bg-gradient-to-r from-[#D4AF37] to-[#C5A028] text-[#] bg-clip-text text-transparent tracking-tight`}>
           RecruitFlow AI
         </span>
       )}

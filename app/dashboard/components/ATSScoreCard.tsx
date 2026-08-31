@@ -30,7 +30,7 @@ export default function ATSScoreCard({
       <div className="mt-6 h-3 w-full overflow-hidden rounded-full bg-slate-700">
 
         <div
-          className="h-full rounded-full bg-cyan-500 transition-all duration-700"
+          className="h-full rounded-full bg-theme-accent transition-all duration-700"
           style={{
             width: `${score}%`,
           }}

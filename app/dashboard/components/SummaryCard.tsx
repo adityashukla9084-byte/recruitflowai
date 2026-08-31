@@ -12,7 +12,7 @@ export default function SummaryCard({
         AI Resume Summary
       </h2>
 
-      <p className="leading-8 text-slate-300">
+      <p className="leading-8 text-zinc-300">
         {summary}
       </p>
 

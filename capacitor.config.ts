@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'RecruitFlow AI',
   webDir: 'out',
   server: {
-    url: 'https://recruit-flowai.site',
+    url: 'http://10.0.2.2:3000', // Points to localhost on Android Emulator
     cleartext: true
   },
   plugins: {

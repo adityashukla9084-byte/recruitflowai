@@ -82,7 +82,7 @@ function HealthBar({
       <div className="h-2 rounded-full bg-slate-700">
 
         <div
-          className="h-2 rounded-full bg-cyan-500"
+          className="h-2 rounded-full bg-theme-accent"
           style={{
             width: `${value}%`,
           }}

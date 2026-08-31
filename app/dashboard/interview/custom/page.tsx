@@ -41,7 +41,7 @@ export default function CustomInterview() {
 
         <button
           onClick={startInterview}
-          className="mt-6 w-full rounded-xl bg-cyan-500 py-4 font-bold text-white hover:bg-cyan-600"
+          className="mt-6 w-full rounded-xl bg-[#C5A028] py-4 font-bold text-[#FFFFF0] hover:bg-[#B89020]"
         >
           Start Interview
         </button>

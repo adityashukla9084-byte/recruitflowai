@@ -63,7 +63,7 @@ export default function StatsCards({
   return (
     <div className="space-y-3">
       {/* ── ATS Score Hero Card ── */}
-      <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-4.5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 group cursor-default relative overflow-hidden">
+      <div className="bg-theme-card border border-theme-border rounded-2xl p-4.5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 group cursor-default relative overflow-hidden">
         {/* Soft color bloom matching match status */}
         {hasAtsValue && (
           <div 
@@ -79,13 +79,13 @@ export default function StatsCards({
               style={{ backgroundColor: atsColor }}
               aria-hidden="true"
             />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-theme-text-muted select-none">
+            <span className="text-xs font-bold uppercase tracking-widest text-theme-text-muted select-none">
               ATS Score
             </span>
           </div>
 
           <span
-            className="text-[9px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded border transition-all duration-300 select-none"
+            className="text-[11px] font-bold uppercase tracking-widest px-2.5 py-0.5 rounded border transition-all duration-300 select-none"
             style={{
               color: atsColor,
               borderColor: `color-mix(in srgb, ${atsColor} 20%, transparent)`,
@@ -131,7 +131,7 @@ export default function StatsCards({
 
         {/* Custom progress slider / grayed-out pulsing placeholder */}
         <div className="space-y-1.5">
-          <div className="flex justify-between text-[9px] text-theme-text-muted font-mono select-none">
+          <div className="flex justify-between text-[11px] text-theme-text-muted font-mono select-none">
             <span>WEAK</span>
             <span>MODERATE</span>
             <span>STRONG</span>
@@ -161,7 +161,7 @@ export default function StatsCards({
           return (
             <div
               key={stat.label}
-              className="flex flex-col justify-between p-2.5 bg-theme-card border border-theme-border/50 rounded-xl shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 cursor-default relative overflow-hidden group"
+              className="flex flex-col justify-between p-2.5 bg-theme-card border border-theme-border rounded-xl shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 cursor-default relative overflow-hidden group"
             >
               <span className="text-[8px] font-extrabold uppercase tracking-wider text-theme-text-muted select-none mb-2 block truncate">
                 {stat.label}

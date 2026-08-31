@@ -72,11 +72,11 @@ export default function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-30 h-[60px] flex items-center justify-between border-b border-theme-border/40 bg-theme-bg/75 backdrop-blur-md px-6 sm:px-10">
+    <header className="sticky top-0 z-30 flex items-center justify-between border-b border-theme-border bg-theme-bg/90 backdrop-blur-xl px-4 py-3 md:h-[60px] md:px-10 md:py-0 pt-safe-top shadow-[var(--shadow-card)]">
       <div className="flex items-center gap-3">
         <button
           onClick={() => window.dispatchEvent(new CustomEvent("toggle-sidebar"))}
-          className="hidden p-2 rounded-lg text-theme-text-muted hover:text-theme-text hover:bg-theme-card-hover transition-all duration-200 cursor-pointer"
+          className="md:hidden hidden p-2 rounded-lg text-theme-text-muted hover:text-theme-text hover:bg-theme-card-hover transition-all duration-200 cursor-pointer"
           aria-label="Toggle navigation menu"
         >
           <Menu size={16} />
@@ -114,7 +114,7 @@ export default function Header() {
               <div className="flex items-center gap-1.5">
                 <span className="text-xs font-bold text-theme-text uppercase tracking-wider">Notifications</span>
                 {unreadCount > 0 && (
-                  <span className="text-[10px] font-bold px-1.5 py-0.2 bg-emerald-500/10 text-emerald-500 rounded border border-emerald-500/20 font-mono">
+                  <span className="text-xs font-bold px-1.5 py-0.2 bg-emerald-500/10 text-emerald-500 rounded border border-emerald-500/20 font-mono">
                     {unreadCount}
                   </span>
                 )}
@@ -122,7 +122,7 @@ export default function Header() {
               {unreadCount > 0 && (
                 <button
                   onClick={markAllRead}
-                  className="text-[10px] font-bold text-sky-500 hover:text-sky-400 hover:underline flex items-center gap-1 cursor-pointer"
+                  className="text-xs font-bold text-theme-accent hover:text-theme-accent hover:underline flex items-center gap-1 cursor-pointer"
                 >
                   <Check size={11} strokeWidth={2.5} />
                   Mark all read
@@ -138,16 +138,16 @@ export default function Header() {
                 </div>
               ) : (
                 notifications.map((item) => {
-                  let typeColor = "bg-sky-500";
+                  let typeColor = "bg-theme-accent";
                   let Icon = Sparkles;
                   if (item.type === "match") {
                     typeColor = "bg-emerald-500";
                     Icon = Sparkles;
                   } else if (item.type === "interview") {
-                    typeColor = "bg-amber-500";
+                    typeColor = "bg-theme-accent";
                     Icon = Clock;
                   } else {
-                    typeColor = "bg-purple-500";
+                    typeColor = "bg-blue-500";
                     Icon = Sun;
                   }
 
@@ -161,8 +161,8 @@ export default function Header() {
                     >
                       {/* Icon Badge */}
                       <div className="relative shrink-0 pt-0.5">
-                        <div className={`w-6 h-6 rounded-lg ${typeColor}/10 flex items-center justify-center border border-${item.type === "match" ? "emerald" : item.type === "interview" ? "amber" : "purple"}-500/20`}>
-                          <Icon size={12} className={item.type === "match" ? "text-emerald-500" : item.type === "interview" ? "text-amber-500" : "text-purple-500"} />
+                        <div className={`w-6 h-6 rounded-lg ${typeColor}/10 flex items-center justify-center border border-${item.type === "match" ? "emerald" : item.type === "interview" ? "theme-accent" : "blue"}-500/20`}>
+                          <Icon size={12} className={item.type === "match" ? "text-emerald-500" : item.type === "interview" ? "text-theme-accent" : "text-blue-500"} />
                         </div>
                         {item.unread && (
                           <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-emerald-500 border border-theme-card" />
@@ -174,11 +174,11 @@ export default function Header() {
                           <h4 className={`text-xs truncate ${item.unread ? "font-bold text-theme-text" : "font-medium text-theme-text-secondary"}`}>
                             {item.title}
                           </h4>
-                          <span className="text-[9px] font-mono text-theme-text-muted shrink-0">
+                          <span className="text-[11px] font-mono text-theme-text-muted shrink-0">
                             {item.time}
                           </span>
                         </div>
-                        <p className="text-[10px] text-theme-text-secondary leading-relaxed">
+                        <p className="text-xs text-theme-text-secondary leading-relaxed">
                           {item.desc}
                         </p>
                       </div>
@@ -196,11 +196,11 @@ export default function Header() {
             setIsUserOpen(!isUserOpen);
             setIsOpen(false);
           }}
-          className="ml-2 flex items-center gap-2 pl-3 border-l border-theme-border/50 hover:opacity-85 active:scale-95 transition-all duration-200 cursor-pointer"
+          className="ml-2 flex items-center gap-2 pl-3 border-l border-theme-border hover:opacity-85 active:scale-95 transition-all duration-200 cursor-pointer"
           aria-label="User menu"
         >
-          <div className="bg-gradient-to-tr from-blue-500 via-sky-500 to-cyan-400 p-[1.5px] rounded-lg shadow-sm">
-            <div className="w-[26px] h-[26px] rounded-[7px] bg-theme-bg flex items-center justify-center text-[10px] font-bold text-theme-text select-none">
+          <div className="bg-gradient-to-tr from-[#D4AF37] to-[#F3CA4B] p-[1.5px] rounded-lg shadow-[var(--shadow-card)]">
+            <div className="w-[26px] h-[26px] rounded-[7px] bg-theme-bg flex items-center justify-center text-xs font-bold text-theme-text select-none">
               RF
             </div>
           </div>
@@ -212,7 +212,7 @@ export default function Header() {
             {/* Header info */}
             <div className="p-3 border-b border-theme-border/30 bg-theme-bg-secondary/15 select-none text-left">
               <p className="text-xs font-bold text-theme-text">Aditya</p>
-              <p className="text-[10px] text-theme-text-muted">aditya@recruitflow.ai</p>
+              <p className="text-xs text-theme-text-muted">aditya@recruitflow.ai</p>
             </div>
 
             {/* Menu options */}

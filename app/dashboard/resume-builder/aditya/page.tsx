@@ -99,7 +99,7 @@ export default function AdityaResumePage() {
   ];
 
   return (
-    <main className="min-h-screen bg-slate-950 p-6 sm:p-10 text-slate-800">
+    <main className="min-h-screen bg-zinc-950 p-6 sm:p-10 text-slate-800">
       
       {/* Dynamic Local Print Override styles */}
       <style jsx global>{`
@@ -140,17 +140,17 @@ export default function AdityaResumePage() {
         }
       `}</style>
 
-      <div className="max-w-4xl mx-auto mb-6 flex justify-between items-center no-print text-white">
+      <div className="max-w-4xl mx-auto mb-6 flex justify-between items-center no-print text-[#FFFFF0]">
         <Link
           href="/dashboard"
-          className="flex items-center gap-1.5 text-sm font-semibold text-slate-400 hover:text-white transition-colors duration-200"
+          className="flex items-center gap-1.5 text-sm font-semibold text-theme-text hover:text-[#FFFFF0] transition-colors duration-200"
         >
           <ArrowLeft size={16} />
           <span>Back to Dashboard</span>
         </Link>
         <button
           onClick={() => window.print()}
-          className="flex items-center gap-2 rounded-xl bg-teal-600 hover:bg-indigo-700 active:scale-95 px-5 py-2.5 font-bold text-white transition-all duration-200 shadow-lg shadow-indigo-500/20"
+          className="flex items-center gap-2 rounded-xl bg-[#] hover:bg-theme-accent-hover active:scale-95 px-5 py-2.5 font-bold text-[#FFFFF0] transition-all duration-200 shadow-lg shadow-theme-accent/20"
         >
           <Printer size={15} />
           Print / Save A4 PDF
@@ -169,14 +169,14 @@ export default function AdityaResumePage() {
       >
         <div className="space-y-4.5">
           {/* 1. CONTACT INFO */}
-          <div className="text-center border-b-2 border-slate-900 pb-3">
+          <div className="text-center border-b-2 border-zinc-900 pb-3">
             <h1 className="text-3xl font-black text-slate-900 tracking-tight uppercase mb-1">
               {contactInfo.name}
             </h1>
-            <p className="text-xs font-bold text-indigo-700 uppercase tracking-widest mb-2.5">
+            <p className="text-xs font-bold text-theme-accent-hover uppercase tracking-widest mb-2.5">
               {contactInfo.title}
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-slate-600 font-medium">
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs text-theme-text font-medium">
               <span>📞 {contactInfo.phone}</span>
               <span>✉ {contactInfo.email}</span>
               <a href={`https://${contactInfo.linkedin}`} target="_blank" className="hover:underline">🔗 LinkedIn</a>
@@ -189,7 +189,7 @@ export default function AdityaResumePage() {
             <h2 className="text-sm font-black text-slate-900 uppercase tracking-wide">
               Professional Summary
             </h2>
-            <p className="text-xs text-slate-600 leading-5 text-justify">
+            <p className="text-xs text-theme-text leading-5 text-justify">
               {summary}
             </p>
           </div>
@@ -202,7 +202,7 @@ export default function AdityaResumePage() {
             <div className="grid grid-cols-3 gap-4 text-xs">
               <div className="space-y-1">
                 <p className="font-bold text-slate-800 border-b border-slate-200 pb-0.5">TECHNICAL SKILLS</p>
-                <ul className="list-disc pl-4 space-y-0.5 text-slate-600">
+                <ul className="list-disc pl-4 space-y-0.5 text-theme-text">
                   {skillsList.technical.map((skill, index) => (
                     <li key={index}>{skill}</li>
                   ))}
@@ -210,7 +210,7 @@ export default function AdityaResumePage() {
               </div>
               <div className="space-y-1">
                 <p className="font-bold text-slate-800 border-b border-slate-200 pb-0.5">SOFT SKILLS</p>
-                <ul className="list-disc pl-4 space-y-0.5 text-slate-600">
+                <ul className="list-disc pl-4 space-y-0.5 text-theme-text">
                   {skillsList.soft.map((skill, index) => (
                     <li key={index}>{skill}</li>
                   ))}
@@ -218,7 +218,7 @@ export default function AdityaResumePage() {
               </div>
               <div className="space-y-1">
                 <p className="font-bold text-slate-800 border-b border-slate-200 pb-0.5">LANGUAGES</p>
-                <ul className="list-disc pl-4 space-y-0.5 text-slate-600">
+                <ul className="list-disc pl-4 space-y-0.5 text-theme-text">
                   {skillsList.languages.map((lang, index) => (
                     <li key={index}>{lang}</li>
                   ))}
@@ -237,11 +237,11 @@ export default function AdityaResumePage() {
                 <div key={index} className="flex justify-between items-baseline text-xs">
                   <div>
                     <span className="font-bold text-slate-900">{edu.degree}</span>
-                    <span className="text-slate-500 font-medium"> — {edu.institution}</span>
+                    <span className="text-zinc-300 font-medium"> — {edu.institution}</span>
                   </div>
                   <div className="text-right shrink-0 ml-2">
                     <span className="font-bold text-slate-700">{edu.score}</span>
-                    <span className="text-slate-500 ml-2">({edu.year})</span>
+                    <span className="text-zinc-300 ml-2">({edu.year})</span>
                   </div>
                 </div>
               ))}
@@ -258,10 +258,10 @@ export default function AdityaResumePage() {
                 <div key={index} className="space-y-1 text-xs">
                   <div className="flex justify-between items-baseline">
                     <span className="font-bold text-slate-900">{exp.title}</span>
-                    <span className="text-slate-500 font-medium">{exp.duration}</span>
+                    <span className="text-zinc-300 font-medium">{exp.duration}</span>
                   </div>
-                  <div className="text-indigo-700 font-bold">{exp.company}</div>
-                  <ul className="list-disc pl-4 space-y-0.5 text-slate-600 leading-4">
+                  <div className="text-theme-accent-hover font-bold">{exp.company}</div>
+                  <ul className="list-disc pl-4 space-y-0.5 text-theme-text leading-4">
                     {exp.bullets.map((bullet, idx) => (
                       <li key={idx}>{bullet}</li>
                     ))}
@@ -277,7 +277,7 @@ export default function AdityaResumePage() {
               <h2 className="text-sm font-black text-slate-900 uppercase tracking-wide">
                 Certifications
               </h2>
-              <ul className="grid grid-cols-2 gap-x-6 gap-y-0.5 list-disc pl-4 text-xs text-slate-600">
+              <ul className="grid grid-cols-2 gap-x-6 gap-y-0.5 list-disc pl-4 text-xs text-theme-text">
                 {certifications.map((cert, index) => (
                   <li key={index}>{cert}</li>
                 ))}
@@ -287,7 +287,7 @@ export default function AdityaResumePage() {
         </div>
 
         {/* Footer info */}
-        <div className="text-center text-[10px] text-slate-400 border-t border-slate-100 pt-2 font-medium">
+        <div className="text-center text-xs text-theme-text border-t border-slate-100 pt-2 font-medium">
           Aditya Shukla • Resume generated & verified via RecruitFlow AI evaluation protocol.
         </div>
       </div>

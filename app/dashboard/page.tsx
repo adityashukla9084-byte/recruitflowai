@@ -284,31 +284,31 @@ export default function Dashboard() {
     <PullToRefresh onRefresh={handleRefresh}>
       <div className="flex-1 min-h-screen bg-theme-bg text-theme-text relative overflow-hidden">
       {/* Premium Background Ambient Glows */}
-      <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-blue-500/5 to-cyan-500/5 blur-[120px] pointer-events-none animate-float-slow" />
-      <div className="absolute bottom-[10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-cyan-500/5 via-blue-500/10 to-cyan-500/5 blur-[100px] pointer-events-none animate-float-medium" />
+      <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-[#1E293B]/40 to-[#0F172A]/0 blur-[120px] pointer-events-none animate-float-slow" />
+      <div className="absolute bottom-[10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-[#D4AF37]/10 via-[#1E293B]/20 to-transparent blur-[100px] pointer-events-none animate-float-medium" />
 
 
 
-      <div className="mx-auto max-w-7xl px-6 sm:px-10 py-4 pb-10 space-y-4 relative z-10">
+      <div className="mx-auto max-w-7xl px-4 md:px-10 py-2 md:py-4 pb-24 md:pb-10 space-y-4 relative z-10">
         {/* Page context */}
         <Hero />
 
         {/* ── Split-Screen Workspace ── */}
-        <div className="grid gap-4 lg:grid-cols-3 items-start">
+        <div className="flex flex-col gap-6 lg:grid lg:gap-4 lg:grid-cols-3 items-start">
           {/* Left Column: Upload Scanner & Results Tab Panel (col-span-2) */}
           <div className="lg:col-span-2 space-y-4" id="upload-section">
             <div className="space-y-3">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
                   Resume Analysis
                 </p>
                 <div className="flex items-center gap-2">
-                  <UploadCloud size={14} className="text-sky-500" aria-hidden="true" />
+                  <UploadCloud size={14} className="text-theme-accent" aria-hidden="true" />
                   <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Upload &amp; Scan</h2>
                 </div>
               </div>
 
-              <div className="bg-theme-card border border-theme-border/50 rounded-2xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
+              <div className="bg-theme-card border border-theme-border rounded-2xl overflow-hidden shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
                 {/* Dropzone */}
                 <div
                   onDragEnter={handleDrag}
@@ -324,7 +324,7 @@ export default function Dashboard() {
                     file
                       ? "bg-theme-card"
                       : dragActive
-                      ? "bg-sky-500/5 border-dashed border-sky-500/50 cursor-copy"
+                      ? "bg-theme-accent/5 border-dashed border-theme-accent/50 cursor-copy"
                       : "bg-theme-card hover:bg-theme-card-hover/20 cursor-pointer"
                   }`}
                 >
@@ -345,9 +345,9 @@ export default function Dashboard() {
                   {!file ? (
                     <div className="flex flex-col items-center gap-3.5">
                       {/* Icon wrapper badge */}
-                      <div className="w-11 h-11 rounded-xl border border-theme-border bg-theme-bg-secondary/40 flex items-center justify-center shadow-sm group-hover:border-sky-500/35 group-hover:bg-theme-card-hover transition-all duration-300">
+                      <div className="w-11 h-11 rounded-xl border border-theme-border bg-theme-bg-secondary/40 flex items-center justify-center shadow-[var(--shadow-card)] group-hover:border-theme-accent/35 group-hover:bg-theme-card-hover transition-all duration-300">
                         <UploadCloud
-                          className="h-5 w-5 text-theme-text-muted group-hover:text-sky-500 transition-colors duration-300"
+                          className="h-5 w-5 text-theme-text-muted group-hover:text-theme-accent transition-colors duration-300"
                           strokeWidth={1.5}
                           aria-hidden="true"
                         />
@@ -358,9 +358,7 @@ export default function Dashboard() {
                           <span
                             className="underline underline-offset-2 decoration-theme-text-muted font-medium"
                             style={{ color: "var(--accent)" }}
-                          >
-                            browse files
-                          </span>
+                          ><span className="hidden md:inline">browse files</span><span className="md:hidden">upload resume</span></span>
                         </p>
                         <p className="text-xs text-theme-text-muted mt-1">PDF or DOCX · max 10 MB</p>
                       </div>
@@ -403,14 +401,14 @@ export default function Dashboard() {
                 <div className="p-4 border-b border-theme-border/40 bg-theme-bg-secondary/10">
                   <label
                     htmlFor="job-description"
-                    className="block text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-2.5 select-none"
+                    className="block text-[11px] font-bold uppercase tracking-widest text-theme-text-muted mb-2.5 select-none"
                   >
                     Job Description{" "}
                     <span className="normal-case font-normal text-theme-text-muted">
                       (optional)
                     </span>
                   </label>
-                  <div className="rounded-xl border border-theme-border/50 p-3 bg-theme-bg-secondary/30 focus-within:border-sky-500/40 focus-within:ring-2 focus-within:ring-sky-500/10 transition-all duration-200">
+                  <div className="rounded-xl border border-theme-border p-3 bg-theme-bg-secondary/30 focus-within:border-theme-accent/40 focus-within:ring-2 focus-within:ring-theme-accent/10 transition-all duration-200">
                     <textarea
                       id="job-description"
                       placeholder="Paste the job requisition text to check keyword alignment..."
@@ -458,7 +456,7 @@ export default function Dashboard() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.15 }}
-                  className="space-y-4 border-t border-theme-border/50 pt-6 animate-pulse"
+                  className="space-y-4 border-t border-theme-border pt-6 animate-pulse"
                 >
                   <div className="flex items-center gap-2">
                     <Sparkles size={14} className="text-theme-text-muted animate-spin" />
@@ -476,13 +474,13 @@ export default function Dashboard() {
                   <div className="space-y-4">
                     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                       {[1, 2, 3, 4].map((i) => (
-                        <div key={i} className="bg-theme-card border border-theme-border/50 rounded-2xl p-4 h-[72px] flex flex-col justify-between shadow-[var(--shadow-card)]">
+                        <div key={i} className="bg-theme-card border border-theme-border rounded-2xl p-4 h-[72px] flex flex-col justify-between shadow-[var(--shadow-card)]">
                           <div className="h-2.5 w-14 rounded bg-theme-card-hover" />
                           <div className="h-5 w-8 rounded bg-theme-card-hover" />
                         </div>
                       ))}
                     </div>
-                    <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-5 space-y-3 shadow-[var(--shadow-card)]">
+                    <div className="bg-theme-card border border-theme-border rounded-2xl p-5 space-y-3 shadow-[var(--shadow-card)]">
                       <div className="h-3 w-28 rounded bg-theme-card-hover" />
                       <div className="h-3 w-full rounded bg-theme-card-hover" />
                       <div className="h-3 w-5/6 rounded bg-theme-card-hover" />
@@ -497,22 +495,22 @@ export default function Dashboard() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.2 }}
-                  className="space-y-4 border-t border-theme-border/50 pt-6"
+                  className="space-y-4 border-t border-theme-border pt-6"
                   aria-label="Analysis results"
                 >
                   <div>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
                       Analysis Output
                     </p>
                     <div className="flex items-center gap-2">
-                      <Sparkles size={14} className="text-sky-500" aria-hidden="true" />
+                      <Sparkles size={14} className="text-theme-accent" aria-hidden="true" />
                       <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Assessment Results</h2>
                     </div>
                   </div>
 
                   {/* Tab row - capsule style */}
                   <div
-                    className="flex gap-1.5 p-1 bg-theme-bg-secondary/40 border border-theme-border/50 rounded-xl overflow-x-auto max-w-max mb-2 backdrop-blur-sm shadow-sm"
+                    className="flex gap-1.5 p-1 bg-theme-bg-secondary/40 border border-theme-border rounded-xl overflow-x-auto max-w-max mb-2 backdrop-blur-sm shadow-[var(--shadow-card)]"
                     role="tablist"
                     aria-label="Result sections"
                   >
@@ -540,7 +538,7 @@ export default function Dashboard() {
                           {isActive && (
                             <motion.div
                               layoutId="activeTabBar"
-                              className="absolute inset-0 bg-theme-card border border-theme-border/60 rounded-[6px] shadow-sm"
+                              className="absolute inset-0 bg-theme-card border border-theme-border/60 rounded-[6px] shadow-[var(--shadow-card)]"
                               style={{ zIndex: 0 }}
                               transition={{ type: "spring", stiffness: 350, damping: 30 }}
                               aria-hidden="true"
@@ -585,7 +583,7 @@ export default function Dashboard() {
                           <div className="grid gap-4 md:grid-cols-2">
                             {/* Strengths */}
                             <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
-                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted mb-4">
+                              <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted mb-4">
                                 Strengths
                               </h3>
                               <ul className="space-y-2.5" aria-label="Strengths list">
@@ -606,7 +604,7 @@ export default function Dashboard() {
                             </div>
                             {/* Gaps */}
                             <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
-                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted mb-4">
+                              <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted mb-4">
                                 Gaps
                               </h3>
                               <ul className="space-y-2.5" aria-label="Weaknesses list">
@@ -634,7 +632,7 @@ export default function Dashboard() {
                           {/* Optimized Summary */}
                           <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
                             <div className="flex items-center justify-between mb-4">
-                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted">
+                              <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted">
                                 Optimized Summary
                               </h3>
                               <button
@@ -663,7 +661,7 @@ export default function Dashboard() {
                           <div className="grid gap-4 md:grid-cols-2">
                             {/* Layout suggestions */}
                             <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
-                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted mb-4">
+                              <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted mb-4">
                                 Layout Suggestions
                               </h3>
                               <ol className="space-y-2.5" aria-label="Layout suggestions">
@@ -687,7 +685,7 @@ export default function Dashboard() {
 
                             {/* Export */}
                             <div className="bg-theme-card border border-theme-border rounded-lg p-5 flex flex-col shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
-                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted mb-2">
+                              <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted mb-2">
                                 Export Report
                               </h3>
                               <p className="text-xs text-theme-text-muted leading-relaxed mt-1 flex-1">
@@ -706,7 +704,7 @@ export default function Dashboard() {
                           {/* Cover letter */}
                           <div className="bg-theme-card border border-theme-border rounded-lg p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 backdrop-blur-md">
                             <div className="flex items-center justify-between mb-4">
-                              <h3 className="text-[10px] font-medium uppercase tracking-widest text-theme-text-muted">
+                              <h3 className="text-xs font-medium uppercase tracking-widest text-theme-text-muted">
                                 Cover Letter Draft
                               </h3>
                               <button
@@ -753,10 +751,10 @@ export default function Dashboard() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -6 }}
                   transition={{ duration: 0.15 }}
-                  className="space-y-4 border-t border-theme-border/50 pt-6 select-none"
+                  className="space-y-4 border-t border-theme-border pt-6 select-none"
                 >
                   <div>
-                    <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                    <p className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
                       Analysis Output
                     </p>
                     <div className="flex items-center gap-2">
@@ -778,7 +776,7 @@ export default function Dashboard() {
                   </div>
 
                   {/* Dashed placeholder container */}
-                  <div className="border border-dashed border-theme-border/50 rounded-2xl p-6 text-center flex flex-col items-center justify-center space-y-4 bg-theme-bg-secondary/10 shadow-[var(--shadow-card)] hover:border-sky-500/20 transition-all duration-300">
+                  <div className="border border-dashed border-theme-border rounded-2xl p-6 text-center flex flex-col items-center justify-center space-y-4 bg-theme-bg-secondary/10 shadow-[var(--shadow-card)] hover:border-theme-accent/20 transition-all duration-300">
                     <div className="w-11 h-11 rounded-xl border border-theme-border bg-theme-bg-secondary/40 flex items-center justify-center text-theme-text-muted">
                       <FileSearch size={16} strokeWidth={1.5} aria-hidden="true" />
                     </div>
@@ -796,11 +794,11 @@ export default function Dashboard() {
             {/* Zone 4: Trend & History (Moved to Left Column for balance) */}
               <div className="space-y-3 border-t border-theme-border/30 pt-4">
                 <div>
-                  <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
                     History
                   </p>
                   <div className="flex items-center gap-2">
-                    <History size={14} className="text-sky-500" aria-hidden="true" />
+                    <History size={14} className="text-theme-accent" aria-hidden="true" />
                     <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Score Trend</h2>
                   </div>
                 </div>
@@ -808,8 +806,8 @@ export default function Dashboard() {
 
                 <div className="grid grid-cols-3 gap-2">
                   {/* Best score */}
-                  <div className="bg-theme-card border border-theme-border/50 rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
+                  <div className="bg-theme-card border border-theme-border rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
                       Best
                     </span>
                     <span
@@ -827,8 +825,8 @@ export default function Dashboard() {
                   </div>
 
                   {/* Average */}
-                  <div className="bg-theme-card border border-theme-border/50 rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
+                  <div className="bg-theme-card border border-theme-border rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
                       Avg
                     </span>
                     <span
@@ -847,8 +845,8 @@ export default function Dashboard() {
                   </div>
 
                   {/* Total runs */}
-                  <div className="bg-theme-card border border-theme-border/50 rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
-                    <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
+                  <div className="bg-theme-card border border-theme-border rounded-xl p-2.5 text-center shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.03] hover:-translate-y-0.5 backdrop-blur-md">
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted block mb-1">
                       Runs
                     </span>
                     <span
@@ -870,11 +868,11 @@ export default function Dashboard() {
             {/* Zone 3: Match Quality */}
             <div className="space-y-3">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
                   Match Quality
                 </p>
                   <div className="flex items-center gap-2">
-                    <TrendingUp size={14} className="text-sky-500" aria-hidden="true" />
+                    <TrendingUp size={14} className="text-theme-accent" aria-hidden="true" />
                     <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Score Console</h2>
                   </div>
                 </div>
@@ -896,11 +894,11 @@ export default function Dashboard() {
             {/* Zone 5: Coaching Insights */}
             <div className="space-y-3">
               <div>
-                <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
                   Coaching Insights
                 </p>
                 <div className="flex items-center gap-2">
-                  <Mic size={14} className="text-sky-500" aria-hidden="true" />
+                  <Mic size={14} className="text-theme-accent" aria-hidden="true" />
                   <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">Last Interview</h2>
                 </div>
               </div>
@@ -910,13 +908,13 @@ export default function Dashboard() {
         </div>
 
         {/* ── AI Tools Grid (Full Width at Bottom) ── */}
-        <div className="space-y-4 border-t border-theme-border/50 pt-4">
+        <div className="space-y-4 border-t border-theme-border pt-4">
           <div>
-            <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted mb-0.5">
               Platform
             </p>
             <div className="flex items-center gap-2">
-              <Cpu size={14} className="text-sky-500" aria-hidden="true" />
+              <Cpu size={14} className="text-theme-accent" aria-hidden="true" />
               <h2 className="text-xs font-bold uppercase tracking-wider text-theme-text">AI Tools &amp; Copilots</h2>
             </div>
           </div>

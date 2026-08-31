@@ -18,14 +18,14 @@ const featuredTools = [
     description: "Generate structured, ATS-optimized professional resumes from your candidate profile data. Select modern templates and export high-quality formats.",
     href: "/dashboard/resume-builder",
     icon: FilePlus2,
-    color: "#8B5CF6", // Violet
+    color: "#D4AF37", // Champagne Gold
   },
   {
     title: "Mock Interview",
     description: "Prep candidates with position-specific AI questions and simulated technical screen interviews. View real-time transcripts and assessment reports.",
     href: "/dashboard/interview",
     icon: Mic,
-    color: "#EC4899", // Pink
+    color: "#CBD5E1", // Platinum / Silver
   },
 ];
 
@@ -35,35 +35,35 @@ const compactTools = [
     description: "Scan resumes against job descriptions to identify keywords and layout gaps.",
     href: "#upload-section",
     icon: FileSearch,
-    color: "#0EA5E9", // Sky Blue
+    color: "#D4AF37", // Champagne Gold
   },
   {
     title: "Job Finder",
     description: "Match active candidate profiles against open vacancies and pipelines.",
     href: "/dashboard/job-finder",
     icon: Briefcase,
-    color: "#10B981", // Emerald Green
+    color: "#10B981", // Emerald
   },
   {
     title: "Career Coach",
     description: "AI-guided benchmarks, salary ranges, and negotiation roadmaps.",
     href: "/dashboard/career-coach",
     icon: Brain,
-    color: "#F59E0B", // Amber
+    color: "#F3CA4B", // Bright Gold
   },
   {
     title: "Application Tracker",
     description: "Pipeline view of active submissions and interview stage progress.",
     href: "/dashboard/job-tracker",
     icon: ListChecks,
-    color: "#6366F1", // Indigo
+    color: "#94A3B8", // Steel / Slate
   },
   {
     title: "Analytics",
     description: "ATS score trend graphs, candidate pipelines, and progress history.",
     href: "/dashboard/analytics",
     icon: BarChart3,
-    color: "#3B82F6", // Blue
+    color: "#CBD5E1", // Platinum
   },
 ];
 
@@ -89,7 +89,7 @@ export default function QuickActions() {
               key={item.title}
               href={item.href}
               onClick={item.href.startsWith("#") ? (e) => handleScroll(e, item.href) : undefined}
-              className="group flex flex-col justify-between p-4.5 bg-theme-card border border-theme-border/50 hover:border-theme-accent/30 rounded-2xl transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] relative overflow-hidden cursor-pointer"
+              className="group flex flex-col justify-between p-4.5 bg-theme-card border border-theme-border hover:border-theme-accent/30 rounded-2xl transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] relative overflow-hidden cursor-pointer"
             >
               {/* Glow bloom on hover */}
               <div
@@ -114,7 +114,7 @@ export default function QuickActions() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <span className="text-[9px] font-bold uppercase tracking-widest text-sky-500 bg-sky-500/10 px-2 py-0.5 rounded-md">
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-theme-accent bg-theme-accent/10 px-2 py-0.5 rounded-md">
                     Featured Tool
                   </span>
                   <h3 className="text-sm font-bold text-theme-text group-hover:text-theme-accent transition-colors duration-300">
@@ -127,7 +127,7 @@ export default function QuickActions() {
               </div>
 
               <div className="mt-4 flex items-center justify-between">
-                <span className="text-[9px] font-bold uppercase tracking-wider text-theme-text-muted group-hover:text-theme-accent transition-colors duration-300">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-theme-text-muted group-hover:text-theme-accent transition-colors duration-300">
                   Launch Assistant
                 </span>
                 <ArrowUpRight
@@ -151,7 +151,7 @@ export default function QuickActions() {
               key={item.title}
               href={item.href}
               onClick={item.href.startsWith("#") ? (e) => handleScroll(e, item.href) : undefined}
-              className="group flex items-center gap-2.5 p-2 bg-theme-card border border-theme-border/50 hover:border-theme-accent/20 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-[var(--shadow-card)] hover:shadow-[0_4px_12px_rgba(0,0,0,0.15)] relative overflow-hidden cursor-pointer"
+              className="group flex items-center gap-2.5 p-2 bg-theme-card border border-theme-border hover:border-theme-accent/20 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] relative overflow-hidden cursor-pointer"
             >
               {/* Micro Icon Badge */}
               <div 
@@ -173,7 +173,7 @@ export default function QuickActions() {
                 <h4 className="text-xs font-bold text-theme-text truncate group-hover:text-theme-accent transition-colors duration-300">
                   {item.title}
                 </h4>
-                <p className="text-[9px] text-theme-text-muted leading-tight truncate">
+                <p className="text-[11px] text-theme-text-muted leading-tight truncate">
                   {item.description}
                 </p>
               </div>

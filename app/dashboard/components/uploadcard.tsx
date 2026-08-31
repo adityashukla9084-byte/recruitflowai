@@ -34,7 +34,7 @@ export default function UploadCard({
       <button
         onClick={onAnalyze}
         disabled={loading}
-        className="mt-6 w-full rounded-xl bg-cyan-500 py-3 font-bold text-white transition hover:bg-cyan-600"
+        className="mt-6 w-full rounded-xl bg-theme-accent py-3 font-bold text-[#0F172A] transition hover:bg-theme-accent-hover"
       >
         {loading ? "Analyzing Resume..." : "Analyze Resume"}
       </button>

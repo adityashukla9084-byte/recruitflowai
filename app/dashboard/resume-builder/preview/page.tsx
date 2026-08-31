@@ -123,17 +123,17 @@ export default function ResumePreview() {
   }, []);
 
   if (!mounted) {
-    return <main className="min-h-screen bg-slate-950" />;
+    return <main className="min-h-screen bg-zinc-950" />;
   }
 
   if (!resumeData) {
     return (
-      <main className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <main className="min-h-screen bg-zinc-950 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-white text-xl mb-4">No resume data found.</p>
+          <p className="text-[#FFFFF0] text-xl mb-4">No resume data found.</p>
           <a
             href="/dashboard/resume-builder"
-            className="rounded-xl bg-cyan-500 hover:bg-cyan-600 px-6 py-3 font-bold text-white inline-block"
+            className="rounded-xl bg-[#C5A028] hover:bg-[#B89020] px-6 py-3 font-bold text-[#FFFFF0] inline-block"
           >
             Go to Resume Builder
           </a>
@@ -143,23 +143,23 @@ export default function ResumePreview() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 p-6 md:p-12 relative overflow-hidden">
+    <main className="min-h-screen bg-zinc-950 p-6 md:p-12 relative overflow-hidden">
       {/* Background blobs for premium space-dark look */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C5A028]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-[#C5A028]/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-5xl mx-auto print-container relative z-10 space-y-8">
 
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print border-b border-slate-900 pb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 no-print border-b border-zinc-900 pb-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C5A028]/10 border border-[#C5A028]/20 text-[#D4AF37] text-xs font-bold uppercase tracking-wider">
               <Sparkles className="h-3 w-3" />
               <span>ATS Score Optimized</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-black text-white leading-none">
+            <h1 className="text-3xl md:text-4xl font-black text-[#FFFFF0] leading-none">
               AI Resume Preview
             </h1>
-            <p className="text-xs text-slate-400 font-medium">
+            <p className="text-xs text-theme-text font-medium">
               Review your polished resume. Click Download PDF to save or print the document.
             </p>
           </div>
@@ -167,13 +167,13 @@ export default function ResumePreview() {
           <div className="flex gap-3">
             <a
               href="/dashboard/resume-builder"
-              className="rounded-xl border border-slate-800 hover:border-slate-700 px-5 py-3.5 font-bold text-sm text-slate-300 hover:text-white transition flex items-center gap-2 cursor-pointer bg-slate-950/20 backdrop-blur"
+              className="rounded-xl border border-zinc-800 hover:border-slate-700 px-5 py-3.5 font-bold text-sm text-zinc-300 hover:text-[#FFFFF0] transition flex items-center gap-2 cursor-pointer bg-zinc-950/20 backdrop-blur"
             >
               <span>← Edit Details</span>
             </a>
             <button
               onClick={() => window.print()}
-              className="rounded-xl bg-cyan-500 hover:bg-cyan-600 text-slate-950 px-6 py-3.5 font-bold text-sm transition flex items-center gap-2 cursor-pointer shadow-lg shadow-cyan-500/10"
+              className="rounded-xl bg-[#C5A028] hover:bg-[#B89020] text-slate-950 px-6 py-3.5 font-bold text-sm transition flex items-center gap-2 cursor-pointer shadow-lg shadow-[#]"
             >
               <span>Download PDF</span>
             </button>

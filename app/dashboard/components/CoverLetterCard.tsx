@@ -13,7 +13,7 @@ export default function CoverLetterCard({
       </h2>
 
       <div className="max-h-80 overflow-y-auto rounded-lg bg-theme-card-hover p-4">
-        <p className="whitespace-pre-wrap leading-8 text-slate-300">
+        <p className="whitespace-pre-wrap leading-8 text-zinc-300">
           {coverLetter}
         </p>
       </div>

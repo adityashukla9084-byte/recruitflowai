@@ -2,14 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, History, BarChart3, User } from "lucide-react";
+import { LayoutDashboard, Users, Video, BarChart3, Settings } from "lucide-react";
 import { motion } from "framer-motion";
 
 const navItems = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { name: "History", href: "/history", icon: History },
+  { name: "Candidates", href: "/dashboard/candidates", icon: Users },
+  { name: "Interviews", href: "/dashboard/interview", icon: Video },
   { name: "Analytics", href: "/dashboard/analytics", icon: BarChart3 },
-  { name: "Profile", href: "/dashboard/profile", icon: User },
+  { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 
 export default function BottomNavigation() {
@@ -24,7 +25,7 @@ export default function BottomNavigation() {
   if (!showNav) return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#070b19]/80 border-t border-white/[0.06] backdrop-blur-lg px-6 py-2 pb-safe-bottom shadow-[0_-4px_24px_rgba(0,0,0,0.4)]">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-theme-bg/80 border-t border-theme-border backdrop-blur-lg px-6 py-2 pb-safe-bottom shadow-[0_-4px_24px_rgba(0,0,0,0.4)]">
       <div className="flex items-center justify-between max-w-lg mx-auto">
         {navItems.map((item) => {
           const Icon = item.icon;
@@ -46,7 +47,7 @@ export default function BottomNavigation() {
               {isActive && (
                 <motion.div
                   layoutId="bottomNavActivePill"
-                  className="absolute inset-0 bg-gradient-to-b from-teal-500/10 to-cyan-500/10 border border-teal-500/20 rounded-xl -z-10 shadow-[0_2px_8px_rgba(20,184,166,0.08)]"
+                  className="absolute inset-0 bg-gradient-to-b from-[#D4AF37]/10 to-[#C5A028]/10 border border-[#D4AF37]/20 rounded-xl -z-10 shadow-[0_2px_8px_rgba(20,184,166,0.08)]"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
@@ -55,7 +56,7 @@ export default function BottomNavigation() {
               <motion.div
                 animate={{ scale: isActive ? 1.15 : 1 }}
                 transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                className={`transition-colors duration-200 ${isActive ? "text-teal-400" : "text-slate-400"}`}
+                className={`transition-colors duration-200 ${isActive ? "text-[#D4AF37]" : "text-zinc-300"}`}
               >
                 <Icon size={18} strokeWidth={isActive ? 2.25 : 1.75} />
               </motion.div>
@@ -64,14 +65,14 @@ export default function BottomNavigation() {
               {isActive && (
                 <motion.span
                   layoutId="bottomNavActiveDot"
-                  className="w-1 h-1 bg-gradient-to-r from-teal-400 to-cyan-500 rounded-full shadow-[0_0_6px_rgba(20,184,166,0.8)]"
+                  className="w-1 h-1 bg-gradient-to-r from-[#D4AF37] to-[#C5A028] rounded-full shadow-[0_0_6px_rgba(20,184,166,0.8)]"
                   transition={{ type: "spring", stiffness: 380, damping: 30 }}
                 />
               )}
 
               {/* Label */}
               <span className={`text-[9px] font-bold tracking-wide uppercase transition-colors duration-200 ${
-                isActive ? "text-white" : "text-slate-500"
+                isActive ? "text-[#FFFFF0]" : "text-zinc-300"
               }`}>
                 {item.name}
               </span>

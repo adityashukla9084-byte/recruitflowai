@@ -50,10 +50,10 @@ export default function InterviewReportPage() {
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+      <main className="min-h-screen bg-zinc-950 text-[#FFFFF0] flex items-center justify-center">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 border-4 border-cyan-500/30 border-t-cyan-400 rounded-full animate-spin" />
-          <span className="font-bold text-sm tracking-wider uppercase text-cyan-400 animate-pulse">Retrieving Report...</span>
+          <div className="h-8 w-8 border-4 border-[#C5A028]/30 border--[#C5A028] rounded-full animate-spin" />
+          <span className="font-bold text-sm tracking-wider uppercase text-[#D4AF37] animate-pulse">Retrieving Report...</span>
         </div>
       </main>
     );
@@ -61,16 +61,16 @@ export default function InterviewReportPage() {
 
   if (!report) {
     return (
-      <main className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-6">
+      <main className="min-h-screen bg-zinc-950 text-[#FFFFF0] flex items-center justify-center p-6">
         <div className="text-center space-y-4 max-w-md">
-          <AlertTriangle className="h-12 w-12 text-amber-500 mx-auto animate-pulse" />
+          <AlertTriangle className="h-12 w-12 text-[#D4AF37] mx-auto animate-pulse" />
           <h2 className="text-2xl font-bold">No Interview History Found</h2>
-          <p className="text-sm text-slate-400 leading-relaxed">
+          <p className="text-sm text-theme-text leading-relaxed">
             We couldn't find any recent interview records on your profile. Please complete an interview session first to unlock your feedback report card.
           </p>
           <button
             onClick={() => router.push("/dashboard/interview")}
-            className="mt-2 rounded-xl bg-cyan-500 hover:bg-cyan-600 text-slate-950 px-6 py-3 font-bold transition shadow-lg shadow-cyan-500/10 cursor-pointer text-sm"
+            className="mt-2 rounded-xl bg-[#C5A028] hover:bg-[#B89020] text-slate-950 px-6 py-3 font-bold transition shadow-lg shadow-[#] cursor-pointer text-sm"
           >
             Start Mock Interview
           </button>
@@ -89,8 +89,8 @@ export default function InterviewReportPage() {
   // Determine score status levels
   const getScoreDetails = (score: number) => {
     if (score >= 80) return { color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", label: "Excellent Performance" };
-    if (score >= 60) return { color: "text-teal-400", bg: "bg-teal-500/10", border: "border-teal-500/20", label: "Meeting Expectations" };
-    return { color: "text-amber-400", bg: "bg-amber-500/10", border: "border-amber-500/20", label: "Needs Focused Preparation" };
+    if (score >= 60) return { color: "text-[#D4AF37]", bg: "bg-[#C5A028]/10", border: "border-[#C5A028]/20", label: "Meeting Expectations" };
+    return { color: "text-[#D4AF37]", bg: "bg-[#C5A028]/10", border: "border-[#C5A028]/20", label: "Needs Focused Preparation" };
   };
 
   const scoreDetails = getScoreDetails(report.score);
@@ -111,19 +111,19 @@ export default function InterviewReportPage() {
     <main className="min-h-screen bg-theme-bg text-theme-text p-4 md:p-12 relative overflow-hidden flex items-center justify-center">
       
       {/* Decorative blurred background blobs */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#C5A028]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 left-1/4 w-96 h-96 bg-[#C5A028]/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-4xl w-full space-y-8 relative z-10">
         
         {/* Header Section */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-theme-border/60 pb-6">
           <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-wider">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C5A028]/10 border border-[#C5A028]/20 text-[#D4AF37] text-xs font-bold uppercase tracking-wider">
               <Sparkles className="h-3 w-3" />
               <span>Assessment Completed</span>
             </div>
-            <h1 className="text-3xl md:text-4xl font-black tracking-tight text-white leading-none mt-2">
+            <h1 className="text-3xl md:text-4xl font-black tracking-tight text-[#FFFFF0] leading-none mt-2">
               Performance Scorecard
             </h1>
             <p className="text-xs text-theme-text-secondary font-semibold uppercase tracking-widest mt-1">
@@ -134,14 +134,14 @@ export default function InterviewReportPage() {
           <div className="flex gap-3">
             <button
               onClick={() => router.push("/dashboard/interview")}
-              className="rounded-xl border border-theme-border hover:border-cyan-500/40 px-5 py-3 font-bold text-sm text-slate-300 hover:text-white transition flex items-center gap-2 cursor-pointer bg-slate-950/20 backdrop-blur"
+              className="rounded-xl border border-theme-border hover:border-[#C5A028]/40 px-5 py-3 font-bold text-sm text-zinc-300 hover:text-[#FFFFF0] transition flex items-center gap-2 cursor-pointer bg-zinc-950/20 backdrop-blur"
             >
               <RefreshCw size={14} />
               <span>Retake Session</span>
             </button>
             <button
               onClick={() => router.push("/dashboard")}
-              className="rounded-xl bg-cyan-500 hover:bg-cyan-600 text-slate-950 px-5 py-3 font-bold text-sm transition flex items-center gap-2 cursor-pointer shadow-lg shadow-cyan-500/10"
+              className="rounded-xl bg-[#C5A028] hover:bg-[#B89020] text-slate-950 px-5 py-3 font-bold text-sm transition flex items-center gap-2 cursor-pointer shadow-lg shadow-[#]"
             >
               <span>Dashboard</span>
               <ArrowRight size={14} />
@@ -168,7 +168,7 @@ export default function InterviewReportPage() {
                   cx="72"
                   cy="72"
                   r={normalizedRadius}
-                  className="stroke-cyan-500 transition-all duration-1000 ease-out"
+                  className="-[#C5A028] transition-all duration-1000 ease-out"
                   strokeWidth={stroke}
                   fill="transparent"
                   strokeDasharray={circumference + " " + circumference}
@@ -177,8 +177,8 @@ export default function InterviewReportPage() {
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <span className="text-4xl font-black text-white leading-none">{report.score}</span>
-                <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mt-1">out of 100</span>
+                <span className="text-4xl font-black text-[#FFFFF0] leading-none">{report.score}</span>
+                <span className="text-xs text-theme-text font-bold uppercase tracking-wider mt-1">out of 100</span>
               </div>
             </div>
             
@@ -191,20 +191,20 @@ export default function InterviewReportPage() {
 
           {/* Job Target Card */}
           <div className="md:col-span-2 rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 flex flex-col justify-between shadow-xl relative overflow-hidden group">
-            <div className="absolute -right-6 -bottom-6 w-32 h-32 bg-teal-500/5 rounded-full blur-2xl group-hover:bg-teal-500/10 transition duration-500" />
+            <div className="absolute -right-6 -bottom-6 w-32 h-32 bg-[#C5A028]/5 rounded-full blur-2xl group-hover:bg-[#C5A028]/10 transition duration-500" />
             <div className="space-y-4 relative z-10">
-              <div className="inline-flex p-2.5 rounded-xl bg-teal-500/10 text-teal-400">
+              <div className="inline-flex p-2.5 rounded-xl bg-[#C5A028]/10 text-[#D4AF37]">
                 <Award className="h-5.5 w-5.5" />
               </div>
               <div>
-                <span className="text-[10px] text-teal-400 font-bold uppercase tracking-widest">Job Classification</span>
-                <h3 className="text-2xl font-black tracking-tight text-white mt-1 leading-snug">{report.job_role}</h3>
+                <span className="text-xs text-[#D4AF37] font-bold uppercase tracking-widest">Job Classification</span>
+                <h3 className="text-2xl font-black tracking-tight text-[#FFFFF0] mt-1 leading-snug">{report.job_role}</h3>
               </div>
             </div>
             
             <div className="pt-4 border-t border-theme-border/60 flex items-center justify-between text-xs text-theme-text-secondary font-medium mt-4">
               <span>Evaluation Criteria</span>
-              <span className="text-teal-400 font-bold">Standard AI-Rubric v2</span>
+              <span className="text-[#D4AF37] font-bold">Standard AI-Rubric v2</span>
             </div>
           </div>
 
@@ -215,8 +215,8 @@ export default function InterviewReportPage() {
           
           {/* Detailed Feedback Card */}
           <div className="rounded-2xl border border-theme-border bg-theme-card/25 backdrop-blur-xl p-6 md:p-8 space-y-5 shadow-xl">
-            <h3 className="text-lg font-black tracking-tight text-white flex items-center gap-2 border-b border-theme-border/60 pb-3">
-              <BarChart2 className="h-5 w-5 text-cyan-400" />
+            <h3 className="text-lg font-black tracking-tight text-[#FFFFF0] flex items-center gap-2 border-b border-theme-border/60 pb-3">
+              <BarChart2 className="h-5 w-5 text-[#D4AF37]" />
               <span>AI Evaluation Critique</span>
             </h3>
             <p className="text-sm text-theme-text-secondary leading-relaxed font-medium whitespace-pre-wrap">
@@ -226,8 +226,8 @@ export default function InterviewReportPage() {
 
           {/* Improvement Checklist Card */}
           <div className="rounded-2xl border border-theme-border bg-theme-card/25 backdrop-blur-xl p-6 md:p-8 space-y-5 shadow-xl flex flex-col">
-            <h3 className="text-lg font-black tracking-tight text-white flex items-center gap-2 border-b border-theme-border/60 pb-3">
-              <BookOpen className="h-5 w-5 text-teal-400" />
+            <h3 className="text-lg font-black tracking-tight text-[#FFFFF0] flex items-center gap-2 border-b border-theme-border/60 pb-3">
+              <BookOpen className="h-5 w-5 text-[#D4AF37]" />
               <span>Personalized Action Plan</span>
             </h3>
 
@@ -235,10 +235,10 @@ export default function InterviewReportPage() {
               <div className="space-y-4 flex-1">
                 {improvementItems.map((item, idx) => (
                   <div key={idx} className="flex items-start gap-3 group">
-                    <div className="mt-0.5 rounded bg-slate-900 border border-slate-800 h-4.5 w-4.5 shrink-0 flex items-center justify-center group-hover:border-cyan-500/40 transition">
-                      <CheckCircle className="h-3 w-3 text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <div className="mt-0.5 rounded bg-theme-bg-secondary border border-zinc-800 h-4.5 w-4.5 shrink-0 flex items-center justify-center group-hover:border-[#C5A028]/40 transition">
+                      <CheckCircle className="h-3 w-3 text-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity" />
                     </div>
-                    <p className="text-xs text-theme-text-secondary font-medium leading-relaxed group-hover:text-slate-200 transition">
+                    <p className="text-xs text-theme-text-secondary font-medium leading-relaxed group-hover:text-theme-text transition">
                       {item}
                     </p>
                   </div>

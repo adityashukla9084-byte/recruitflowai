@@ -3,45 +3,60 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-/* ── Luxury Premium Theme ── */
+/* ── Premium Light Theme ── */
+@theme {
+  --color-theme-bg: var(--bg-primary);
+  --color-theme-bg-secondary: var(--bg-secondary);
+  --color-theme-card: var(--bg-card);
+  --color-theme-card-hover: var(--bg-card-hover);
+  --color-theme-sidebar: var(--bg-sidebar);
+  
+  --color-theme-text: var(--text-primary);
+  --color-theme-text-secondary: var(--text-secondary);
+  --color-theme-text-muted: var(--text-muted);
+  --color-theme-accent: var(--text-accent);
+  
+  --color-theme-border: var(--border-primary);
+}
+
 :root {
   /* Surfaces */
-  --bg-primary: #050505;
-  --bg-secondary: #0A0A0A;
-  --bg-card: #0F0F0F;
-  --bg-card-hover: #171717;
-  --bg-sidebar: #0A0A0A;
-  --bg-input: #0F0F0F;
-  --bg-gradient-from: #050505;
-  --bg-gradient-via: #0A0A0A;
-  --bg-gradient-to: #050505;
+  --bg-primary: #0F172A; /* Deep Navy Base */
+  --bg-secondary: #090E17; /* Even deeper for contrast / outer edges */
+  --bg-card: #1E293B; /* Premium Surface Cards */
+  --bg-card-hover: #233045; /* Slight elevation */
+  --bg-sidebar: #090E17;
+  --bg-input: #1E293B;
+  --bg-gradient-from: #0F172A;
+  --bg-gradient-via: #121A2F;
+  --bg-gradient-to: #0F172A;
 
   /* Text scale - Maximized contrast */
-  --text-primary: #FFFFF0; /* Ivory */
-  --text-secondary: #E4E4E7; /* Zinc 200 */
-  --text-muted: #A1A1AA; /* Zinc 400 */
-  --text-accent: #D4AF37; /* Muted Gold */
+  --text-primary: #F8FAFC; 
+  --text-secondary: #CBD5E1; 
+  --text-muted: #94A3B8; 
+  --text-accent: #D4AF37; 
 
   /* Borders */
-  --border-primary: #27272A;
-  --border-card: #27272A;
-  --border-input: #27272A;
+  --border-primary: rgba(255, 255, 255, 0.08); /* Refined minimal borders */
+  --border-card: rgba(212, 175, 55, 0.15); /* Subtle Champagne Gold edge */
+  --border-input: rgba(255, 255, 255, 0.12);
 
   /* Action accents */
-  --accent: #D4AF37;
-  --accent-hover: #C5A028;
+  --accent: #D4AF37; /* Champagne Gold */
+  --accent-hover: #EBC855;
 
   /* Dot pattern background */
-  --dot-pattern: rgba(212, 175, 55, 0.05);
+  --dot-pattern: rgba(212, 175, 55, 0.04);
 
-  /* Shadows */
-  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(212, 175, 55, 0.05);
-  --shadow-card-hover: 0 12px 28px rgba(0, 0, 0, 0.6), 0 0 20px rgba(212, 175, 55, 0.05), inset 0 0 0 1px rgba(212, 175, 55, 0.15);
+  /* Shadows - World Class Premium Layered Shadows for Dark Theme */
+  --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 10px 15px -3px rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  --shadow-card-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 20px 25px -5px rgba(0, 0, 0, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.08), inset 0 0 0 1px rgba(212, 175, 55, 0.3);
 
-  /* Semantic tags colors */
-  --rf-match-high: #4ADE80;
-  --rf-match-mid: #FBBF24;
-  --rf-match-low: #F87171;
+  /* Semantic tags colors (adjusted for dark mode visibility) */
+  --rf-match-high: #10B981; /* Dark Emerald */
+  --rf-match-mid: #F59E0B; /* Amber */
+  --rf-match-low: #EF4444; /* Crimson */
 }
 
 body {

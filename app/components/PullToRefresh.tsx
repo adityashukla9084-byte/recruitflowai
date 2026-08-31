@@ -92,13 +92,13 @@ export default function PullToRefresh({ children, onRefresh }: PullToRefreshProp
           opacity: pullDistance > 10 ? Math.min(1, pullDistance / PULL_THRESHOLD) : 0,
         }}
       >
-        <div className="bg-slate-900/90 border border-white/[0.08] backdrop-blur-md p-2.5 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.4)] flex items-center justify-center">
+        <div className="bg-zinc-900/90 border border-white/[0.08] backdrop-blur-md p-2.5 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.4)] flex items-center justify-center">
           {refreshing ? (
-            <Loader2 className="w-5 h-5 text-teal-400 animate-spin" />
+            <Loader2 className="w-5 h-5 text-[#D4AF37] animate-spin" />
           ) : (
             <motion.div
               style={{ rotate: (pullDistance / PULL_THRESHOLD) * 360 }}
-              className="text-teal-400 flex items-center justify-center"
+              className="text-[#D4AF37] flex items-center justify-center"
             >
               <Loader2 className="w-5 h-5" />
             </motion.div>

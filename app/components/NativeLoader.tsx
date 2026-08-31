@@ -48,8 +48,8 @@ export default function NativeLoader() {
 
             {/* Premium Loader indicator */}
             <div className="flex items-center gap-2.5 mt-2">
-              <Loader2 className="w-4 h-4 text-teal-400 animate-spin" />
-              <span className="text-[10px] uppercase tracking-[0.25em] text-slate-400 font-bold">
+              <Loader2 className="w-4 h-4 text-[#] animate-spin" />
+              <span className="text-xs uppercase tracking-[0.25em] text-zinc-300 font-bold">
                 RecruitFlow AI
               </span>
             </div>

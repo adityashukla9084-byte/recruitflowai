@@ -354,11 +354,11 @@ function InterviewSessionContent() {
   if (!supportsSpeech) {
     if (!mounted) return null;
     return (
-      <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center p-6">
+      <div className="min-h-screen bg-zinc-950 text-[#FFFFF0] flex items-center justify-center p-6">
         <div className="text-center space-y-4 max-w-md">
-          <AlertTriangle className="h-12 w-12 text-amber-500 mx-auto animate-bounce" />
+          <AlertTriangle className="h-12 w-12 text-[#D4AF37] mx-auto animate-bounce" />
           <h2 className="text-2xl font-bold">Speech Recognition Unsupported</h2>
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-theme-text">
             This browser does not support the speech synthesis or recognition APIs required for the interactive mock interview. For the best experience, please use Google Chrome, Microsoft Edge, or Apple Safari.
           </p>
         </div>
@@ -380,8 +380,8 @@ function InterviewSessionContent() {
       `}</style>
 
       {/* Background blobs */}
-      <div className="absolute top-0 left-1/4 w-80 h-80 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-80 h-80 bg-[#C5A028]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-[#C5A028]/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-6xl w-full grid md:grid-cols-5 gap-6 relative z-10">
         
@@ -389,16 +389,16 @@ function InterviewSessionContent() {
         <div className="md:col-span-2 flex flex-col gap-6">
           
           {/* AI Interviewer Video Card */}
-          <div className="relative rounded-2xl border border-theme-border bg-slate-950/80 aspect-[4/3] overflow-hidden flex flex-col items-center justify-center shadow-lg group">
+          <div className="relative rounded-2xl border border-theme-border bg-zinc-950/80 aspect-[4/3] overflow-hidden flex flex-col items-center justify-center shadow-lg group">
             
             {/* Holographic background scanner lines */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[size:100%_4px,3px_100%] pointer-events-none z-10" />
 
             {/* Speaking/Thinking Visual Wave */}
             {interviewerStatus === "speaking" && (
-              <div className="absolute inset-0 bg-cyan-500/5 flex items-center justify-center z-0 transition-opacity duration-300">
-                <div className="w-48 h-48 rounded-full border border-cyan-500/10 animate-ping absolute" />
-                <div className="w-32 h-32 rounded-full border border-cyan-500/20 animate-[ping_2s_infinite] absolute" />
+              <div className="absolute inset-0 bg-[#C5A028]/5 flex items-center justify-center z-0 transition-opacity duration-300">
+                <div className="w-48 h-48 rounded-full border border-[#C5A028]/10 animate-ping absolute" />
+                <div className="w-32 h-32 rounded-full border border-[#C5A028]/20 animate-[ping_2s_infinite] absolute" />
               </div>
             )}
 
@@ -406,20 +406,20 @@ function InterviewSessionContent() {
             <div className="relative z-10 flex flex-col items-center gap-4 text-center">
               <div className={`h-24 w-24 rounded-full bg-gradient-to-br border-2 flex items-center justify-center shadow-2xl transition-all duration-500 ${
                 interviewerStatus === "speaking" 
-                  ? "from-cyan-500/20 to-cyan-500/20 border-cyan-500 scale-105" 
+                  ? "-[#C5A028]/20 bg-[#] border-[#C5A028] scale-105" 
                   : interviewerStatus === "thinking" 
-                  ? "from-indigo-500/20 to-purple-500/20 border-teal-400 animate-pulse"
+                  ? "from-theme-accent/20 to-purple-500/20 border-[#D4AF37] animate-pulse"
                   : "from-slate-800 to-slate-900 border-slate-700"
               }`}>
                 {interviewerStatus === "thinking" ? (
-                  <Brain className="h-10 w-10 text-teal-400 animate-spin" />
+                  <Brain className="h-10 w-10 text-[#D4AF37] animate-spin" />
                 ) : (
-                  <Sparkles className={`h-10 w-10 ${interviewerStatus === "speaking" ? "text-cyan-400" : "text-slate-400"}`} />
+                  <Sparkles className={`h-10 w-10 ${interviewerStatus === "speaking" ? "text-[#D4AF37]" : "text-theme-text"}`} />
                 )}
               </div>
               <div className="space-y-1">
-                <h3 className="text-white font-extrabold text-base tracking-tight">AI Interviewer</h3>
-                <span className="text-[10px] text-cyan-400 font-bold uppercase tracking-widest bg-cyan-500/10 px-2 py-0.5 rounded-md border border-cyan-500/20">
+                <h3 className="text-[#FFFFF0] font-extrabold text-base tracking-tight">AI Interviewer</h3>
+                <span className="text-xs text-[#D4AF37] font-bold uppercase tracking-widest bg-[#C5A028]/10 px-2 py-0.5 rounded-md border border-[#C5A028]/20">
                   {interviewerStatus === "speaking" 
                     ? "Speaking" 
                     : interviewerStatus === "listening" 
@@ -434,17 +434,17 @@ function InterviewSessionContent() {
             {/* Audio Waveform Indicator */}
             {interviewerStatus === "speaking" && (
               <div className="absolute bottom-4 flex items-center gap-1 z-20">
-                <div className="wave-bar w-1 bg-cyan-400 rounded-full" style={{ animationDelay: "0.1s" }} />
-                <div className="wave-bar w-1 bg-cyan-400 rounded-full" style={{ animationDelay: "0.4s" }} />
-                <div className="wave-bar w-1 bg-cyan-400 rounded-full" style={{ animationDelay: "0.2s" }} />
-                <div className="wave-bar w-1 bg-cyan-400 rounded-full" style={{ animationDelay: "0.6s" }} />
-                <div className="wave-bar w-1 bg-cyan-400 rounded-full" style={{ animationDelay: "0.3s" }} />
+                <div className="wave-bar w-1 bg-[#D4AF37] rounded-full" style={{ animationDelay: "0.1s" }} />
+                <div className="wave-bar w-1 bg-[#D4AF37] rounded-full" style={{ animationDelay: "0.4s" }} />
+                <div className="wave-bar w-1 bg-[#D4AF37] rounded-full" style={{ animationDelay: "0.2s" }} />
+                <div className="wave-bar w-1 bg-[#D4AF37] rounded-full" style={{ animationDelay: "0.6s" }} />
+                <div className="wave-bar w-1 bg-[#D4AF37] rounded-full" style={{ animationDelay: "0.3s" }} />
               </div>
             )}
           </div>
 
           {/* User Webcam Video Card */}
-          <div className="relative rounded-2xl border border-theme-border bg-slate-950/80 aspect-[4/3] overflow-hidden shadow-lg group">
+          <div className="relative rounded-2xl border border-theme-border bg-zinc-950/80 aspect-[4/3] overflow-hidden shadow-lg group">
             {cameraEnabled ? (
               <video
                 ref={videoRef}
@@ -454,11 +454,11 @@ function InterviewSessionContent() {
                 className="w-full h-full object-cover scale-x-[-1]"
               />
             ) : (
-              <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-theme-text-muted bg-slate-950/40">
-                <div className="h-16 w-16 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center">
-                  <User className="h-7 w-7 text-slate-500" />
+              <div className="w-full h-full flex flex-col items-center justify-center gap-3 text-theme-text-muted bg-zinc-950/40">
+                <div className="h-16 w-16 rounded-full bg-theme-bg-secondary border border-zinc-800 flex items-center justify-center">
+                  <User className="h-7 w-7 text-zinc-300" />
                 </div>
-                <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">Camera Feed Disabled</p>
+                <p className="text-xs font-semibold uppercase tracking-wider text-zinc-300">Camera Feed Disabled</p>
               </div>
             )}
 
@@ -468,7 +468,7 @@ function InterviewSessionContent() {
                 onClick={() => setCameraEnabled(!cameraEnabled)}
                 className={`p-2.5 rounded-xl border backdrop-blur-md transition cursor-pointer hover:scale-105 active:scale-95 ${
                   cameraEnabled 
-                    ? "bg-slate-950/60 border-slate-800 text-white hover:bg-slate-900" 
+                    ? "bg-theme-bg-secondary/60 border-zinc-800 text-[#FFFFF0] hover:bg-theme-bg-secondary" 
                     : "bg-red-500/20 border-red-500/30 text-red-400 hover:bg-red-500/30"
                 }`}
                 title={cameraEnabled ? "Turn off camera" : "Turn on camera"}
@@ -478,7 +478,7 @@ function InterviewSessionContent() {
             </div>
 
             <div className="absolute top-4 left-4 z-20">
-              <span className="text-[10px] text-white/80 font-bold uppercase tracking-wider bg-slate-950/60 backdrop-blur-md px-2 py-0.5 rounded-md border border-white/10">
+              <span className="text-xs text-white/ font-bold uppercase tracking-wider bg-theme-bg-secondary/60 backdrop-blur-md px-2 py-0.5 rounded-md border border-white/10">
                 Candidate Feed
               </span>
             </div>
@@ -492,18 +492,18 @@ function InterviewSessionContent() {
           {/* Page Title & Status */}
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <h1 className="text-3xl font-black tracking-tight leading-none text-white">AI Assessment</h1>
+              <h1 className="text-3xl font-black tracking-tight leading-none text-[#FFFFF0]">AI Assessment</h1>
               <p className="text-xs text-theme-text-secondary mt-1.5 font-bold uppercase tracking-widest">{role}</p>
             </div>
             <div className="flex items-center gap-3">
               {hasResume !== null && (
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md border bg-teal-500/10 border-teal-500/20 text-teal-400">
+                <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-md border bg-[#C5A028]/10 border-[#C5A028]/20 text-[#D4AF37]">
                   {hasResume ? "Tailored to your resume" : "General profile interview"}
                 </span>
               )}
               <button
                 onClick={handleEndInterview}
-                className="rounded-xl border border-red-500/30 hover:border-red-500 hover:bg-red-500/10 text-red-400 px-4 py-2 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-slate-950/20 backdrop-blur"
+                className="rounded-xl border border-red-500/30 hover:border-red-500 hover:bg-red-500/10 text-red-400 px-4 py-2 text-xs font-bold transition flex items-center gap-1.5 cursor-pointer bg-zinc-950/20 backdrop-blur"
               >
                 <X size={14} />
                 <span>End Interview</span>
@@ -533,8 +533,8 @@ function InterviewSessionContent() {
           {/* Question Box Card */}
           <div className="rounded-2xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 shadow-xl space-y-4">
             <div className="flex items-center justify-between border-b border-theme-border/60 pb-3">
-              <h2 className="text-sm font-bold text-slate-400 flex items-center gap-2 uppercase tracking-widest">
-                <Brain className="h-4 w-4 text-cyan-400" />
+              <h2 className="text-sm font-bold text-theme-text flex items-center gap-2 uppercase tracking-widest">
+                <Brain className="h-4 w-4 text-[#D4AF37]" />
                 <span>Question {questionCount} of 7</span>
               </h2>
               
@@ -542,7 +542,7 @@ function InterviewSessionContent() {
               {question && (
                 <button
                   onClick={() => speak(question)}
-                  className="p-1.5 rounded-lg border border-theme-border hover:border-cyan-500/40 text-theme-text-secondary hover:text-cyan-400 transition cursor-pointer"
+                  className="p-1.5 rounded-lg border border-theme-border hover:border-[#C5A028]/40 text-theme-text-secondary hover:text-[#D4AF37] transition cursor-pointer"
                   title="Replay Audio Question"
                 >
                   <Volume2 size={14} />
@@ -550,7 +550,7 @@ function InterviewSessionContent() {
               )}
             </div>
             
-            <p className="text-white leading-relaxed text-base font-medium">
+            <p className="text-[#FFFFF0] leading-relaxed text-base font-medium">
               {question || "Generating interview question..."}
             </p>
           </div>
@@ -565,7 +565,7 @@ function InterviewSessionContent() {
                 onChange={(e) => setAnswer(e.target.value)}
                 rows={7}
                 placeholder="Type your answer here or click Start Recording to speak..."
-                className="w-full rounded-2xl bg-slate-950/60 border border-slate-900 p-5 outline-none text-theme-text placeholder-theme-text-muted focus:border-cyan-500/30 focus:ring-1 focus:ring-cyan-500/10 transition-all duration-300 resize-none leading-relaxed text-sm"
+                className="w-full rounded-2xl bg-theme-bg-secondary/60 border border-zinc-900 p-5 outline-none text-theme-text placeholder-theme-text-muted focus:border-[#C5A028]/30 focus:ring-1 focus:-[#C5A028]/10 transition-all duration-300 resize-none leading-relaxed text-sm"
               />
 
               {/* Countdown overlay timer */}
@@ -585,7 +585,7 @@ function InterviewSessionContent() {
                 <div className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border transition-colors duration-300 ${
                   timeLeft <= 15 
                     ? "bg-red-500/10 border-red-500/20 text-red-400 animate-pulse" 
-                    : "bg-slate-950/80 border-slate-800 text-slate-300"
+                    : "bg-zinc-950/80 border-zinc-800 text-zinc-300"
                 }`}>
                   <span>⏱</span>
                   <span>{timeLeft}s remaining</span>
@@ -600,7 +600,7 @@ function InterviewSessionContent() {
                   <button
                     onClick={startListening}
                     disabled={loading || interviewerStatus === "thinking"}
-                    className="rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed px-5 py-3.5 flex items-center gap-2 text-white transition font-bold shadow-md shadow-emerald-600/10 cursor-pointer text-sm"
+                    className="rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 disabled:cursor-not-allowed px-5 py-3.5 flex items-center gap-2 text-[#FFFFF0] transition font-bold shadow-md shadow-emerald-600/10 cursor-pointer text-sm"
                   >
                     <Mic size={16} />
                     <span>Record Answer</span>
@@ -608,7 +608,7 @@ function InterviewSessionContent() {
                 ) : (
                   <button
                     onClick={stopListening}
-                    className="rounded-xl bg-red-600 hover:bg-red-700 px-5 py-3.5 flex items-center gap-2 text-white transition font-bold shadow-md shadow-red-600/10 cursor-pointer text-sm"
+                    className="rounded-xl bg-red-600 hover:bg-red-700 px-5 py-3.5 flex items-center gap-2 text-[#FFFFF0] transition font-bold shadow-md shadow-red-600/10 cursor-pointer text-sm"
                   >
                     <Square size={16} />
                     <span>Stop Recording</span>
@@ -618,7 +618,7 @@ function InterviewSessionContent() {
                 <button
                   onClick={submitAnswer}
                   disabled={loading || !answer.trim() || interviewerStatus === "thinking"}
-                  className="rounded-xl bg-teal-600 hover:bg-indigo-700 disabled:opacity-40 disabled:cursor-not-allowed px-6 py-3.5 font-bold text-white transition shadow-md shadow-teal-600/10 flex items-center gap-2 cursor-pointer text-sm"
+                  className="rounded-xl bg-[#] hover:bg-theme-accent-hover disabled:opacity-40 disabled:cursor-not-allowed px-6 py-3.5 font-bold text-[#FFFFF0] transition shadow-lg shadow-[#] flex items-center gap-2 cursor-pointer text-sm"
                 >
                   {loading ? (
                     <>
@@ -641,9 +641,9 @@ function InterviewSessionContent() {
                     key={num}
                     className={`h-2.5 rounded-full transition-all duration-300 ${
                       num < questionCount
-                        ? "bg-teal-500 w-2.5"
+                        ? "bg-[#C5A028] w-2.5"
                         : num === questionCount
-                        ? "bg-cyan-400 w-6 shadow-[0_0_8px_var(--color-theme-accent)]"
+                        ? "bg-[#D4AF37] w-6 shadow-[0_0_8px_var(--color-theme-accent)]"
                         : "bg-slate-800 w-2.5"
                     }`}
                     title={`Question ${num}`}
@@ -656,7 +656,7 @@ function InterviewSessionContent() {
 
           {/* Quick Voice Tip Box */}
           <div className="rounded-xl border border-theme-border bg-theme-card/10 p-4.5 text-xs space-y-1.5 leading-relaxed">
-            <div className="flex items-center gap-1.5 text-cyan-400 font-bold uppercase tracking-wider">
+            <div className="flex items-center gap-1.5 text-[#D4AF37] font-bold uppercase tracking-wider">
               <Sparkles className="h-3.5 w-3.5" />
               <span>Voice Assist Tip</span>
             </div>
@@ -669,22 +669,22 @@ function InterviewSessionContent() {
           {result && (
             <div className="rounded-2xl border border-theme-border bg-theme-card/25 backdrop-blur-xl p-5 space-y-4 shadow-lg animate-[fadeIn_0.5s]">
               <div className="flex items-center justify-between border-b border-theme-border/60 pb-3.5">
-                <h3 className="text-base font-extrabold text-white flex items-center gap-2">
+                <h3 className="text-base font-extrabold text-[#FFFFF0] flex items-center gap-2">
                   <CheckCircle className="h-5 w-5 text-emerald-400" />
                   <span>Previous Answer Brief Feedback</span>
                 </h3>
-                <span className="text-xs font-black text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">
+                <span className="text-xs font-black text-[#D4AF37] bg-[#C5A028]/10 px-2 py-0.5 rounded border border-[#C5A028]/20">
                   Last Score: {result.score}/100
                 </span>
               </div>
 
               <div className="grid gap-4 md:grid-cols-2 text-xs">
                 <div className="space-y-1">
-                  <span className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">AI Critique</span>
+                  <span className="font-bold text-theme-text uppercase tracking-wider text-xs">AI Critique</span>
                   <p className="text-theme-text leading-relaxed font-medium line-clamp-3">{result.feedback}</p>
                 </div>
                 <div className="space-y-1 border-t md:border-t-0 md:border-l border-theme-border/60 pt-3.5 md:pt-0 md:pl-4">
-                  <span className="font-bold text-slate-400 uppercase tracking-wider text-[10px]">Recommendation</span>
+                  <span className="font-bold text-theme-text uppercase tracking-wider text-xs">Recommendation</span>
                   <p className="text-theme-text leading-relaxed font-medium line-clamp-3">{result.improvement}</p>
                 </div>
               </div>
@@ -702,10 +702,10 @@ export default function InterviewSession() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-slate-950 text-white flex items-center justify-center">
+        <div className="min-h-screen bg-zinc-950 text-[#FFFFF0] flex items-center justify-center">
           <div className="flex flex-col items-center gap-3">
-            <div className="h-8 w-8 border-4 border-cyan-500/30 border-t-cyan-400 rounded-full animate-spin" />
-            <span className="font-bold text-sm tracking-wider uppercase text-cyan-400 animate-pulse">Initializing Session...</span>
+            <div className="h-8 w-8 border-4 border-[#C5A028]/30 border--[#C5A028] rounded-full animate-spin" />
+            <span className="font-bold text-sm tracking-wider uppercase text-[#D4AF37] animate-pulse">Initializing Session...</span>
           </div>
         </div>
       }

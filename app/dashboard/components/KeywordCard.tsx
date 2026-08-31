@@ -10,10 +10,10 @@ export default function KeywordCard({
   return (
     <div className="grid gap-4 lg:grid-cols-2">
       {/* Matched */}
-      <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 relative overflow-hidden group">
+      <div className="bg-theme-card border border-theme-border rounded-2xl p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 relative overflow-hidden group">
         <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
-        <h3 className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-4 select-none">
+        <h3 className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted mb-4 select-none">
           Matched Keywords
         </h3>
         <div className="flex flex-wrap gap-2">
@@ -38,10 +38,10 @@ export default function KeywordCard({
       </div>
 
       {/* Missing */}
-      <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 relative overflow-hidden group">
+      <div className="bg-theme-card border border-theme-border rounded-2xl p-5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.01] hover:-translate-y-0.5 relative overflow-hidden group">
         <span className="absolute left-0 top-0 bottom-0 w-[3px] bg-rose-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
-        <h3 className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-4 select-none">
+        <h3 className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted mb-4 select-none">
           Missing Keywords
         </h3>
         <div className="flex flex-wrap gap-2">

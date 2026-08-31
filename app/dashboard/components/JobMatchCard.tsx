@@ -13,7 +13,7 @@ export default function JobMatchCard({ matchScore }: JobMatchCardProps) {
   const color = matchColor(matchScore);
 
   return (
-    <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-4.5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 relative overflow-hidden group cursor-default">
+    <div className="bg-theme-card border border-theme-border rounded-2xl p-4.5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 relative overflow-hidden group cursor-default">
       
       {/* Subtle indicator accent line on the left side of card */}
       <span 
@@ -21,7 +21,7 @@ export default function JobMatchCard({ matchScore }: JobMatchCardProps) {
         style={{ backgroundColor: color }}
       />
 
-      <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted block mb-2 select-none">
+      <span className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted block mb-2 select-none">
         Job Match Score
       </span>
       <span

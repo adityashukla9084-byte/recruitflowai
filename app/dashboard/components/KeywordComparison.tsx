@@ -22,13 +22,13 @@ export default function KeywordComparison({
   const missing = isAnalyzed ? missingKeywords : placeholderMissing;
 
   return (
-    <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 group cursor-default relative overflow-hidden">
+    <div className="bg-theme-card border border-theme-border rounded-2xl p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 group cursor-default relative overflow-hidden">
       {/* Dynamic tech grid overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(14,165,233,0.02),transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.03),transparent_70%)] pointer-events-none" />
       
       <div className="flex items-center justify-between mb-5 relative z-10">
         <div>
-          <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted select-none">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted select-none">
             Keyword Alignment
           </span>
           <h3 className="text-xs font-bold uppercase tracking-wider text-theme-text mt-0.5">
@@ -37,7 +37,7 @@ export default function KeywordComparison({
         </div>
 
         {isAnalyzed && (
-          <span className="text-[10px] font-mono text-theme-text-muted bg-theme-bg-secondary/50 border border-theme-border/30 px-2 py-0.5 rounded">
+          <span className="text-xs font-mono text-theme-text-muted bg-theme-bg-secondary/50 border border-theme-border/30 px-2 py-0.5 rounded">
             Match Ratio: {Math.round((matched.length / (matched.length + missing.length)) * 100 || 0)}%
           </span>
         )}
@@ -47,11 +47,11 @@ export default function KeywordComparison({
         {/* Empty state glass overlay */}
         {!isAnalyzed && (
           <div className="absolute inset-0 z-20 flex flex-col items-center justify-center bg-theme-card/30 backdrop-blur-[2px] rounded-xl border border-dashed border-theme-border/30 p-4 text-center">
-            <div className="w-10 h-10 rounded-xl bg-theme-bg-secondary/60 flex items-center justify-center text-theme-text-muted mb-3 border border-theme-border/50">
+            <div className="w-10 h-10 rounded-xl bg-theme-bg-secondary/60 flex items-center justify-center text-theme-text-muted mb-3 border border-theme-border">
               <FileSearch size={16} strokeWidth={1.5} className="animate-pulse" />
             </div>
             <h4 className="text-xs font-bold text-theme-text mb-1">Awaiting analysis data</h4>
-            <p className="text-[10px] text-theme-text-muted max-w-xs leading-normal">
+            <p className="text-xs text-theme-text-muted max-w-xs leading-normal">
               Compare matched and missing keywords side-by-side once you run the AI analyzer.
             </p>
           </div>
@@ -64,7 +64,7 @@ export default function KeywordComparison({
           <div className="space-y-3 pr-2 border-r border-theme-border/30">
             <div className="flex items-center gap-1.5 pb-2 border-b border-theme-border/20">
               <CheckCircle2 size={12} className="text-emerald-500 shrink-0" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-500/90">
+              <span className="text-xs font-bold uppercase tracking-widest text-emerald-500/90">
                 Found ({matched.length})
               </span>
             </div>
@@ -93,7 +93,7 @@ export default function KeywordComparison({
           <div className="space-y-3 pl-2">
             <div className="flex items-center gap-1.5 pb-2 border-b border-theme-border/20">
               <AlertTriangle size={12} className="text-rose-500 shrink-0" />
-              <span className="text-[10px] font-bold uppercase tracking-widest text-rose-500/90">
+              <span className="text-xs font-bold uppercase tracking-widest text-rose-500/90">
                 Missing ({missing.length})
               </span>
             </div>

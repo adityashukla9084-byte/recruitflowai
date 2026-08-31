@@ -185,11 +185,11 @@ export default function TemplateCorporate({
     <div className="max-w-[794px] w-full min-h-[1123px] print:h-[297mm] print:w-[210mm] bg-white shadow-2xl mx-auto overflow-hidden print:shadow-none print:max-w-[210mm] print:max-h-[297mm] flex flex-col font-sans text-slate-800">
       
       {/* ── Header Banner (Centered, Dark Blue Background) ── */}
-      <div className="bg-[#0f1e36] text-white py-7 px-10 text-center select-none border-b-4 border-cyan-500 print:py-6">
-        <h1 className="text-3.5xl font-black tracking-widest uppercase text-white leading-none">
+      <div className="bg-[#0f1e36] text-[#FFFFF0] py-7 px-10 text-center select-none border-b-4 border-[#C5A028] print:py-6">
+        <h1 className="text-3.5xl font-black tracking-widest uppercase text-[#FFFFF0] leading-none">
           {aiResume.full_name || formData.name || "CANDIDATE NAME"}
         </h1>
-        <p className="text-xs font-bold text-cyan-400 uppercase tracking-widest mt-2">
+        <p className="text-xs font-bold text-[#D4AF37] uppercase tracking-widest mt-2">
           {aiResume.target_role || "Professional Resume"}
         </p>
       </div>
@@ -221,7 +221,7 @@ export default function TemplateCorporate({
               {skillsList.length > 0 ? (
                 skillsList.map((skill, index) => <p key={index}>▪ {skill}</p>)
               ) : (
-                <p className="text-slate-400 italic">No skills listed</p>
+                <p className="text-theme-text italic">No skills listed</p>
               )}
             </div>
           </div>
@@ -289,7 +289,7 @@ export default function TemplateCorporate({
             <div className="overflow-hidden border border-[#cbd5e0] rounded-lg mt-2.5">
               <table className="w-full text-left text-[11px] border-collapse">
                 <thead>
-                  <tr className="bg-[#0f1e36] text-white text-[10px] uppercase tracking-wider">
+                  <tr className="bg-[#0f1e36] text-[#FFFFF0] text-xs uppercase tracking-wider">
                     <th className="py-1.5 px-3 font-bold">Qualification / Institution</th>
                     <th className="py-1.5 px-3 font-bold w-24 text-center">Year</th>
                     <th className="py-1.5 px-3 font-bold w-20 text-center">Score</th>
@@ -302,18 +302,18 @@ export default function TemplateCorporate({
                         <td className="py-2 px-3 font-semibold text-slate-800">
                           {edu.qualification}
                           {(edu.institution || edu.location) && (
-                            <span className="block text-[10px] font-normal text-slate-500">
+                            <span className="block text-xs font-normal text-zinc-300">
                               {edu.institution || ""}{edu.location ? `, ${edu.location}` : ""}
                             </span>
                           )}
                         </td>
-                        <td className="py-2 px-3 text-slate-600 text-center">{edu.year}</td>
+                        <td className="py-2 px-3 text-theme-text text-center">{edu.year}</td>
                         <td className="py-2 px-3 font-bold text-slate-700 text-center">{edu.score}</td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td colSpan={3} className="py-2 px-3 text-slate-500 italic text-center">No education records provided</td>
+                      <td colSpan={3} className="py-2 px-3 text-zinc-300 italic text-center">No education records provided</td>
                     </tr>
                   )}
                 </tbody>
@@ -339,7 +339,7 @@ export default function TemplateCorporate({
                     <div key={index} className="text-[11px] text-slate-700">
                       <div className="flex justify-between items-baseline font-bold text-slate-800">
                         <span>▸ {exp.title}</span>
-                        <span className="text-slate-500 font-medium text-[10px]">{duration}</span>
+                        <span className="text-zinc-300 font-medium text-xs">{duration}</span>
                       </div>
                       {orgName && (
                         <p className="text-cyan-700 font-semibold mb-0.5">
@@ -347,7 +347,7 @@ export default function TemplateCorporate({
                         </p>
                       )}
                       {exp.bullets && exp.bullets.length > 0 ? (
-                        <ul className="list-disc pl-4.5 mt-1 space-y-1 text-slate-600">
+                        <ul className="list-disc pl-4.5 mt-1 space-y-1 text-theme-text">
                           {exp.bullets.map((bullet, idx) => (
                             <li key={idx} className="leading-4 text-justify">{bullet}</li>
                           ))}
@@ -387,7 +387,7 @@ export default function TemplateCorporate({
                       <span>▸ {proj.name}</span>
                     </div>
                     {proj.description && (
-                      <p className="text-slate-600 pl-4.5 mt-0.5 leading-4 text-justify">
+                      <p className="text-theme-text pl-4.5 mt-0.5 leading-4 text-justify">
                         {proj.description}
                       </p>
                     )}

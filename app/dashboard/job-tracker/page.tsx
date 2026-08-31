@@ -132,17 +132,17 @@ export default function JobTracker() {
     switch (statusName.toLowerCase()) {
       case "applied":
         return {
-          glow: "bg-teal-500",
-          text: "text-teal-400",
-          border: "border-teal-500/20",
-          pill: "bg-teal-500/10 border-teal-500/25 text-teal-400",
+          glow: "bg-[#C5A028]",
+          text: "text-[#D4AF37]",
+          border: "border-[#C5A028]/20",
+          pill: "bg-[#C5A028]/10 border-[#C5A028]/25 text-[#D4AF37]",
         };
       case "interview":
         return {
-          glow: "bg-cyan-500",
-          text: "text-cyan-400",
-          border: "border-cyan-500/20",
-          pill: "bg-cyan-500/10 border-cyan-500/25 text-cyan-400",
+          glow: "bg-[#C5A028]",
+          text: "text-[#D4AF37]",
+          border: "border-[#C5A028]/20",
+          pill: "bg-[#C5A028]/10 border-[#C5A028]/25 text-[#D4AF37]",
         };
       case "offer":
         return {
@@ -161,9 +161,9 @@ export default function JobTracker() {
       default:
         return {
           glow: "bg-slate-500",
-          text: "text-slate-400",
+          text: "text-theme-text",
           border: "border-slate-500/20",
-          pill: "bg-slate-500/10 border-slate-500/25 text-slate-400",
+          pill: "bg-slate-500/10 border-slate-500/25 text-theme-text",
         };
     }
   };
@@ -171,20 +171,20 @@ export default function JobTracker() {
   return (
     <main className="min-h-screen bg-theme-bg text-theme-text p-6 md:p-12 relative overflow-hidden flex justify-center items-start">
       {/* Decorative blurred background blobs */}
-      <div className="absolute top-0 left-1/4 w-80 h-80 bg-cyan-500/5 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-teal-500/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-0 left-1/4 w-80 h-80 bg-[#C5A028]/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute bottom-10 right-1/4 w-80 h-80 bg-[#C5A028]/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl w-full space-y-10 relative z-10 animate-[fadeIn_0.5s]">
         
         {/* Header */}
         <div className="space-y-4">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-[10px] font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C5A028]/10 border border-[#C5A028]/20 text-[#D4AF37] text-xs font-bold uppercase tracking-wider">
             <Sparkles className="h-3 w-3 animate-pulse" />
             <span>Active Pipeline Tracking</span>
           </div>
           
           <div>
-            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-none text-white">
+            <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-none text-[#FFFFF0]">
               Application Tracker
             </h1>
             <p className="text-sm text-theme-text-secondary mt-1.5 font-medium leading-relaxed max-w-2xl">
@@ -195,45 +195,45 @@ export default function JobTracker() {
 
         {/* Add Application Form Panel */}
         <div className="rounded-3xl border border-theme-border bg-theme-card/30 backdrop-blur-xl p-6 shadow-2xl space-y-4">
-          <h2 className="text-xs font-bold text-slate-400 flex items-center gap-2 uppercase tracking-widest border-b border-slate-900/60 pb-3 mb-1">
-            <Plus className="h-4 w-4 text-cyan-400" />
+          <h2 className="text-xs font-bold text-theme-text flex items-center gap-2 uppercase tracking-widest border-b border-zinc-900/60 pb-3 mb-1">
+            <Plus className="h-4 w-4 text-[#D4AF37]" />
             <span>Track New Application</span>
           </h2>
 
           <div className="grid gap-4 md:grid-cols-4">
             
             {/* Company Name */}
-            <div className="flex items-center rounded-xl bg-slate-950/60 border border-slate-900 px-4 focus-within:border-cyan-500/30 transition">
-              <Building2 className="text-slate-500 h-4.5 w-4.5 mr-2 shrink-0" />
+            <div className="flex items-center rounded-xl bg-theme-bg-secondary/60 border border-zinc-900 px-4 focus-within:border-[#C5A028]/30 transition">
+              <Building2 className="text-zinc-300 h-4.5 w-4.5 mr-2 shrink-0" />
               <input
                 placeholder="Company (e.g. Google)"
                 value={company}
                 onChange={(e) => setCompany(e.target.value)}
-                className="w-full bg-transparent py-4 text-sm text-white placeholder-slate-500 outline-none"
+                className="w-full bg-transparent py-4 text-sm text-[#FFFFF0] placeholder-slate-500 outline-none"
               />
             </div>
 
             {/* Role Title */}
-            <div className="flex items-center rounded-xl bg-slate-950/60 border border-slate-900 px-4 focus-within:border-cyan-500/30 transition">
-              <Briefcase className="text-slate-500 h-4.5 w-4.5 mr-2 shrink-0" />
+            <div className="flex items-center rounded-xl bg-theme-bg-secondary/60 border border-zinc-900 px-4 focus-within:border-[#C5A028]/30 transition">
+              <Briefcase className="text-zinc-300 h-4.5 w-4.5 mr-2 shrink-0" />
               <input
                 placeholder="Role (e.g. Lead Designer)"
                 value={role}
                 onChange={(e) => setRole(e.target.value)}
-                className="w-full bg-transparent py-4 text-sm text-white placeholder-slate-500 outline-none"
+                className="w-full bg-transparent py-4 text-sm text-[#FFFFF0] placeholder-slate-500 outline-none"
               />
             </div>
 
             {/* Status Select */}
-            <div className="flex items-center rounded-xl bg-slate-950/60 border border-slate-900 px-4 focus-within:border-cyan-500/30 transition">
-              <Clock className="text-slate-500 h-4.5 w-4.5 mr-2 shrink-0" />
+            <div className="flex items-center rounded-xl bg-theme-bg-secondary/60 border border-zinc-900 px-4 focus-within:border-[#C5A028]/30 transition">
+              <Clock className="text-zinc-300 h-4.5 w-4.5 mr-2 shrink-0" />
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value)}
-                className="w-full bg-transparent py-4 text-sm text-white placeholder-slate-500 outline-none select-custom"
+                className="w-full bg-transparent py-4 text-sm text-[#FFFFF0] placeholder-slate-500 outline-none select-custom"
               >
                 {columnStatuses.map((opt) => (
-                  <option key={opt} className="bg-slate-950 text-white">
+                  <option key={opt} className="bg-zinc-950 text-[#FFFFF0]">
                     {opt}
                   </option>
                 ))}
@@ -244,7 +244,7 @@ export default function JobTracker() {
             <button
               onClick={addJob}
               disabled={loading}
-              className="rounded-xl bg-cyan-500 hover:bg-cyan-600 disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-bold py-4 text-sm transition shadow-lg shadow-cyan-500/10 cursor-pointer flex items-center justify-center gap-1.5"
+              className="rounded-xl bg-[#C5A028] hover:bg-[#B89020] disabled:opacity-40 disabled:cursor-not-allowed text-slate-950 font-bold py-4 text-sm transition shadow-lg shadow-[#] cursor-pointer flex items-center justify-center gap-1.5"
             >
               <Plus size={16} />
               <span>Track Application</span>
@@ -262,17 +262,17 @@ export default function JobTracker() {
             return (
               <div
                 key={colStatus}
-                className="flex flex-col rounded-2xl border border-theme-border bg-slate-950/30 backdrop-blur-md p-4 space-y-4 shadow-xl min-h-[500px]"
+                className="flex flex-col rounded-2xl border border-theme-border bg-zinc-950/30 backdrop-blur-md p-4 space-y-4 shadow-xl min-h-[500px]"
               >
                 {/* Column Header */}
-                <div className="flex items-center justify-between border-b border-slate-900 pb-3">
+                <div className="flex items-center justify-between border-b border-zinc-900 pb-3">
                   <div className="flex items-center gap-2">
                     <span className={`h-2 w-2 rounded-full ${style.glow} shadow-[0_0_8px_currentColor]`} />
-                    <h3 className="text-sm font-black text-white uppercase tracking-wider">
+                    <h3 className="text-sm font-black text-[#FFFFF0] uppercase tracking-wider">
                       {colStatus}
                     </h3>
                   </div>
-                  <span className="text-[10px] font-bold text-slate-400 bg-slate-950 border border-slate-900 px-2 py-0.5 rounded-full">
+                  <span className="text-xs font-bold text-theme-text bg-zinc-950 border border-zinc-900 px-2 py-0.5 rounded-full">
                     {list.length}
                   </span>
                 </div>
@@ -283,10 +283,10 @@ export default function JobTracker() {
                     list.map((job) => (
                       <div
                         key={job.id}
-                        className="rounded-xl border border-theme-border bg-theme-card/30 p-4.5 space-y-4 shadow-sm hover:border-cyan-500/20 hover:scale-[1.01] transition-all duration-300 relative group"
+                        className="rounded-xl border border-theme-border bg-theme-card/30 p-4.5 space-y-4 shadow-[var(--shadow-card)] hover:border-[#C5A028]/20 hover:scale-[1.01] transition-all duration-300 relative group"
                       >
                         <div className="space-y-1">
-                          <h4 className="text-base font-bold text-white group-hover:text-cyan-400 transition leading-snug">
+                          <h4 className="text-base font-bold text-[#FFFFF0] group-hover:text-[#D4AF37] transition leading-snug">
                             {job.company}
                           </h4>
                           <p className="text-xs text-theme-text-secondary font-medium">
@@ -295,24 +295,24 @@ export default function JobTracker() {
                         </div>
 
                         {/* Card controls (Status change dropdown & delete button) */}
-                        <div className="pt-3 border-t border-slate-900/60 flex items-center justify-between gap-2.5">
+                        <div className="pt-3 border-t border-zinc-900/60 flex items-center justify-between gap-2.5">
                           
                           {/* Quick status dropdown */}
-                          <div className="flex items-center gap-1 text-[10px] text-slate-500 font-bold uppercase tracking-wider relative">
-                            <ArrowRightLeft size={10} className="text-slate-500 shrink-0" />
+                          <div className="flex items-center gap-1 text-xs text-zinc-300 font-bold uppercase tracking-wider relative">
+                            <ArrowRightLeft size={10} className="text-zinc-300 shrink-0" />
                             <select
                               value={job.status}
                               onChange={(e) =>
                                 updateJobStatus(job.id, e.target.value)
                               }
-                              className="bg-transparent border-none text-[10px] text-slate-400 font-bold focus:outline-none cursor-pointer uppercase tracking-wider hover:text-white transition"
+                              className="bg-transparent border-none text-xs text-theme-text font-bold focus:outline-none cursor-pointer uppercase tracking-wider hover:text-[#FFFFF0] transition"
                               title="Update Status"
                             >
                               {columnStatuses.map((opt) => (
                                 <option
                                   key={opt}
                                   value={opt}
-                                  className="bg-slate-950 text-white text-xs uppercase"
+                                  className="bg-zinc-950 text-[#FFFFF0] text-xs uppercase"
                                 >
                                   Move to {opt}
                                 </option>
@@ -323,7 +323,7 @@ export default function JobTracker() {
                           {/* Delete Action button */}
                           <button
                             onClick={() => deleteJob(job.id)}
-                            className="p-1 rounded bg-slate-950/40 border border-slate-900 text-slate-500 hover:text-red-400 hover:border-red-500/20 transition cursor-pointer"
+                            className="p-1 rounded bg-zinc-950/40 border border-zinc-900 text-zinc-300 hover:text-red-400 hover:border-red-500/20 transition cursor-pointer"
                             title="Remove Application"
                           >
                             <Trash2 size={12} />
@@ -332,8 +332,8 @@ export default function JobTracker() {
                       </div>
                     ))
                   ) : (
-                    <div className="h-40 border border-dashed border-slate-900 rounded-xl flex items-center justify-center text-center p-4">
-                      <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider leading-relaxed">
+                    <div className="h-40 border border-dashed border-zinc-900 rounded-xl flex items-center justify-center text-center p-4">
+                      <p className="text-xs text-zinc-300 font-bold uppercase tracking-wider leading-relaxed">
                         No Applications in Pipeline
                       </p>
                     </div>

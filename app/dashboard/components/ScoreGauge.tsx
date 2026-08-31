@@ -47,14 +47,14 @@ export default function ScoreGauge({ score }: Props) {
   const { stroke, verdict, verdictColor } = getScoreAttributes(score);
 
   return (
-    <div className="relative overflow-hidden flex flex-col items-center justify-center bg-theme-card border border-theme-border/50 rounded-2xl p-8 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 group">
+    <div className="relative overflow-hidden flex flex-col items-center justify-center bg-theme-card border border-theme-border rounded-2xl p-8 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 group">
       {/* Subtle interior radial gradient overlay and sci-fi tech lines */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(99,102,241,0.03),transparent_75%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.03),transparent_75%)] pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full border border-theme-border/10 pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-56 h-56 rounded-full border border-theme-border/5 pointer-events-none" />
 
       {/* Card label */}
-      <p className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted mb-6 self-start relative z-10">
+      <p className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted mb-6 self-start relative z-10">
         ATS Match Score
       </p>
 
@@ -137,7 +137,7 @@ export default function ScoreGauge({ score }: Props) {
                 fill="#FFFFFF"
                 stroke={stroke}
                 strokeWidth="1.5"
-                className="shadow-sm"
+                className="shadow-[var(--shadow-card)]"
               />
             </motion.g>
           )}
@@ -165,7 +165,7 @@ export default function ScoreGauge({ score }: Props) {
       {/* Verdict label — uses the same semantic color as the ring, in a premium chip */}
       <div className="mt-6 text-center relative z-10">
         <span
-          className="inline-flex items-center gap-1.5 text-[9px] font-semibold uppercase tracking-widest px-3 py-1 rounded-sm border select-none transition-all duration-300"
+          className="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest px-3 py-1 rounded-sm border select-none transition-all duration-300"
           style={{
             color: verdictColor,
             borderColor: `color-mix(in srgb, ${verdictColor} 20%, transparent)`,

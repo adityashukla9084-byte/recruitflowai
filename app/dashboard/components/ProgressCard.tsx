@@ -14,7 +14,7 @@ export default function ProgressCard({ title, value }: ProgressCardProps) {
   const color = barColor(value);
 
   return (
-    <div className="bg-theme-card border border-theme-border/50 rounded-2xl p-4.5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-default relative overflow-hidden group">
+    <div className="bg-theme-card border border-theme-border rounded-2xl p-4.5 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-card-hover)] transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5 cursor-default relative overflow-hidden group">
       
       {/* Subtle indicator accent line on the left side of card */}
       <span 
@@ -23,7 +23,7 @@ export default function ProgressCard({ title, value }: ProgressCardProps) {
       />
 
       <div className="flex items-baseline justify-between mb-3.5">
-        <span className="text-[9px] font-bold uppercase tracking-widest text-theme-text-muted">
+        <span className="text-[11px] font-bold uppercase tracking-widest text-theme-text-muted">
           {title}
         </span>
         <span
@@ -43,7 +43,7 @@ export default function ProgressCard({ title, value }: ProgressCardProps) {
         style={{ backgroundColor: `color-mix(in srgb, ${color} 10%, var(--bg-card-hover))` }}
       >
         <div
-          className="h-full rounded-full transition-all duration-1000 ease-out shadow-[0_0_8px_rgba(20,184,166,0.2)]"
+          className="h-full rounded-full transition-all duration-1000 ease-out"
           style={{ 
             width: `${value}%`, 
             backgroundColor: color,
