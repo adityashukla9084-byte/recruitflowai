@@ -24,6 +24,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Logo from "./components/Logo";
+import HiringCommandCenter from "./components/HiringCommandCenter";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
@@ -419,7 +420,7 @@ export default function Home() {
                 {hoveredNavIndex === index && (
                   <motion.span
                     layoutId="navbar-hover-glow"
-                    className="absolute inset-0 bg-gradient-to-r from-teal-500/15 to-cyan-500/15 border border-teal-500/20 rounded-full -z-0 shadow-[0_0_12px_rgba(20,184,166,0.2)]"
+                    className="absolute inset-0 bg-[#D4AF37]/10 border border-[#D4AF37]/20 rounded-full -z-0 shadow-[0_0_12px_rgba(212,175,55,0.15)]"
                     initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
@@ -476,7 +477,7 @@ export default function Home() {
             <Link
               href="/login"
               onClick={() => setMobileMenuOpen(false)}
-              className="w-full text-center py-3 rounded-xl bg-gradient-to-r from-teal-500 to-cyan-500 text-[#FFFFF0] font-bold tracking-wide text-xs shadow-md border border-zinc-700 mt-2"
+              className="w-full text-center py-3 rounded-xl bg-[#D4AF37] text-[#0F172A] font-bold tracking-wide text-xs shadow-md border border-[#D4AF37]/30 mt-2"
             >
               Sign Up Free
             </Link>
@@ -486,54 +487,50 @@ export default function Home() {
 
 
       {/* Hero section */}
-      <section className="relative w-full min-h-[720px] border-b border-zinc-800 overflow-hidden flex items-center">
-        {/* Exact generated 3D hero artwork */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/recruitflow-3d-hero.png"
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover object-[68%_center]"
-          />
-        </div>
-        <div className="absolute inset-0 z-[1] bg-[linear-gradient(90deg,rgba(7,11,22,0.96)_0%,rgba(7,11,22,0.89)_35%,rgba(7,11,22,0.42)_58%,rgba(7,11,22,0.08)_100%)] pointer-events-none" />
-        <div className="absolute inset-x-0 bottom-0 z-[1] h-40 bg-gradient-to-t from-[#0A0E1A]/85 to-transparent pointer-events-none" />
+      <section className="relative w-full border-b border-zinc-800 overflow-hidden">
+        {/* Subtle radial glow backgrounds */}
+        <div className="absolute top-[-20%] left-[10%] w-[600px] h-[600px] bg-[radial-gradient(circle,rgba(212,175,55,0.04)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute bottom-[-10%] right-[5%] w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(16,185,129,0.03)_0%,transparent_70%)] pointer-events-none" />
 
         <motion.div 
           initial="hidden"
           animate="visible"
           variants={staggerContainer}
-          className="relative z-10 w-full max-w-7xl mx-auto px-6 py-20 sm:px-8 md:py-24 lg:px-12"
+          className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-16 pb-10 sm:px-8 sm:pt-20 sm:pb-14 md:pt-24 md:pb-16 lg:px-12"
         >
-          <div className="w-full max-w-xl rounded-3xl border border-zinc-800 bg-[#050505]/55 p-7 text-left shadow-[0_24px_80px_rgba(0,0,0,0.35)]  sm:p-10 lg:p-12">
+          {/* ── Text Block ── */}
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
             {/* Pill Badge */}
             <motion.div 
               variants={fadeInUp}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-zinc-800 bg-[#D4AF37]/10 text-[#D4AF37] text-[10px] font-bold tracking-wide uppercase tracking-[0.14em] mb-7"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-[#D4AF37]/20 bg-[#D4AF37]/10 text-[#D4AF37] text-[10px] font-bold uppercase tracking-[0.14em] mb-7"
             >
-              <Sparkles size={11} className="" />
-              <span>AI-Powered ATS Scanner</span>
+              <Sparkles size={11} />
+              <span>AI-Powered Recruitment Intelligence</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
             </motion.div>
 
             <motion.h1 
               variants={fadeInUp}
-              className="font-display text-4xl sm:text-5xl lg:text-6xl font-black tracking-[-0.04em] leading-[1.04] text-[#FFFFF0]"
+              className="font-display text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-[-0.04em] leading-[1.04] text-[#F8FAFC]"
             >
-              Beat the ATS. Land the <span className="text-[#FFFFF0]">Interview.</span>
+              Automate Your{" "}
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#F3CA4B]">
+                Entire Hiring
+              </span>{" "}
+              Pipeline.
             </motion.h1>
 
             <motion.p 
               variants={fadeInUp}
-              className="font-sans text-base sm:text-[17px] text-zinc-200 max-w-lg mt-7 font-normal leading-[1.65]"
+              className="font-sans text-base sm:text-lg text-[#94A3B8] max-w-xl mx-auto mt-6 font-normal leading-[1.7]"
             >
-              Scan your resume for ATS compatibility, identify missing keywords, and simulate recruiter screenings in seconds.
+              From resume intake to offer letter — watch AI scan, score, shortlist, and schedule interviews in real time.
             </motion.p>
 
             <motion.div 
               variants={fadeInUp}
-              className="mt-9 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full z-10"
+              className="mt-9 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3"
             >
               <motion.div 
                 whileHover={{ scale: 1.02, y: -1 }}
@@ -542,9 +539,9 @@ export default function Home() {
               >
                 <Link 
                   href="/login" 
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-[#D4AF37] text-white hover:bg-gray-800 px-6 py-3.5 font-bold tracking-wide text-sm text-black transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_30px_rgba(34,211,238,0.28)] border border-cyan-200/30 cursor-pointer"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl bg-[#D4AF37] px-7 py-3.5 font-bold tracking-wide text-sm text-[#0F172A] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#EBC855] cursor-pointer shadow-[0_8px_24px_rgba(212,175,55,0.25)]"
                 >
-                  <span>Scan Resume Free</span>
+                  <span>Start Hiring Smarter</span>
                   <ArrowRight size={14} />
                 </Link>
               </motion.div>
@@ -556,21 +553,28 @@ export default function Home() {
               >
                 <a 
                   href="#demo" 
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl border border-zinc-800 bg-[#050505]/[0.06] px-6 py-3.5 font-bold tracking-wide text-sm text-[#FFFFF0] transition-all duration-300 hover:-translate-y-0.5 hover:border-teal-300/45 hover:bg-[#050505]/[0.11] cursor-pointer"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-7 py-3.5 font-bold tracking-wide text-sm text-[#F8FAFC] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#D4AF37]/30 hover:bg-white/[0.06] cursor-pointer"
                 >
-                  <span>Interactive Demo</span>
+                  <span>Watch Demo</span>
                 </a>
               </motion.div>
             </motion.div>
-
           </div>
+
+          {/* ── Cinematic Command Center Visual ── */}
+          <motion.div
+            variants={fadeInUp}
+            className="w-full"
+          >
+            <HiringCommandCenter />
+          </motion.div>
         </motion.div>
       </section>
 
       {/* Career intelligence engine */}
       <section className="relative overflow-hidden border-b border-zinc-800 bg-[#0A0A0A] py-20 sm:py-24">
-        <div className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-teal-400/[0.08] blur-[120px] pointer-events-none" />
-        <div className="absolute -right-24 top-0 h-80 w-80 rounded-full bg-cyan-400/[0.07] blur-[100px] pointer-events-none" />
+        <div className="absolute -left-32 top-1/2 h-96 w-96 -translate-y-1/2 rounded-full bg-[#D4AF37]/[0.06] blur-[120px] pointer-events-none" />
+        <div className="absolute -right-24 top-0 h-80 w-80 rounded-full bg-[#D4AF37]/[0.05] blur-[100px] pointer-events-none" />
         <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-6 sm:px-8 lg:grid-cols-[0.86fr_1.14fr] lg:gap-16 lg:px-12">
           <motion.div
             initial={{ opacity: 0, x: -24 }}
@@ -598,7 +602,7 @@ export default function Home() {
                 const FeatureIcon = Icon as typeof FileSearch;
                 return (
                   <div key={title as string} className="flex gap-4 rounded-2xl border border-zinc-800 bg-[#050505]/[0.035] p-4 ">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-teal-300/20 bg-[#D4AF37]/10 text-[#D4AF37]">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#D4AF37]/20 bg-[#D4AF37]/10 text-[#D4AF37]">
                       <FeatureIcon size={18} />
                     </div>
                     <div>
@@ -618,7 +622,7 @@ export default function Home() {
             transition={{ duration: 0.75, ease: "easeOut" }}
             className="relative"
           >
-            <div className="absolute -inset-3 rounded-[28px] bg-gradient-to-r from-teal-400/20 via-cyan-400/10 to-indigo-400/15 blur-2xl" />
+            <div className="absolute -inset-3 rounded-[28px] bg-gradient-to-r from-[#D4AF37]/15 via-[#D4AF37]/8 to-[#D4AF37]/5 blur-2xl" />
             <div className="relative overflow-hidden rounded-3xl border border-zinc-800 bg-[#050505] p-1 shadow-[0_24px_80px_rgba(0,0,0,0.4)]">
               <Image
                 src="/recruitflow-career-engine-3d.png"
@@ -644,10 +648,10 @@ export default function Home() {
                 <Layers size={14} className="text-violet-500" /> METACLOUD
               </span>
               <span className="text-xs font-bold tracking-wide text-zinc-400 tracking-widest uppercase flex items-center gap-2">
-                <Shield size={14} className="text-teal-500" /> APEX SECURITY
+                <Shield size={14} className="text-[#D4AF37]" /> APEX SECURITY
               </span>
               <span className="text-xs font-bold tracking-wide text-zinc-400 tracking-widest uppercase flex items-center gap-2">
-                <Zap size={14} className="text-cyan-500" /> ZAPLINE
+                <Zap size={14} className="text-[#D4AF37]" /> ZAPLINE
               </span>
               <span className="text-xs font-bold tracking-wide text-zinc-400 tracking-widest uppercase flex items-center gap-2">
                 <TrendingUp size={14} className="text-emerald-500" /> HYPERGROWTH
@@ -680,16 +684,16 @@ export default function Home() {
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
           <div className="text-center space-y-5 mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-teal-400/30 bg-gradient-to-r from-teal-400/10 to-cyan-400/10  shadow-[0_0_20px_rgba(20,184,166,0.12)]">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#D4AF37]/30 bg-gradient-to-r from-[#D4AF37]/10 to-[#D4AF37]/8  shadow-[0_0_20px_rgba(20,184,166,0.12)]">
               <Zap size={11} className="text-[#D4AF37] " />
               <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#D4AF37]">Live Demo — Try It Now</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-teal-400 animate-ping" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-ping" />
             </div>
             <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-black tracking-[-0.03em] leading-[1.06] text-[#FFFFF0]">
               See the{" "}
               <span className="relative inline-block">
                 <span className="text-[#FFFFF0]">AI Scanner</span>
-                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-teal-400/60 to-cyan-400/0 rounded-full" />
+                <span className="absolute -bottom-1 left-0 right-0 h-[2px] bg-gradient-to-r from-[#D4AF37]/60 to-[#D4AF37]/0 rounded-full" />
               </span>
               {" "}in Action
             </h2>
@@ -756,7 +760,7 @@ export default function Home() {
                   </div>
                   <button 
                     onClick={startDemoScan}
-                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#D4AF37] text-white hover:bg-gray-800 text-[#FFFFF0] py-3.5 px-6 font-bold tracking-wide text-xs hover:shadow-[0_0_20px_rgba(20,184,166,0.4)] active:scale-[0.98] transition-all cursor-pointer border border-teal-500/30"
+                    className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#D4AF37] text-white hover:bg-gray-800 text-[#FFFFF0] py-3.5 px-6 font-bold tracking-wide text-xs hover:shadow-[0_0_20px_rgba(20,184,166,0.4)] active:scale-[0.98] transition-all cursor-pointer border border-[#D4AF37]/30"
                   >
                     <Sparkles size={13} />
                     <span>Run Simulated Audit</span>
@@ -789,7 +793,7 @@ export default function Home() {
                   <div className="bg-[#050505] border border-zinc-800 rounded-xl p-4 font-mono text-[10px] space-y-2 text-zinc-400 h-[120px] overflow-y-auto">
                     {scanLogs.map((log, index) => (
                       <div key={index} className="flex gap-2 items-center">
-                        <span className="text-teal-500">❯</span>
+                        <span className="text-[#D4AF37]">❯</span>
                         <span>{log}</span>
                         {index === scanLogs.length - 1 && (
                           <span className="w-1.5 h-3 bg-indigo-400  inline-block" />
@@ -849,7 +853,7 @@ export default function Home() {
                           initial={{ width: 0 }}
                           animate={{ width: `${roleData[sandboxRole].targetScore}%` }}
                           transition={{ duration: 0.8, ease: "easeOut" }}
-                          className="h-full bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full shadow-[0_0_8px_rgba(20,184,166,0.25)]" 
+                          className="h-full bg-gradient-to-r from-[#D4AF37] to-[#F3CA4B] rounded-full shadow-[0_0_8px_rgba(20,184,166,0.25)]" 
                         />
                       </div>
                     </div>
@@ -889,7 +893,7 @@ export default function Home() {
                           <Sparkles size={11} className=" text-[#FFFFF0]" />
                           <span>AI Resume Builder Suggestion for "{activeAdviceKeyword}"</span>
                         </p>
-                        <p className="text-xs text-zinc-300 font-mono mt-1.5 italic p-2 bg-[#050505] border border-zinc-800 rounded-lg select-text selection:bg-teal-500 selection:text-[#FFFFF0]">
+                        <p className="text-xs text-zinc-300 font-mono mt-1.5 italic p-2 bg-[#050505] border border-zinc-800 rounded-lg select-text selection:bg-[#D4AF37] selection:text-[#FFFFF0]">
                           "{roleData[sandboxRole].missingKeywords.find(k => k.name === activeAdviceKeyword)?.advice}"
                         </p>
                       </motion.div>
@@ -909,7 +913,7 @@ export default function Home() {
                     </div>
                     <Link 
                       href="/login" 
-                      className="flex items-center gap-1.5 rounded-lg bg-[#D4AF37] text-black hover:bg-[#D4AF37]/90 text-[#FFFFF0] px-4 py-2.5 font-bold tracking-wide text-xs shadow-md shadow-teal-600/10 hover:shadow-teal-600/20 transition-all whitespace-nowrap border border-zinc-700 cursor-pointer"
+                      className="flex items-center gap-1.5 rounded-lg bg-[#D4AF37] text-black hover:bg-[#D4AF37]/90 text-[#FFFFF0] px-4 py-2.5 font-bold tracking-wide text-xs shadow-md shadow-[#D4AF37]/10 hover:shadow-[#D4AF37]/20 transition-all whitespace-nowrap border border-zinc-700 cursor-pointer"
                     >
                       <span>Create Account &amp; Scan Yours</span>
                       <ArrowUpRight size={12} />
@@ -940,7 +944,7 @@ export default function Home() {
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
           <div className="text-center space-y-5 mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#D4AF37]/30 bg-gradient-to-r from-indigo-400/10 to-cyan-400/10  shadow-[0_0_20px_rgba(99,102,241,0.12)]">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#D4AF37]/30 bg-gradient-to-r from-[#D4AF37]/10 to-[#D4AF37]/8  shadow-[0_0_20px_rgba(212,175,55,0.12)]">
               <Shield size={11} className="text-[#D4AF37]" />
               <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#D4AF37]">Core Architecture</span>
             </div>
@@ -1042,7 +1046,7 @@ export default function Home() {
               </div>
             )}
 
-            <div className="absolute inset-0 bg-transparent from-teal-500/5 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-transparent from-[#D4AF37]/5 via-transparent to-transparent pointer-events-none" />
           </div>
         </div>
         </div>
@@ -1071,7 +1075,7 @@ export default function Home() {
           <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#0A0E1A] to-transparent" />
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
-          <div className="bg-gradient-to-r from-teal-600/10 via-cyan-600/5 to-cyan-500/10 border border-[#D4AF37]/25 rounded-2xl p-8 sm:p-12  shadow-lg">
+          <div className="bg-gradient-to-r from-[#D4AF37]/10 via-[#D4AF37]/5 to-[#D4AF37]/3 border border-[#D4AF37]/25 rounded-2xl p-8 sm:p-12  shadow-lg">
             <div className="grid gap-6 sm:grid-cols-3 text-center">
               <div className="space-y-1">
                 <span className="block text-4xl sm:text-5xl font-black text-[#FFFFF0] font-mono tracking-tight">
@@ -1190,7 +1194,7 @@ export default function Home() {
         </div>
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 lg:px-12">
           <motion.div variants={fadeInUp} className="text-center space-y-5 mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#D4AF37]/30 bg-gradient-to-r from-cyan-400/10 to-teal-400/10  shadow-[0_0_20px_rgba(34,211,238,0.12)]">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#D4AF37]/30 bg-gradient-to-r from-[#D4AF37]/10 to-[#D4AF37]/8  shadow-[0_0_20px_rgba(212,175,55,0.12)]">
               <TrendingUp size={11} className="text-[#D4AF37]" />
               <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#D4AF37]">Simple, Transparent Pricing</span>
             </div>
@@ -1210,7 +1214,7 @@ export default function Home() {
               onClick={() => setBillingCycle(prev => prev === "monthly" ? "yearly" : "monthly")}
               className="w-12 h-6 rounded-full bg-[#050505] border border-zinc-800 p-0.5 relative transition-all cursor-pointer"
             >
-              <div className={`w-4.5 h-4.5 rounded-full bg-teal-500 transition-all ${billingCycle === "yearly" ? "translate-x-6" : "translate-x-0"}`} />
+              <div className={`w-4.5 h-4.5 rounded-full bg-[#D4AF37] transition-all ${billingCycle === "yearly" ? "translate-x-6" : "translate-x-0"}`} />
             </button>
             <div className="flex items-center gap-1.5">
               <span className={`text-xs font-bold tracking-wide ${billingCycle === "yearly" ? "text-[#FFFFF0]" : "text-zinc-400"}`}>Yearly billing</span>
@@ -1257,7 +1261,7 @@ export default function Home() {
             {/* Pro Plan (Most Popular Highlighted) */}
             <motion.div 
               variants={fadeInUp}
-              className="bg-gradient-to-b from-slate-900/40 to-teal-950/10 border border-teal-500/35 rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-teal-500/50 hover:shadow-[0_0_24px_rgba(20,184,166,0.15)] transition-all duration-300 relative shadow-lg shadow-teal-950/20"
+              className="bg-gradient-to-b from-[#0F172A]/60 to-[#D4AF37]/5 border border-[#D4AF37]/25 rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-[#D4AF37]/50 hover:shadow-[0_0_24px_rgba(212,175,55,0.15)] transition-all duration-300 relative shadow-lg shadow-[#0F172A]/40"
             >
               <div className="absolute top-0 right-6 -translate-y-1/2 bg-[#D4AF37] text-black border border-zinc-800 px-2.5 py-0.5 rounded-full text-[8px] font-bold tracking-wide uppercase tracking-wider text-[#FFFFF0] shadow-md ">
                 Most Popular
@@ -1292,7 +1296,7 @@ export default function Home() {
               </div>
               <Link 
                 href="/login" 
-                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-[#D4AF37] text-white hover:bg-gray-800 hover:from-teal-300 hover:to-cyan-300 text-black font-extrabold text-sm mt-8 border border-cyan-200/40 shadow-[0_0_24px_rgba(20,184,166,0.45)] hover:shadow-[0_0_36px_rgba(20,184,166,0.65)] transition-all duration-300 cursor-pointer"
+                className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-[#D4AF37] text-white hover:bg-gray-800 hover:bg-[#EBC855] text-black font-extrabold text-sm mt-8 border border-[#D4AF37]/40 shadow-[0_0_24px_rgba(212,175,55,0.35)] hover:shadow-[0_0_36px_rgba(212,175,55,0.45)] transition-all duration-300 cursor-pointer"
               >
                 <Sparkles size={14} className="shrink-0" />
                 Start 7-Day Free Trial
@@ -1357,7 +1361,7 @@ export default function Home() {
         </div>
         <div className="relative z-10 max-w-4xl mx-auto px-6">
           <div className="text-center space-y-5 mb-14">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-violet-400/30 bg-gradient-to-r from-violet-400/10 to-teal-400/10  shadow-[0_0_20px_rgba(167,139,250,0.12)]">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#D4AF37]/30 bg-gradient-to-r from-[#D4AF37]/10 to-[#D4AF37]/5  shadow-[0_0_20px_rgba(212,175,55,0.12)]">
               <Sparkles size={11} className="text-[#D4AF37]" />
               <span className="text-[10px] font-black uppercase tracking-[0.18em] text-[#D4AF37]">Got Questions? We've Got Answers</span>
             </div>
